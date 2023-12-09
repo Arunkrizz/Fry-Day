@@ -99,6 +99,32 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
                 body: {userId}
             })
         }),
+        fetchNotificationss: builder.mutation({
+            query: () => ({
+                url: `${HOTEL_URL}/allNotifications`,
+                method: 'GET'
+            })
+        }),
+        deleteNotifications: builder.mutation({
+            query: (notificationId) => ({
+                url: `${HOTEL_URL}/deleteNotification/${notificationId}`,
+                method: 'PUT'
+            })
+        }),
+        readMessagesUpdates: builder.mutation({
+            query: (data) => ({
+                url: `${HOTEL_URL}/readMessagesUpdate/${data}`,
+                method: 'PUT'
+            })
+        }),
+        markAsReadUpdates: builder.mutation({
+            query: (data) => ({
+                url: `${HOTEL_URL}/markAsReadUpdates`,
+                method: 'POST',
+                body: {data}
+            })
+        }),
+    
     })
 })
 
@@ -118,6 +144,11 @@ export const {
     useSendMessagesMutation,
     useFetchMessagessMutation,
     useAccessChatsMutation,
+    useFetchNotificationssMutation,
+    useDeleteNotificationsMutation,
+    useReadMessagesUpdatesMutation,
+    useMarkAsReadUpdatesMutation,
+   
 
 
             } = hotelApiSlice;

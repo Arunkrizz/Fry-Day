@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 
-console.log("here1")
+// console.log("multer")
 const storage = multer.diskStorage({
 
   destination: (req, file, cb) => { cb(null, "backend/Public/UserProfileImages") },

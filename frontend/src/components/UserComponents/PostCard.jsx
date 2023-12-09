@@ -18,7 +18,7 @@ const PostCard = ({setLocation,...post}) => {
   const [fetchHotelData] = useGetHotelDetailsMutation()
 
 
-useEffect(()=>{
+// useEffect(()=>{
   const  fetchHotel = async()=>{
     try {
       // console.log("hotel");
@@ -30,12 +30,14 @@ useEffect(()=>{
     }
    }
 
-   fetchHotel()
-},[])
+  //  fetchHotel()
+// },[])
 
   const viewHotelHandler = async () => {
 
     try {
+
+      await fetchHotel()
     
       navigate( '/user/home/restaurant' );
 

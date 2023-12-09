@@ -11,6 +11,7 @@ import RestaurantLocation from '../../components/UserComponents/RestaurantLocati
 import { useSelector } from 'react-redux';
 import { useGetHotelLocationMutation } from '../../slices/userApiSlice';
 import { useCheckBlockMutation } from '../../slices/userApiSlice';
+import LiveStreaming from '../../components/UserComponents/viewRestaurantLive'
 import {toast} from 'react-toastify'
 
 function HomePage() {
@@ -52,6 +53,7 @@ function HomePage() {
   useEffect(() => {
     const handleBackButton = () => {
       // Do something when the back button is pressed
+      console.log(window.location.pathname,"locations");
       setLocation(window.location.pathname)
     };
 
@@ -88,6 +90,9 @@ function HomePage() {
         </div>;
       } else if (location === '/user/home/viewHotelLocation') {
         return <RestaurantLocation location ={restaurantLocation}/>;
+      }
+      if (location === '/user/home/live') {
+        return <LiveStreaming/> ;
       } else {
         return <div>Invalid URL</div>;
       }}else{

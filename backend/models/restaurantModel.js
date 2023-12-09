@@ -69,7 +69,11 @@ const restaurantSchema = new mongoose.Schema({
   Password:{
     type: String,
     default: 'undefined',
-  }
+  },
+  liveRoom: {
+    type: String, 
+    default: 'undefined',
+  },
 
 });
 

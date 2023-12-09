@@ -39,6 +39,7 @@ import RestaurantManagement from './screens/adminScreens/RestaurantManagement.js
 import RestaurantLogin from './screens/RestaurantScreens/LoginScreen.jsx'
 import RestaurantHome from './screens/RestaurantScreens/Homescreen.jsx'
 import HotelChatScreen from './screens/RestaurantScreens/ChatScreen.jsx';
+// import LiveScreen from './screens/RestaurantScreens/LiveScreen.jsx';
 import RestaurantPrivateRoutes from './screens/RestaurantScreens/RestaurantPrivateRoutes.jsx'
 
 const router = createBrowserRouter(
@@ -59,6 +60,8 @@ const router = createBrowserRouter(
 
       {/* USER PRIVATE ROUTES */}
       <Route path='' element={ <PrivateRoutes /> } >
+
+      {/* <Route path='/user/live' element={ <LiveScreen/>  } /> */}
         
         <Route path='/user/profile' element={ <ProfileScreen /> } />
 
@@ -83,6 +86,8 @@ const router = createBrowserRouter(
 
        {/* USER PRIVATE ROUTES */}
        <Route path='' element={ <RestaurantPrivateRoutes /> } >
+
+       {/* <Route path='/hotel/live' element={ <LiveScreen/>  } /> */}
         
        <Route path='/hotel/home/*' element={ <RestaurantHome/>  } />
 

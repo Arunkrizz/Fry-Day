@@ -22,14 +22,14 @@ const authenticateUser = asyncHandler( async (req, res, next) => {
 
             if (requestUser) {
 
-                // if (requestUser.is_blocked) {
-                //     console.log("blocked user");
-                //     res.status(401)
-                //     // throw new Error('Your account lll is blocked')
-                //     // res.status(400)
-                //     throw new Error(`Your Account is blocked.`)
-                //     // return res.status(403).json({ error: { message: 'Your this Account is blocked.' } });
-                // }
+                if (requestUser.is_blocked) {
+                    console.log("blocked user");
+                    res.status(401)
+                    // throw new Error('Your account lll is blocked')
+                    // res.status(400)
+                    throw new Error(`Your Account is blocked.`)
+                    // return res.status(403).json({ error: { message: 'Your this Account is blocked.' } });
+                }
             
                 req.user = requestUser; // Set the request user with the user data fetched from the Db
                 // console.log("userAuth");

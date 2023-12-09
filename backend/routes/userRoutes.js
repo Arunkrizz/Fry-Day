@@ -28,8 +28,17 @@ import {
     accessChat,
     fetchChats,
     sendMessage,
-    allMessages
+    allMessages,
+    readMessagesUpdate,
+    markAsReadUpdate
+
 } from '../controllers/chatController.js'
+
+
+import {
+    fetchNotifications,
+    deleteNotification
+} from '../controllers/notificationController.js'
 
 import { multerUploadUserProfile } from '../config/multerConfig.js';
 
@@ -65,6 +74,12 @@ router.post('/accessChat', authenticateUser, accessChat)
 router.get('/fetchChats', authenticateUser, fetchChats)
 router.post('/sendMessage', authenticateUser, sendMessage)
 router.get('/allMessages/:chatId', authenticateUser, allMessages)
+router.get('/allNotifications', authenticateUser, fetchNotifications)
+router.put('/deleteNotification/:notificationId', authenticateUser, deleteNotification)
+router.put('/readMessagesUpdate/:chatId', authenticateUser, readMessagesUpdate)
+router.post('/markAsReadUpdate', authenticateUser, markAsReadUpdate)
+
+
 
 router.put('/checkBlock', checkBlock)
 

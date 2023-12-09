@@ -21,9 +21,9 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
   const [dineAndDelivery, setDineAndDelivery] = useState("");
   const [describeOutlet, setDescribeOutlet] = useState("");
   const [cuisineType, setCuisineType] = useState("");
-  const [restaurantImages, setRestaurantImages] = useState("");
-  const [menuImages, setMenuImages] = useState("");
-  const [foodImages, setFoodImages] = useState("");
+  const [restaurantImages, setRestaurantImages] = useState([]);
+  const [menuImages, setMenuImages] = useState([]);
+  const [foodImages, setFoodImages] = useState([]);
   const [approved, setApproved] = useState("");
 
   const handleOpenUpdateModal = (hotel) => {
@@ -199,8 +199,8 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             <p>Describe outlet: {describeOutlet}</p>
             <p>Cuisine type: {cuisineType}</p>
            
-            <p>Restaurant images:  <img
-          src={HOTEL_IMAGE_DIR_PATH + restaurantImages}
+            <p>Restaurant images:{restaurantImages?.map((image, index) => (  <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -212,9 +212,11 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /> </p>
-            <p>menu images: <img
-          src={HOTEL_IMAGE_DIR_PATH + menuImages}
+        /> 
+        ))}</p>
+        
+            <p>menu images:{menuImages?.map((image, index) => ( <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -226,9 +228,10 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /></p>
-            <p>food images: <img
-          src={HOTEL_IMAGE_DIR_PATH + foodImages}
+        />  ))}
+        </p>
+            <p>food images:{foodImages?.map((image, index) => ( <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -240,7 +243,7 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /> </p>
+        />))} </p>
             
 
           

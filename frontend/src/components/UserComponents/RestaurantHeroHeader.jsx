@@ -20,6 +20,11 @@ export default function RestaurantHeroHeader({ hotel, setLocation }) {
     }
   }, [hotel])
 
+  const handleViewLive = ()=>{
+    setLocation(`/user/home/live?roomID=${hotel.liveRoom}&role=Audience`)
+    navigate(`/user/home/live?roomID=${hotel.liveRoom}&role=Audience`)
+  }
+
   const handleViewLocation = () => {
     try {
 
@@ -82,6 +87,16 @@ export default function RestaurantHeroHeader({ hotel, setLocation }) {
             
               >
                  <ChatButton userId={hotel?._id} />
+              </Button>
+
+              <Button
+                bg={'blue.400'}
+                rounded={'full'}
+                color={'white'}
+                _hover={{ bg: 'blue.500' }}
+                onClick={handleViewLive}
+              >
+                View Live
               </Button>
 
              

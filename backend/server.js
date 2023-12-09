@@ -7,6 +7,8 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 // import cors from 'cors'
 dotenv.config();
+import { storeNotifications ,storeNotification } from './controllers/notificationController.js';
+import { setChatUnRead , setChatUnReads } from './controllers/chatController.js';
 
 
 
@@ -101,22 +103,73 @@ import ("socket.io").then((socketIO)=>{
             console.log("User joined Room: " + room)
         })
 
+        socket.on('typing',(room)=>{    
+            // console.log(room,"tyongggg");
+            socket.in(room).emit('typing')})
+        socket.on('stop typing',(room)=>{
+            // console.log(room,"stop tyongggg");
+            socket.in(room).emit('stop typing')})
+
+
            // socket.in means inside that room, emit/send message
            socket.on("new Message", (newMessageReceived) => {
-            let chat = newMessageReceived.chat
-            console.log(newMessageReceived,"newMessageReceived");
+            let chat = newMessageReceived?.chat
+            // console.log(newMessageReceived,"newMessageReceived");
             
             if (!chat.users) return console.log("chat.users not defined")
+            if (!chat.restaurants) return console.log("chat.restaurants not defined")
             
-            chat.users.forEach((user) => {
+            chat.users.forEach(async(user) => {
+                // console.log(user._id, "==" ,newMessageReceived.sender._id);
                 if (user._id == newMessageReceived.sender._id) return
-                
-                socket.in(user._id).emit("message received", newMessageReceived)
+
+                const isUserOnline = io.sockets.adapter.rooms.has(user._id);
+
+                // If the user is not online, emit real-time message and store notification
+                if (!isUserOnline) {
+                    console.log("not online");
+                    socket.in(user._id).emit("message received", newMessageReceived);
+
+                    // Store notification in the database
+                    await storeNotification(user._id, newMessageReceived);
+
+                    //mark unread 
+                    await setChatUnRead(chat._id)
+                } else {
+                    // The user is online, only emit real-time message
+                    socket.in(user._id).emit("message received", newMessageReceived);
+                }
+              
             })
-            chat.restaurants.forEach((user) => {
+ 
+
+            chat.restaurants.forEach(async (user) => {
+
                 if (user._id == newMessageReceived.sender._id) return
+
+                // console.log(io.sockets.adapter.rooms,"user online");
+                  // Check if the user is online (connected to the socket)
+                  const isUserOnline = io.sockets.adapter.rooms.has(user._id);
+
+                  // If the user is not online, emit real-time message and store notification
+                  if (!isUserOnline) {
+                      console.log("not online");
+                      socket.in(user._id).emit("message received", newMessageReceived);
+
+                      // Store notification in the database
+                      
+                      await storeNotifications(user._id, newMessageReceived); 
+
+                      //mark unread
+
+                      await setChatUnReads(chat._id)
+ 
+                  } else {
+                      // The user is online, only emit real-time message
+                      socket.in(user._id).emit("message received", newMessageReceived);
+                  }
                 
-                socket.in(user._id).emit("message received", newMessageReceived)
+                // socket.in(user._id).emit("message received", newMessageReceived)
             })
         })
 

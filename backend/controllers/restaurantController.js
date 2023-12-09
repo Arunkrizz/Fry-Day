@@ -242,12 +242,25 @@ const register = asyncHandler(async (req, res) => {
 
 })
 
+const updateLiveBrodcastRoomId =asyncHandler(async(req,res)=>{
+
+    console.log(req.body,"room id update")
+
+   await  Restaurant.findByIdAndUpdate(req.body.hotelInfo,{
+        $set:{liveRoom:req.body.roomId}
+    })
+
+})
+
+
+
 
 export {
 
     register,
     register2,
     logout,
-    login
+    login,
+    updateLiveBrodcastRoomId
 
 };

@@ -6,8 +6,11 @@ const ChatContext = createContext()
 const ChatProvider = ({ children }) => {
     const [selectedChat, setSelectedChat] = useState()
     const [chats, setChats] = useState([])
+    const [notification, setNotification] = useState([]);
+    const [fetcher,setFetcher] = useState(false)
+
     return (
-        <ChatContext.Provider value={{selectedChat, setSelectedChat, chats, setChats}}>
+        <ChatContext.Provider value={{selectedChat, setSelectedChat, chats, setChats, notification, setNotification,fetcher,setFetcher}}>
             {children}
         </ChatContext.Provider>
     )

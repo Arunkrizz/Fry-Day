@@ -145,7 +145,31 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
-
+        fetchNotifications: builder.mutation({
+            query: () => ({
+                url: `${USERS_URL}/allNotifications`,
+                method: 'GET'
+            })
+        }),
+        deleteNotification: builder.mutation({
+            query: (notificationId) => ({
+                url: `${USERS_URL}/deleteNotification/${notificationId}`,
+                method: 'PUT'
+            })
+        }),
+        readMessagesUpdate: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/readMessagesUpdate/${data}`,
+                method: 'PUT'
+            })
+        }),
+        markAsReadUpdate: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/markAsReadUpdate`,
+                method: 'POST',
+                body: {data}
+            })
+        }),
 
     })
 
@@ -167,6 +191,11 @@ export const {
     useSendMessageMutation,
     useFetchMessagesMutation,
     useAccessChatMutation,
-    useCheckBlockMutation
+    useCheckBlockMutation,
+    useFetchNotificationsMutation,
+    useDeleteNotificationMutation,
+    useReadMessagesUpdateMutation,
+    useMarkAsReadUpdateMutation,
+
 
 } = usersApiSlice;

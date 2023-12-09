@@ -7,7 +7,7 @@ import { ChatState } from '../context/chatProvider'
 import { getSender } from '../config/chatLogics'
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react'
-import { useSendMessagesMutation, useFetchMessagessMutation } from '../../slices/hotelApiSlice'
+import { useSendMessagesMutation, useFetchMessagessMutation ,useFetchNotificationssMutation,useReadMessagesUpdatesMutation,useFetchChatsMutation} from '../../slices/hotelApiSlice'
 import "../styles/message.css"
 import ScrollableChat from './ScrollableChat'
 import io from 'socket.io-client'
@@ -21,8 +21,13 @@ const SingleChat = () => {
     const [socketConnected,setSocketConnected]= useState(false)
     const [sendNewMessage] = useSendMessagesMutation()
     const [fetchAllMessages] = useFetchMessagessMutation()
+    const [typing,SetTyping]=useState(false)
+    const [isTyping,setIsTyping] = useState(false)
+    const [fetchNotifications] = useFetchNotificationssMutation()
+    const [updateReadMessages] = useReadMessagesUpdatesMutation()
+    const [fetchChat] = useFetchChatsMutation()
 
-    const { selectedChat, setSelectedChat } = ChatState()
+    const { selectedChat, setSelectedChat, notification, setNotification, chats, setChats } = ChatState()
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
 // console.log(userInfo,"userii")
     const userId = hotelInfo.hotelInfo._id
@@ -36,7 +41,8 @@ const SingleChat = () => {
         socket = io(ENDPOINT)
         socket.emit("setup", hotelInfo.hotelInfo._id)
         socket.on("connected", () => setSocketConnected(true))
- 
+        socket.on("typing",()=>setIsTyping(true))
+        socket.on("stop typing",()=>setIsTyping(false))
      },[])
     //  useEffect(()=>{
     //      socket.on('message received',(newMessageReceived)=>{
@@ -51,6 +57,7 @@ const SingleChat = () => {
 
     const sendMessage = async (event) => {
         if (event.key === "Enter" && newMessage) {
+           socket.emit('stop typing',selectedChat._id)
             try {
                 const { data } = await sendNewMessage({ content: newMessage, chatId: selectedChat._id,type:"Restaurant" });
                 // console.log("data", data)
@@ -128,25 +135,51 @@ const SingleChat = () => {
        selectedChatCompare = selectedChat
     }, [selectedChat])
 
-//     useEffect(() => {
-//     console.log("New messages", messages);
-// }, [messages]);
+    const fetchChats = async () => {
+        try {
+          const { data } = await fetchChat()
+        //   console.log("data", data);
+          setChats(data)
+        } catch (error) {
+          console.log(error.message);
+          toast({
+            title: "Error Occurred, Cant fetch Chat List",
+            description: error.message,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom-left"
+          })
+        }
+      }
 
 useEffect( () => {
     socket.on("message received", async (newMessageReceived) => {
+       
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-        console.log("msg received socket ");
-        // const existingNotification = notification.find((n) => n.chat._id === newMessageReceived.chat._id);
+
+        console.log("msg rcvd");
+        fetchChats()
+
+        await updateReadMessages(newMessageReceived.chat._id)
+
+      
+        const existingNotification = notification.find((n) => n.chat._id === newMessageReceived.chat._id);
   
-        // if (!existingNotification) {
-        //   setNotification([newMessageReceived, ...notification]);
-        // } else {
-        //   // Update the existing notification
-        //   setNotification([
-        //     ...notification.filter((n) => n.chat._id !== newMessageReceived.chat._id),
-        //     newMessageReceived,
-        //   ]);
-        // }
+        if (!existingNotification) {
+          setNotification([newMessageReceived, ...notification]);
+        const chat =await fetchMessage()
+          //   setFetchAgain(!fetchAgain)
+        } else {
+
+          // Update the existing notification
+          setNotification([
+            ...notification.filter((n) => n.chat._id !== newMessageReceived.chat._id),
+            newMessageReceived,
+          ]);
+          const chat =await fetchMessage()
+          
+        }
       } else {
         console.log(messages,"else msg rcvd");
         const chat =await fetchMessage()
@@ -155,9 +188,42 @@ useEffect( () => {
     });
   }, [ selectedChatCompare]);
 
+  useEffect(() => {
+    const fetchNotificationsData = async () => {
+        try {
+            const { data } = await fetchNotifications();
+            // console.log("notifications: ", data);
+            setNotification(data);
+        } catch (error) {
+            console.error('Error fetching notifications:', error.message);
+        }
+    };
+
+    fetchNotificationsData();
+}, []);
     
     const typingHandler = (e) => {
         setNewMessage(e.target.value)
+
+        //typjng indicator
+        if(!socketConnected) return
+
+        if(!typing){
+            SetTyping(true)
+            socket.emit('typing',selectedChat._id)
+        }
+        let lastTypingTime = new Date().getTime()
+        let timerLength= 3000
+        setTimeout(()=>{
+            let timeNow= new Date().getTime()
+            let timeDiff=timeNow-lastTypingTime
+
+            if(timeDiff>=timerLength && typing){
+                socket.emit('stop typing', selectedChat._id)
+                SetTyping(false)
+            }
+        },timerLength)
+
     }
 
   return (
@@ -208,6 +274,8 @@ useEffect( () => {
                       )}
 
                       <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+                          {isTyping? <div>typing...</div>:<></>}
+                          
                           <Input
                               value={newMessage}
                               variant="filled"
