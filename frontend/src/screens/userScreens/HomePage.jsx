@@ -8,11 +8,13 @@ import RestaurantHeroHeader from '../../components/UserComponents/RestaurantHero
 import RestaurantProfile from './RestaurantProfile';
 import { useNavigate,useLocation } from 'react-router-dom';
 import RestaurantLocation from '../../components/UserComponents/RestaurantLocation'
-import { useSelector } from 'react-redux';
 import { useGetHotelLocationMutation } from '../../slices/userApiSlice';
+import { useSelector ,useDispatch} from "react-redux";
 import { useCheckBlockMutation } from '../../slices/userApiSlice';
 import LiveStreaming from '../../components/UserComponents/viewRestaurantLive'
 import {toast} from 'react-toastify'
+import { logout } from '../../slices/authSlice.js';
+import { useLogoutMutation } from '../../slices/userApiSlice.js';
 
 function HomePage() {
   const [fetchHotelLocation] = useGetHotelLocationMutation()
@@ -23,6 +25,9 @@ function HomePage() {
   const [blocked, setBlocked] = useState(false)
     const [blockCheck] = useCheckBlockMutation()
     const { userInfo } = useSelector((state) => state.auth);
+    const [logoutApiCall] = useLogoutMutation();
+    const navigate = useNavigate()
+    const dispatch =useDispatch()
 
   const [getPosts] = useGetUserPostsMutation()
   const [post, setPost] = useState('')
@@ -37,13 +42,18 @@ function HomePage() {
         try {
             // console.log(userInfo,"userInfos");
             const response = await blockCheck({ id: userInfo.id })
-            if (response.data.is_blocked) {
+            if(response.error?.status===401){
+              await logoutApiCall().unwrap();
+              dispatch(logout())
+              navigate('/login')
+          }
+            if (response.data?.is_blocked) {
                 setBlocked(true)
                 // Show a toast notification when the user is blocked
                 toast.error("Your account is blocked");
             }
         } catch (error) {
-            console.log(error)
+            console.log(error,"jjjjjjjjjjj")
         }
     } 
     checkBlocked()
@@ -53,7 +63,7 @@ function HomePage() {
   useEffect(() => {
     const handleBackButton = () => {
       // Do something when the back button is pressed
-      console.log(window.location.pathname,"locations");
+      // console.log(window.location.pathname,"locations");
       setLocation(window.location.pathname)
     };
 

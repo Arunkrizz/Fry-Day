@@ -1,5 +1,5 @@
 'use client'
-
+import { toast } from "react-toastify";
 import {
   Box,
   Center,
@@ -8,18 +8,43 @@ import {
   Text,
   Stack,
   Image,
+  Button
 } from '@chakra-ui/react'
 
 const IMAGE =
   'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80'
 
 import {PRODUCT_IMAGE_DIR_PATH }from '../../utils/constants'
+import axios from 'axios'
+
   export default function RestaurantProducts({product}) {
 
 // console.log(product,"card ui")
+const addToCart =(proId)=>{
+  try {
+    axios.post('/api/users/addToCart', {
+     proId: proId,
+    //  hotelInfo:hotelInfo.hotelInfo._id
+     // other data you want to send
+   }).then((response)=>{
+    if(response.data.status){
+      toast.success("Added to cart successfully.")
+    }else{
+      toast.error("error occured")
+    }
+    // console.log(response.data.status,"added to cart")
+  }).catch((err)=>{
+    toast.error("error occured!!")
+  })
+  //  console.log('Data sent successfully');
+ } catch (error) {
+   console.error('Error sending data to the backend', error);
+ }
+}
 
   return (
-    <Center py={12}>
+    <Center py={12}
+    >
       <Box
         role={'group'}
         p={6}
@@ -32,6 +57,7 @@ import {PRODUCT_IMAGE_DIR_PATH }from '../../utils/constants'
         zIndex={1}
         mr={6}
         mt={9}
+        
         >
         <Box
           rounded={'lg'}
@@ -75,10 +101,12 @@ import {PRODUCT_IMAGE_DIR_PATH }from '../../utils/constants'
             <Text fontWeight={800} fontSize={'xl'}>
               ${product.price}
             </Text>
-            <Text textDecoration={'line-through'} color={'gray.600'}>
+            {/* <Text textDecoration={'line-through'} color={'gray.600'}>
               $199
-            </Text>
+            </Text> */}
+            
           </Stack>
+          <Button onClick={(e)=>{addToCart(product._id)}}>Add to Cart </Button>
         </Stack>
       </Box>
     </Center>

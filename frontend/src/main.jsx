@@ -16,6 +16,7 @@ import RegisterScreen from './screens/RegisterScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import HomePage from './screens/userScreens/HomePage.jsx';
 import ChatScreen from './screens/userScreens/ChatScreen.jsx'
+import Cart from './screens/userScreens/CartScreen.jsx'
 
 
 //? ==================================== Admin Screens Import ====================================
@@ -68,6 +69,10 @@ const router = createBrowserRouter(
         <Route index={true} path='/user/home/*' element={ <HomePage /> } />
 
         <Route path='/user/chat' element={<ChatScreen />} />
+
+        <Route path='/user/cart' element={<Cart />}/>
+
+
 
         {/* <Route  path='/user/restaurant' element={ <RestaurantProfile /> } /> */}
 

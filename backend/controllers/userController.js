@@ -98,8 +98,8 @@ console.log(req.body,"login auth ");
 });
 
 const gAuthUser = asyncHandler ( async (req, res) => {
-    console.log("jjjjj");
-    console.log(req.body,"login gauth ");
+    // console.log("jjjjj");
+    // console.log(req.body,"login gauth ");
         /*
          # Desc: Auth user/set token
          # Route: POST /api/users/auth

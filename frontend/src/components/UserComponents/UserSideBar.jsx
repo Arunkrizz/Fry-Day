@@ -31,7 +31,7 @@ import {
   FiHome,
   FiTrendingUp,
   FiCompass,
-  FiStar,
+  FiShoppingCart,
   FiSettings,
   FiMenu,
   FiBell,
@@ -44,7 +44,7 @@ const LinkItems = [
   { name: 'Home', icon: FiHome ,path: '/user/home' },
   { name: 'Trending', icon: FiTrendingUp,path: '/user/home'  },
   { name: 'Messages', icon: FiCompass,path: '/user/chat' },
-  { name: 'Favourites', icon: FiStar,path: '/user/home'  },
+  { name: 'Cart', icon: FiShoppingCart,path: '/user/cart'  },
   { name: 'Settings', icon: FiSettings ,path: '/user/home' },
 ];
 

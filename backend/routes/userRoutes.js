@@ -40,6 +40,13 @@ import {
     deleteNotification
 } from '../controllers/notificationController.js'
 
+import {
+     addToCart,
+     getCart,
+     changeQuantity,
+     removeCartProduct
+ } from '../controllers/cartController.js';
+
 import { multerUploadUserProfile } from '../config/multerConfig.js';
 
 
@@ -62,11 +69,11 @@ router.post('/logout', logoutUser);
 
 router.post ('/getUserViewPosts',getUserViewPosts)
 
-router.put ('/getHotelProducts',getHotelProducts)
+router.put ('/getHotelProducts',authenticateUser,getHotelProducts)
 
-router.put( '/getHotelLocation',getHotelLocation)
+router.put( '/getHotelLocation',authenticateUser,getHotelLocation)
 
-router.put('/getHotelDetails',getHotelDetails)
+router.put('/getHotelDetails',authenticateUser,getHotelDetails)
 
 router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('profileImage'), updateUserProfile );
 
@@ -78,10 +85,13 @@ router.get('/allNotifications', authenticateUser, fetchNotifications)
 router.put('/deleteNotification/:notificationId', authenticateUser, deleteNotification)
 router.put('/readMessagesUpdate/:chatId', authenticateUser, readMessagesUpdate)
 router.post('/markAsReadUpdate', authenticateUser, markAsReadUpdate)
+router.post('/addToCart',authenticateUser,addToCart)
+router.get ('/getCart',authenticateUser,getCart)
+router.post('/changeProductQuantity',authenticateUser,changeQuantity)
+router.post ('/removeCartProduct',authenticateUser,removeCartProduct)
 
 
-
-router.put('/checkBlock', checkBlock)
+router.put('/checkBlock',authenticateUser, checkBlock)
 
 
 

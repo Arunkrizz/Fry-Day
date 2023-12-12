@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 
 
-const LoginuserModal = ({ showLoginUserModal, setShowLoginUserModal, setshowRegisterUserModal, registerSubmit, userRegisterName, setUserRegisterName, userRegisterMobile, setUserRegisterMobile, userRegisterEmail, setUserRegisterEmail, userRegisterPassword, setUserRegisterPassword, confirmPassword, setConfirmPassword }) => {
+const LoginuserModal = ({ showLoginUserModal, setShowLoginUserModal,showRegisterUserModal, setshowRegisterUserModal, registerSubmit, userRegisterName, setUserRegisterName, userRegisterMobile, setUserRegisterMobile, userRegisterEmail, setUserRegisterEmail, userRegisterPassword, setUserRegisterPassword, confirmPassword, setConfirmPassword,submitHandler }) => {
     const [userEmail, setUserEmail] = useState("");
     const [emailError, setEmailError] = useState('');
     const [userPassword, setUserPassword] = useState("");
