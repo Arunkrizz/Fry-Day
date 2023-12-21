@@ -268,7 +268,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
         View More..
       </Button> */}
           </CardFooter>
-        </Card>
+        </Card> 
         <CommentsModal post={commentModalPost} isOpen={isCommentsModalOpen} onClose={onCloseCommentsModal} onCommentPost={handleCommentPost} formatTimeDifference={formatTimeDifference} setPosts={setPost} posts={post} postRefresh={postRefresh} setPostRefresh={setPostRefresh} />
         
         {showReportModal && (
