@@ -21,7 +21,18 @@ import {
     getHotelProducts,
     getHotelLocation,
     getHotelDetails,
-    checkBlock
+    checkBlock,
+    verifyMail,
+    forgotPassword,
+    resetPassword,
+    verifyOtp,
+    resendOtp,
+    fetchRestaurantDatas,
+    likePost,
+    unlikePost,
+    commentPost,
+    commentDelete,
+    reportPost
 } from '../controllers/userController.js';
 
 import {
@@ -47,7 +58,12 @@ import {
      removeCartProduct
  } from '../controllers/cartController.js';
 
+ import {
+    checkOut
+ } from '../controllers/orderController.js'
+
 import { multerUploadUserProfile } from '../config/multerConfig.js';
+import fileUpload from 'express-fileupload';
 
 
 
@@ -89,6 +105,19 @@ router.post('/addToCart',authenticateUser,addToCart)
 router.get ('/getCart',authenticateUser,getCart)
 router.post('/changeProductQuantity',authenticateUser,changeQuantity)
 router.post ('/removeCartProduct',authenticateUser,removeCartProduct)
+router.post ('/checkout',authenticateUser,fileUpload(),checkOut)
+router.post ('/verifyMail',verifyMail)
+
+router.post('/forgotPassword', forgotPassword)
+router.post('/otpVerify', authenticateUser, verifyOtp)
+router.post('/resendOtp', authenticateUser, resendOtp)
+router.post('/resetPassword', authenticateUser, resetPassword)
+router.post('/fetchRestaurantDatas',authenticateUser,fetchRestaurantDatas)
+router.post('/likePost/:postId', authenticateUser, likePost)
+router.delete('/unlikePost/:postId', authenticateUser, unlikePost)
+router.post('/commentPost/:postId', authenticateUser, commentPost)
+router.delete('/commentDelete/:postId', authenticateUser, commentDelete)
+router.post('/reportPost', authenticateUser, reportPost);
 
 
 router.put('/checkBlock',authenticateUser, checkBlock)

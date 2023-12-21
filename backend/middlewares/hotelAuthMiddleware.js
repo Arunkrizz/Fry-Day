@@ -15,12 +15,14 @@ const authenticateHotel = asyncHandler( async (req, res, next) => {
        
     // console.log("here");
         try {
+            // console.log(tokenFromRequest,"req auth hotel");
             // console.log("hotelAuthhere");
             // Decode the jwt token using the secret key in the server
             const decodedTokenData = jwt.verify( tokenFromRequest, process.env.JWT_SECRET_KEY_HOTEL);
-
+            
             // If the Token is valid, search the Db with the userId obtained after decoding jwt payload
             const requestHotel = await Hotel.findById(decodedTokenData.hotelId).select('-password');
+            
 
             if (requestHotel) {
                 if (!requestHotel.approved) {

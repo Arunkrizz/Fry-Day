@@ -3,13 +3,33 @@ import { Modal, Button, Form as BootstrapForm } from 'react-bootstrap';
 import GoogleAuth from '../UserComponents/GoogleoAuth.jsx'
 import GoogleAuthSignIn from '../UserComponents/GoogleoAuthsignIn.jsx'
 import { useState } from 'react';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { auth } from '../../utils/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
+const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterUserModal, setshowRegisterUserModal, registerSubmit, userRegisterName, setUserRegisterName, userRegisterMobile, setUserRegisterMobile, userRegisterEmail, setUserRegisterEmail, userRegisterPassword, setUserRegisterPassword, confirmPassword, setConfirmPassword,submitHandler, userEmail,setUserEmail,userPassword,setUserPassword,imageState,setImageState }) => {
 
-const LoginuserModal = ({ showLoginUserModal, setShowLoginUserModal,showRegisterUserModal, setshowRegisterUserModal, registerSubmit, userRegisterName, setUserRegisterName, userRegisterMobile, setUserRegisterMobile, userRegisterEmail, setUserRegisterEmail, userRegisterPassword, setUserRegisterPassword, confirmPassword, setConfirmPassword,submitHandler }) => {
-    const [userEmail, setUserEmail] = useState("");
     const [emailError, setEmailError] = useState('');
-    const [userPassword, setUserPassword] = useState("");
+    const navigate =useNavigate()
+
+
+    const handleSignUp = async () => {
+      try {
+        // Create user
+        const userCredential = await createUserWithEmailAndPassword(auth, userRegisterEmail, userRegisterPassword);
+  
+        // Send email verification
+        await sendEmailVerification(userCredential.user);
+  
+        // Inform user to check email for verification link
+        alert('Verification email sent. Please check your email.');
+  
+      } catch (error) {
+        console.error('Error signing up:', error.message);
+      }
+    };
+
     return (
     < >
      <Modal show={showLoginUserModal} onHide={() => setShowLoginUserModal(false)}>
@@ -57,7 +77,13 @@ const LoginuserModal = ({ showLoginUserModal, setShowLoginUserModal,showRegister
                     
             <Button variant="primary" onClick={submitHandler} >
               sign In
-              {/* {isUpdating ? "Adding..." : "Add User"} */}
+            </Button>
+            <Button variant="primary" onClick={()=>{
+              setImageState(true)
+              setShowLoginUserModal(false)
+              navigate('/forgotPassword')
+              }} >
+              Forgot Password
             </Button>
           </Modal.Footer>
         </Modal>
@@ -130,7 +156,11 @@ const LoginuserModal = ({ showLoginUserModal, setShowLoginUserModal,showRegister
             {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
                         Cancel
                     </Button> */}
-            <Button variant="primary"  onClick={registerSubmit} disabled={''}>
+            <Button variant="primary"  onClick={async(e)=>{
+             await  handleSignUp()
+              registerSubmit(e)
+             
+              }} disabled={''}>
               sign Up
               {/* {isUpdating ? "Adding..." : "Add User"} */}
             </Button>

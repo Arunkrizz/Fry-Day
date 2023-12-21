@@ -41,7 +41,7 @@ connectDB();
 // ===================== Setting Static Folder =====================
 app.use(express.static('backend/Public'));
 
-// app.use(cors(corsOptions));
+// app.use(cors(corsOptions));  
 // ========================================== Middleware's ==========================================
 
 app.use(cookieParser()); // CookieParser Middleware
@@ -152,7 +152,7 @@ import ("socket.io").then((socketIO)=>{
                   const isUserOnline = io.sockets.adapter.rooms.has(user._id);
 
                   // If the user is not online, emit real-time message and store notification
-                  if (!isUserOnline) {
+                  if (!isUserOnline) {  
                       console.log("not online");
                       socket.in(user._id).emit("message received", newMessageReceived);
 
@@ -161,8 +161,8 @@ import ("socket.io").then((socketIO)=>{
                       await storeNotifications(user._id, newMessageReceived); 
 
                       //mark unread
-
-                      await setChatUnReads(chat._id)
+ 
+                      await setChatUnReads(chat._id) 
  
                   } else {
                       // The user is online, only emit real-time message
@@ -174,7 +174,25 @@ import ("socket.io").then((socketIO)=>{
         })
 
 
+
+        socket.on("orderPlaced", (data) => {
+            // console.log("Received data from client:", data.orderPlaced);
+            let orders = data.orderPlaced
+            for (let i=0;i<orders.length;i++){
+                console.log(orders[i],"i")
+                socket.in(orders[i].store).emit('orderUpdate')
+            }
+
+        });
+
+        socket.on('setupHotel',(hotelId)=>{
+            socket.join(hotelId )
+            // console.log(hotelId,"socketio")
+           
+           })
+
+
     })
 }).catch((err)=>{
-    console.log("error importing socket io",err);
+    console.log("error importing socket io",err); 
 })

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import generateHotelToken from '../utils/jwtConfig/hoteljwtConfig/generateHotelToken.js'
 import destroyHotelToken from '../utils/jwtConfig/hoteljwtConfig/destroyHotelToken.js';
 import bcrypt from "bcryptjs";
+import Order from '../models/orderModel.js';
 
 
 
@@ -252,8 +253,22 @@ const updateLiveBrodcastRoomId =asyncHandler(async(req,res)=>{
 
 })
 
+const fetchLiveOrders = asyncHandler(async(req,res)=>{
+    const liveOrders =await Order.find({store:req.hotel._id,status:"placed"}).populate("products.product")
 
+    // console.log("fetch live",liveOrders,"liveorders")
+    res.status(200).json({liveOrders})
+})
 
+const acceptOrder=asyncHandler(async(req,res)=>{
+    await Order.findOneAndUpdate({_id:req.body.orderId},{$set:{status:'accepted'}})
+    console.log(req.body,"accpt order")
+})
+
+const rejectOrder= asyncHandler(async(req,res)=>{
+    await Order.findOneAndUpdate({_id:req.body.orderId},{$set:{status:'rejected'}})
+    console.log(req.body,"accpt order")
+})
 
 export {
 
@@ -261,6 +276,9 @@ export {
     register2,
     logout,
     login,
-    updateLiveBrodcastRoomId
+    updateLiveBrodcastRoomId,
+    fetchLiveOrders,
+    acceptOrder,
+    rejectOrder
 
 };

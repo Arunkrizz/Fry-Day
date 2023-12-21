@@ -23,14 +23,15 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
 
 const submit =()=>{
   try {
-    const formData = new FormData();
-    formData.append('name', firstName);
-    formData.append('address', address);
-    formData.append('pincode', pincode);
-    formData.append('mobile', mobile);
-    formData.append('paymentMethod', paymentMethod);
-   
-    submitHandler(FormData)
+    const formDatas = new FormData();
+    formDatas.append('name', firstName);
+    formDatas.append('address', address);
+    formDatas.append('pincode', pincode);
+    formDatas.append('mobile', mobile);
+    formDatas.append('paymentMethod', paymentMethod);
+    console.log(firstName, address, pincode, mobile, paymentMethod,"hh  ");
+
+    submitHandler(formDatas)
   } catch (error) {
     console.log(error)
   }
@@ -117,14 +118,14 @@ const submit =()=>{
                     checked={paymentMethod === 'cod'}
                     onChange={() => setPaymentMethod('cod')}
                   />
-                  <BootstrapForm.Check
+                  {/* <BootstrapForm.Check
                     type="radio"
                     label="Online Payment"
                     id="online"
                     name="paymentMethod"
                     checked={paymentMethod === 'online'}
                     onChange={() => setPaymentMethod('online')}
-                  />
+                  /> */}
                 </BootstrapForm.Group>
 
               </BootstrapForm>

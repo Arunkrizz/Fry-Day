@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,10 @@ import { toast } from "react-toastify";
 import { useHotelLogoutMutation } from '../../slices/hotelApiSlice.js';
 import { useHotelLoginMutation } from '../../slices/hotelApiSlice.js';
 import { logout, setCredential } from '../../slices/hotelAuthSlice.js';
+// import io from 'socket.io-client'
+
+// const ENDPOINT = "http://localhost:5000"
+// let socket
 
 
 
@@ -65,6 +69,14 @@ function Header() {
 
 
   const { hotelInfo } = useSelector((state) => state.hotelAuth);
+
+
+  // useEffect(() => {
+  //   if (hotelInfo) {
+  //     socket = io(ENDPOINT)
+  //     socket.emit("setupHotel", hotelInfo.hotelInfo._id)
+  //   }
+  // }, [hotelInfo])
 
 
   // console.log(hotelInfo, "header res")

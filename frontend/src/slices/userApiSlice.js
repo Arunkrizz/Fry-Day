@@ -117,7 +117,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 url: `${USERS_URL}/fetchChats`,
                 method: 'GET'
             })
-        }), 
+        }),
         sendMessage: builder.mutation({
             query: (data) => ({
                 url: `${USERS_URL}/sendMessage`,
@@ -135,7 +135,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: (userId) => ({
                 url: `${USERS_URL}/accessChat`,
                 method: 'POST',
-                body: {userId}
+                body: { userId }
             })
         }),
         checkBlock: builder.mutation({
@@ -167,7 +167,75 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: `${USERS_URL}/markAsReadUpdate`,
                 method: 'POST',
-                body: {data}
+                body: { data }
+            })
+        }),
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/forgotPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        otpVerify: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/otpVerify`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        resendOtp: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/resendOtp`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/resetPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        likePost: builder.mutation({
+            query: (postId) => ({
+                url: `${USERS_URL}/likePost/${postId}`,
+                method: 'POST'
+            })
+        }),
+        unlikePost: builder.mutation({
+            query: (postId) => ({
+                url: `${USERS_URL}/unlikePost/${postId}`,
+                method: 'DELETE'
+            })
+        }),
+        commentPost: builder.mutation({
+            query: ({ postId, text }) => ({
+                url: `${USERS_URL}/commentPost/${postId}`,
+                method: 'POST',
+                body: JSON.stringify({ text }), // Stringify the body
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type
+                },
+            }),
+        }),
+        commentDelete: builder.mutation({
+            query: ({ postId, commentId }) => ({
+                url: `${USERS_URL}/commentDelete/${postId}`,
+                method: 'DELETE',
+                body: { commentId }, // Send commentId directly in the body
+
+            })
+        }),
+        reportPost: builder.mutation({
+            query: ({ postId, data }) => ({
+                url: `${USERS_URL}/reportPost`,
+                method: 'POST',
+                body: {
+                    postId: postId,
+                    data: data
+                }
             })
         }),
 
@@ -196,6 +264,16 @@ export const {
     useDeleteNotificationMutation,
     useReadMessagesUpdateMutation,
     useMarkAsReadUpdateMutation,
+    useForgotPasswordMutation,
+    useOtpVerifyMutation,
+    useResendOtpMutation,
+    useResetPasswordMutation,
+    useLikePostMutation,
+    useUnlikePostMutation,
+    useCommentPostMutation,
+    useCommentDeleteMutation,
+    useReportPostMutation
+
 
 
 } = usersApiSlice;

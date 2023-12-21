@@ -16,9 +16,9 @@ const addToCart =asyncHandler(async(req,res)=>{
 		}
    
     let userCart = await Cart.findOne({ user: userId });
-    console.log(userCart,"addtocart")
+    // console.log(userCart,"addtocart")
 				if (userCart) {
-					console.log(userCart, "usercart");
+					// console.log(userCart, "usercart");
 					try {
 						const proExist = userCart.products.some(product => product.item.toString() === proId.toString());
 						// console.log(proExist,"proexisst");
@@ -60,7 +60,7 @@ const addToCart =asyncHandler(async(req,res)=>{
 					}
 				}
 				else {
-                    console.log("!usercart else");
+                    // console.log("!usercart else");
 					let cartObj = {
 						user: userId,
 						products: [proObj]

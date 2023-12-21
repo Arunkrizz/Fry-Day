@@ -14,9 +14,11 @@ import { useCheckBlockMutation } from '../../slices/userApiSlice';
 import LiveStreaming from '../../components/UserComponents/viewRestaurantLive'
 import {toast} from 'react-toastify'
 import { logout } from '../../slices/authSlice.js';
-import { useLogoutMutation } from '../../slices/userApiSlice.js';
+import { useLogoutMutation, useLikePostMutation, useUnlikePostMutation } from '../../slices/userApiSlice.js';
 
 function HomePage() {
+  const [likePost] = useLikePostMutation();
+  const [unlikePostApi] = useUnlikePostMutation();
   const [fetchHotelLocation] = useGetHotelLocationMutation()
   const { viewHotel } = useSelector( (state) => state.viewHotel);
   // console.log(viewHotel,"homepage view hotel")
@@ -33,6 +35,7 @@ function HomePage() {
   const [post, setPost] = useState('')
   const [location, setLocation] = useState(window.location.pathname)
   const [component,setComponent]=useState('')
+  const [postRefresh,setPostRefresh]=useState(false)
 
   const locations = useLocation()
   
@@ -77,6 +80,14 @@ function HomePage() {
       try {
         const responseFromApiCall = await getPosts();
         setPost(responseFromApiCall.data.Post)
+        let postsData=responseFromApiCall.data.Post
+
+            // Check if the current user has liked each post
+            const likedPosts = postsData.map((post) => ({
+              ...post,
+              isLiked: userInfo ? post.likes.includes(userInfo.id) : false
+          }));
+          setPost(likedPosts);
         //    console.log(responseFromApiCall,"resss view post")
       } catch (error) {
         // Handle errors
@@ -85,7 +96,33 @@ function HomePage() {
     };
 
     fetchData(); // Call the async function
-  }, []); // Include dependencies if necessary
+  }, [postRefresh]); // Include dependencies if necessary
+
+  const handleLikeClick = async (event, postId) => {
+    event.stopPropagation(); // Prevent the event from propagating to the parent (Card) click handler
+    if (!userInfo) {
+        navigate('/login')
+    }
+    try {
+      console.log(postId,"like button clik",post);
+        const response = post.find((post) => post._id === postId).isLiked
+            ? await unlikePostApi(postId).unwrap()
+            : await likePost(postId).unwrap();
+        console.log("response on like: ", response);
+
+        // Update the likes count in the post
+        const updatedPosts = post.map((post) =>
+            post._id === postId
+                ? { ...post, likes: response.likes, isLiked: !post.isLiked }
+                : post
+        );
+
+        setPost(updatedPosts);
+
+    } catch (error) {
+        console.log("Error adding like:", error);
+    }
+};
 
 
   useEffect(() => {
@@ -96,7 +133,7 @@ function HomePage() {
         return <RestaurantProfile setLocation={setLocation} />;
       } else if (location === '/user/home') {
         return <div style={{ marginLeft: '20px', marginTop: '20px' }}>
-          {post ? post.map((post) => (<PostCard key={post._id} post={post} setLocation={setLocation} />)) : <Loader />}
+          {post ? post.map((post) => (<PostCard key={post._id} post={post} setLocation={setLocation} handleLikeClick={handleLikeClick} setPost={setPost} postRefresh={postRefresh} setPostRefresh={setPostRefresh}/>)) : <Loader />}
         </div>;
       } else if (location === '/user/home/viewHotelLocation') {
         return <RestaurantLocation location ={restaurantLocation}/>;

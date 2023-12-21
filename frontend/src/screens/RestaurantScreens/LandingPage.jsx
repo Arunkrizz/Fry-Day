@@ -11,7 +11,7 @@ console.log(hotelInfo,"landing page res ")
 
   useEffect(()=>{
     if(hotelInfo){
-      console.log("landing useeffect")
+      // console.log("landing useeffect")
       navigate('/hotel/home')
     }
   },[])

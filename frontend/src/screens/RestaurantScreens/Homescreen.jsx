@@ -7,6 +7,7 @@ import Map from '../../components/RestaurantComponents/Map';
 import RestaurantList from '../../components/RestaurantComponents/RestaurantList.JSX';
 import MapRestaurant from '../../components/RestaurantComponents/MapRestaurant';
 import { useLocation } from 'react-router-dom';
+import OrderUpdates from './OrderUpdates'
 
 // import { useHistory } from 'react-router-dom';
 
@@ -115,7 +116,7 @@ function Homescreen() {
       if (location === '/hotel/home/addProduct') {
         return <AddProduct />;
       } else if(location === '/hotel/home'){
-         return <div>Homepage</div>
+         return <OrderUpdates/>
       }else if(location === '/hotel/home/addPost'){
         return <AddPost />
      }else if(location === '/hotel/home/map'){

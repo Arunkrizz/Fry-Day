@@ -20,7 +20,8 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-  FiMessageSquare
+  FiMessageSquare,
+  FiVideo
 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 // import { IconType } from 'react-icons';
@@ -31,7 +32,7 @@ const LinkItems = [
   { name: 'Add Product', icon: FiTrendingUp,path:'/hotel/home/addProduct'  },
   { name: 'Add Post', icon: FiCompass,path:'/hotel/home/addPost' },
   { name: 'Messages', icon: FiMessageSquare,path: '/hotel/chat'},
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Go Live', icon: FiVideo,path: '/hotel/live' },
 ];
 
 
@@ -77,7 +78,7 @@ const SidebarContent = ({setLocation, onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          Fry-Day
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -148,7 +149,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       />
 
       <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
+        Fry-Day
       </Text>
     </Flex>
   );

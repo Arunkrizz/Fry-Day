@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { CartItem } from '../../components/UserComponents/CartItem';
 import { CartOrderSummary } from '../../components/UserComponents/CartOrderSummary';
-import { cartData } from '../../components/UserComponents/data';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 import {useState} from 'react'

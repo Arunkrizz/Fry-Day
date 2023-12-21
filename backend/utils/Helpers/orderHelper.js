@@ -1,18 +1,19 @@
 import Cart from '../../models/cartModel.js'
+import mongoose from 'mongoose'
+import Order from '../../models/orderModel.js'
 
 const getCartProductList= async (userId) => {
     return new Promise(async (resolve, reject) => {
-        connectDB()
-            .then(async () => {
-                let cart = await Cart.findOne({ user: userId }).then((data) => {
-                    console.log(data, "o-h getcartprolist");
+        
+                let cart = await Cart.findOne({ user: userId }).populate('products.item').then((data) => {
+                    // console.log(data, "o-h getcartprolist");
                     resolve(data?.products)
                 })
 
 
 
 
-            })
+           
 
 
     })
@@ -21,10 +22,10 @@ const getCartProductList= async (userId) => {
 const getTotal= (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("herere in get total ");
+            // console.log("herere in get total ");
             const total = await Cart.aggregate([
                 {
-                    $match: { user: mongoose.Types.ObjectId.createFromHexString(userId) }
+                    $match: { user: (userId) }
                 },
                 {
                     $unwind: '$products'
@@ -67,59 +68,77 @@ const getTotal= (userId) => {
 }
 
 
-const placeOrder= async (details,data, products, total, user_Id, userName) => {
+const placeOrder= async (details, productss, total, user_Id, userName,productsForStores) => {
     try {
      return new Promise(async (resolve, reject) => {
-         console.log(details, products, total,"raz placeorder oh helper");
-         let status = data['paymentMethod'] === 'COD' ? 'placed' : 'pending'
+        //  console.log(details, products, total,"raz placeorder oh helper");
+         let status = details.paymentMethod=== 'cod' ? 'placed' : 'pending'
+         let length = productsForStores.length
+         let count =0
+        //  console.log(length,"length");
+
+     let orders=[]  
+
+const createOrder =async (products)=>{
+
+    const grandTotal = products.reduce((total, product) => {
+        return total + product.quantity * product.item.price;
+      }, 0);
+      
+    //   console.log('Grand Total:', grandTotal);
+// console.log(products,"foreacjh");
+    // ?? add store to order??// pending
 
          const productsWithQuantity = products?.map(product => {
              return {
-                 product: product.item,
+                 product: product.item._id,
                  quantity: product.quantity,
-                 price:product.price
+                 price:product.price,
+                 store:product.item.stores,
              };
          }); 
-
+console.log(productsWithQuantity,"pwithq")
          let orderObj = {
              deliveryDetails: {
-                 firstname: details.firstname,
-                 lastname: details.lastname,
-                 state: details.state,
-                 address1: details.address1,
-                 address2: details.address2,
-                 city: details.city,
+                 name: details.name,
+                 address: details.address,
                  pincode: details.pincode,
                  mobile: details.mobile,
-                 email: details.email,
              },
              userName: userName,
              userId: user_Id,
-             paymentMethod:data['paymentMethod'],
+             paymentMethod:details.paymentMethod,
              products: productsWithQuantity,
-             couponDiscountUsed:couponDiscount,
-             totalAmount: total,
+             totalAmount: grandTotal,
+             store:productsWithQuantity[0].store,
              status: status,
              date: new Date()
-         }
+         } 
  
-         connectDB()
-             .then(async () => {
+       
                  let cartId
                  await Order.create(orderObj)
                      .then(async (response) => {
                          cartId = response._id
                          const deleteResult = await Cart.deleteOne({ user: user_Id })
-
-                         resolve(cartId)
+                       
+                         
                      }).then( async (response) => {
-                         console.log("+++++++++", cartId, "o-h cartid");
+                        //  console.log("+++++++++", cartId, "o-h cartid");
 
                          const Products = await Order
                              .findOne({ _id: cartId })
                              .populate("products.product")
 
-                         console.log("+++++++++", Products, "o-h product");
+                             count ++
+                             //  resolve(cartId)
+                              orders.push(Products)
+                              if(count===length){
+                                
+                                 resolve(orders)
+                              }
+
+                         console.log("+++++++++", Products, "order popu product");
 
                         
 
@@ -127,7 +146,17 @@ const placeOrder= async (details,data, products, total, user_Id, userName) => {
                          console.log(error);
                          reject(error)
                      })
-             })
+                    }
+
+                    //FOR DIFFERING PRODUCTS FROM DIFFERERNT STORES
+
+                    for (const pro of productsForStores) {
+                        createOrder(pro);
+                      }
+                      
+
+                      
+             
      })
     } catch (error) {
      console.log(error);

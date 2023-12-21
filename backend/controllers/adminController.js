@@ -9,6 +9,8 @@ import generateAdminToken from '../utils/jwtConfig/adminJwtConfig/generateAdminT
 import destroyAdminToken from '../utils/jwtConfig/adminJwtConfig/destroyAdminToken.js';
 
 import {updateRegisterStatus, fetchAllUsers, deleteUser, updateUser,fetchAllHotels } from '../utils/Helpers/adminHelpers.js';
+import Post from '../models/postModel.js';
+import Report from '../models/reportModel.js';
 
 
 
@@ -450,6 +452,47 @@ const block_UnblockUser = asyncHandler(async(req,res)=>{
 })
 
 
+const showReportedPosts = asyncHandler(async (req, res) => {
+ 
+    const reports = await Report.find({})
+        .populate({
+            path: 'reportedPost',
+            populate: {
+                path: 'stores',
+                model: 'Restaurant', 
+            },
+        })
+        .populate('reporter')
+        .exec();
+    
+        console.log(reports,"reports");
+
+    const reportedPosts = reports.map(report => ({
+        image: report.reportedPost.images[0], 
+        title: report.reportedPost.title,
+        postedUserName: report.reportedPost.stores.restaurantName, 
+        reportedUserName: report.reporter.name,
+        // reportedDate: report.timestamp,
+        reportedReason: report.reason,
+        reportId: report._id,
+        isReviewed: report.isReviewed
+    }));
+    res.status(200).json(reportedPosts);
+   
+});
+
+const removeReportedPost = asyncHandler(async (req, res) => {
+    const reportId = req.body.reportId;
+    const report = await Report.findById(reportId);
+    report.isReviewed = true;
+    await report.save();
+    // Update the post status as removed
+    const post = await Post.findById(report.reportedPost);
+    post.isRemoved = true;
+    await post.save();
+    res.status(200).json({status: 'success', message: 'Report marked as reviewed'});
+});
+
 export {
 
     authAdmin,
@@ -463,6 +506,8 @@ export {
     addUser,
     getAllHotels,
     updateHotelStatus,
-    block_UnblockUser
+    block_UnblockUser,
+    showReportedPosts,
+    removeReportedPost,
 
 };

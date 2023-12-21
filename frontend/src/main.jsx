@@ -17,6 +17,9 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 import HomePage from './screens/userScreens/HomePage.jsx';
 import ChatScreen from './screens/userScreens/ChatScreen.jsx'
 import Cart from './screens/userScreens/CartScreen.jsx'
+import EmailVerificationComponent from './components/UserComponents/EmailVerificationComponent.jsx'
+import ForgotPasswordScreen from './screens/userScreens/forgotPasswordScreen.jsx'
+import PasswordOtpVerify from './screens/userScreens/PasswordOtpVerify.jsx'
 
 
 //? ==================================== Admin Screens Import ====================================
@@ -30,6 +33,7 @@ import LandingPage from './screens/userScreens/LandingPage.jsx'
 import AdminSignIn from './screens/adminScreens/AdminSignIn.jsx';
 import AdminRegister from './screens/adminScreens/AdminRegister.jsx';
 import CategoriesManagementScreen from './screens/adminScreens/CategoryManagementScreen.jsx';
+import ReportedPostsScreen from './screens/adminScreens/ReportedPostManagement.jsx';
 
 
 //? ======================================Restaurant Screen imports ===================================
@@ -40,9 +44,9 @@ import RestaurantManagement from './screens/adminScreens/RestaurantManagement.js
 import RestaurantLogin from './screens/RestaurantScreens/LoginScreen.jsx'
 import RestaurantHome from './screens/RestaurantScreens/Homescreen.jsx'
 import HotelChatScreen from './screens/RestaurantScreens/ChatScreen.jsx';
-// import LiveScreen from './screens/RestaurantScreens/LiveScreen.jsx';
+import LiveScreen from './screens/RestaurantScreens/LiveScreen.jsx';
 import RestaurantPrivateRoutes from './screens/RestaurantScreens/RestaurantPrivateRoutes.jsx'
-
+import ResetPassword from './screens/userScreens/ResetPasswordScreen.jsx'
 const router = createBrowserRouter(
 
   createRoutesFromElements(
@@ -54,6 +58,16 @@ const router = createBrowserRouter(
       <Route index={true} path='/' element={ <HomeScreen /> } />
 
      
+      <Route path="/user/emailVerified" element={<EmailVerificationComponent/>} />
+
+      <Route path='/forgotPassword' element={ <ForgotPasswordScreen /> } />
+
+      <Route path='/passwordOtpVerify' element={<PasswordOtpVerify />} />
+
+      <Route path='/resetPassword' element={<ResetPassword />} />
+
+
+
 
       <Route path='/login' element={ <LoginScreen /> } />
 
@@ -92,7 +106,7 @@ const router = createBrowserRouter(
        {/* USER PRIVATE ROUTES */}
        <Route path='' element={ <RestaurantPrivateRoutes /> } >
 
-       {/* <Route path='/hotel/live' element={ <LiveScreen/>  } /> */}
+       <Route path='/hotel/live' element={ <LiveScreen/>  } />
         
        <Route path='/hotel/home/*' element={ <RestaurantHome/>  } />
 
@@ -126,6 +140,9 @@ const router = createBrowserRouter(
         <Route path='/admin/manage-hotels' element={ <RestaurantManagement /> } />
 
         <Route path='/admin/manage-categories' element={ <CategoriesManagementScreen /> } />
+        
+        <Route path='/admin/reported-posts' element={ <ReportedPostsScreen /> } />
+
 
 
       </Route>

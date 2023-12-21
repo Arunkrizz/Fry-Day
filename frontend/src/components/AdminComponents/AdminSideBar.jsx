@@ -35,6 +35,8 @@ import {
   FiChevronDown,
   FiUser,
   FiAperture,
+  FiAlertTriangle
+  
 } from 'react-icons/fi';
 
 
@@ -96,8 +98,8 @@ const LinkItems = [
     { name: 'Home', icon: FiHome },
     { name: 'Manage Hotels', icon: FiLayers, onClick: () => navigate('/admin/manage-hotels') },
     { name: 'Manage Users', icon: FiUser, onClick: () => navigate('/admin/manage-users') },
-    // { name: 'Favourites', icon: FiStar },
-    // { name: 'Settings', icon: FiSettings },
+    { name: 'Manage Categories', icon: FiStar,onClick: () => navigate('/admin/manage-Categories') },
+    { name: ' Reported posts', icon: FiAlertTriangle,onClick: () => navigate('/admin/reported-posts') },
   ];
     const { adminInfo } = useSelector( (state) => state.adminAuth);
   

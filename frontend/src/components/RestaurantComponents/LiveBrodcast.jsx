@@ -26,6 +26,8 @@ export function getUrlParams(
 
 export default function LiveStreaming() {
 
+
+
     function sendRoomId(roomId){
         if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
 
@@ -59,16 +61,16 @@ export default function LiveStreaming() {
   let sharedLinks = [];
   if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
 
-    try {
-               axios.post('/api/hotel/updateLiveBrodcastRoomId', {
-                roomID: roomID,
-                hotelInfo:hotelInfo.hotelInfo._id
-                // other data you want to send
-              });
-              console.log('Data sent successfully');
-            } catch (error) {
-              console.error('Error sending data to the backend', error);
-            }
+    // try {
+    //            axios.post('/api/hotel/updateLiveBrodcastRoomId', {
+    //             roomID: roomID,
+    //             hotelInfo:hotelInfo.hotelInfo._id
+    //             // other data you want to send
+    //           });
+    //           console.log('Data sent successfully');
+    //         } catch (error) {
+    //           console.error('Error sending data to the backend', error);
+    //         }
 
     sharedLinks.push({
       name: 'Join as co-host',
@@ -116,6 +118,8 @@ export default function LiveStreaming() {
         sharedLinks,
       });
   };
+
+ 
 
   return (
     <div

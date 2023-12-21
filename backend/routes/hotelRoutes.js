@@ -12,7 +12,10 @@ import {
     register2,
     logout,
     login,
-    updateLiveBrodcastRoomId
+    updateLiveBrodcastRoomId,
+    fetchLiveOrders,
+    acceptOrder,
+    rejectOrder
 } from '../controllers/restaurantController.js'; 
 
 import {
@@ -58,6 +61,9 @@ router.put('/deleteNotification/:notificationId', authenticateHotel, deleteNotif
 router.put('/readMessagesUpdate/:chatId', authenticateHotel, readMessagesUpdates)
 router.post('/markAsReadUpdates/', authenticateHotel, markAsReadUpdates)
 router.post('/updateLiveBrodcastRoomId', authenticateHotel, updateLiveBrodcastRoomId)
+router.post('/fetchLiveOrders',authenticateHotel,fetchLiveOrders)
+router.post ('/acceptOrder',authenticateHotel,acceptOrder)
+router.post ('/rejectOrder',authenticateHotel,rejectOrder)
 
 router.post('/addPost', (req,res)=>{
     console.log("add post");

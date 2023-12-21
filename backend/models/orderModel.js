@@ -46,6 +46,10 @@ const orderSchema = new mongoose.Schema({
     },
     price: {
       type: Number
+    },
+    store: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
     }
   }],
   
@@ -55,7 +59,7 @@ const orderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['placed', 'pending', 'shipped', 'delivered', 'cancelled', 'return requested', 'returned'],
+    enum: ['placed', 'pending', 'shipped', 'delivered', 'cancelled', 'return requested', 'returned','accepted','rejected'],
     default: 'pending',
   },
   date: {
@@ -71,6 +75,10 @@ const orderSchema = new mongoose.Schema({
       type: Date
     }
   },
+  store: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant',
+  }
   // Add more properties as needed
 });
 

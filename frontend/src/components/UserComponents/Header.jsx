@@ -37,6 +37,7 @@ const Header = () => {
   const [userRegisterPassword, setUserRegisterPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState('')
   const [showRegisterUserModal, setshowRegisterUserModal] = useState(false);
+  const [imageState,setImageState] = useState(false)
 
   const [register, { isLoading }] = useRegisterMutation();
   const [login] = useLoginMutation();
@@ -120,9 +121,9 @@ const Header = () => {
 
     const responseFromApiCall = await register( { userRegisterName, userRegisterEmail, userRegisterPassword, userRegisterMobile } ).unwrap();
 
-    dispatch( setCredentials( { ...responseFromApiCall } ) );
+    // dispatch( setCredentials( { ...responseFromApiCall } ) );
         
-    navigate('/user/home');
+    navigate('/login');
     setshowRegisterUserModal(false)
     }
   }
@@ -139,13 +140,18 @@ const submitHandler = async (e) => {
   e.preventDefault();
 
   try {
-    navigate('/user/home');
+    // navigate('/user/home');
     const responseFromApiCall = await login( { userEmail, userPassword } ).unwrap();
-
+console.log(responseFromApiCall,"response login")
+if(responseFromApiCall?.verified){
     dispatch( setCredentials( { ...responseFromApiCall } ) );
     setShowLoginUserModal(false)
     
     navigate('/user/home');
+
+}else{
+  toast.error( "Account not Verified" );
+}
 
   }catch(err){
 
@@ -278,12 +284,19 @@ const submitHandler = async (e) => {
           confirmPassword={confirmPassword}
           setConfirmPassword={setConfirmPassword}
           submitHandler={submitHandler}
+          userEmail={userEmail}
+           setUserEmail={setUserEmail}
+           userPassword={userPassword}
+            setUserPassword={setUserPassword}
+            imageState={imageState}
+            setImageState={setImageState}
+            
           
         />
       </Suspense>
 
         <>
-         {userInfo ?null:<Image src={imageSrc} className="no-padding" style={{ width: '100%', height: '100%', objectFit: 'cover' }} fluid />} 
+         {(userInfo || imageState) ?null:<Image src={imageSrc} className="no-padding" style={{ width: '100%', height: '100%', objectFit: 'cover' }} fluid />} 
         </>
       </div>
     </>

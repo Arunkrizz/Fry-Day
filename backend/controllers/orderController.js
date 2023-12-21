@@ -1,59 +1,45 @@
 import asyncHandler from 'express-async-handler';
-import {getCartProductList,getTotal,placeOrder} from '../utils/Helpers/orderHelper.js';
+import { getCartProductList, getTotal, placeOrder } from '../utils/Helpers/orderHelper.js';
 
 
+
+const checkOut = asyncHandler(async (req, res) => {
+  try {
+    const user = req.user
+
+    let products = await getCartProductList(req.user._id)
+
+    let uniqueStoreIds = new Set(products.map(product => product.item.stores.toString()));
+    const productsForStores = [];
+
+    // Iterate over unique store IDs and filter products for each store
+    uniqueStoreIds.forEach(storeId => {
+
+      const productsForStore = products.filter(product => product.item.stores.toString() === storeId);
+      productsForStores.push(productsForStore);
+    });
+
+    let totalPrice = await getTotal(req.user._id)
+    await placeOrder(req.body, products, totalPrice, user._id, user.name, productsForStores).then(async (orderId) => {
+      console.log(orderId, "ord Id o-c chkout");  
+
+
+      if (req.body.paymentMethod == 'cod') {
+
+        res.json({ orderId: orderId })
+      }
  
-const checkOut =async (req,res)=>{
-    try { 
-      // const walletAmount= await walletHelper.getWalletBalance(req.session.user._id)
-    //   const couponDiscount = parseInt(req.body.couponDiscount)
-      console.log(req.body,"in checkout o-c");
-    //  const couponCode=req.body?.couponCode
-    //  const userId =req.session.user._id
-    //  console.log(couponCode,"coupon code");
-    //  const ifCouponUsed= await userHelper.addCouponToUser(couponCode, userId);
-      const user=req.user
-    //   const totalAmt= (req.body.total)
 
-      let products=await getCartProductList(req.user._id)
-
-      // console.log(products,"in checkout u-c");
-
-      let totalPrice= await getTotal(req.user._id)
-
-    //   totalPrice=totalPrice-couponDiscount
-
-      // if (req.body.walletUsed==='true'){
-      //   console.log("in if ",totalPrice,"kk", walletAmount,"kk");
-      //   totalPrice=totalPrice-walletAmount
-      // }
-    //   console.log(totalPrice,"in checkout u-c",totalAmt,"hhh");
-    //   let deliveryAddress= await userHelper.fetchPrimaryAddress(req.session.user._id,req.body.addressId)
-      // console.log(req.body,"deliverydetails /checkoutt");
-      // await userHelper.addAddress(req.body,user._id)
-      await placeOrder(deliveryAddress,req.body,products,totalPrice,user._id,user.name).then (async  (orderId)=>{
-        console.log(orderId,"ord Id o-c chkout"); 
-        if(req.body['paymentMethod']=='COD'){
-          
-          res.json({checkoutcomplete:true})
-        }
-        // else {
-        //  await orderHelper.generateRazorpay(orderId,totalAmt).then( (response)=>{
-        //     console.log(totalAmt,"!==",totalPrice);
-        //     if(totalAmt!==totalPrice){
-        //       walletHelper.reduceWalletBalance(req.session.user._id,totalPrice)
-        //     }
-        //     res.json(response) 
-        //   }).catch((error)=>{
-        //     console.log(error,"ERr");
-        //   })
-        // }
-    
-      }).catch((error)=>{
-        console.log(error);
-      })
-      console.log("here");
-    } catch (error) {
+    }).catch((error) => {
       console.log(error);
-    }
-    }
+    })
+    console.log("here");
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+export {
+  checkOut,
+
+}

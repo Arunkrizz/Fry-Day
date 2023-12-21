@@ -42,7 +42,7 @@ const LoginScreen = () => {
 
     try {
       
-      const responseFromApiCall = await login( { email, password } ).unwrap();
+      // const responseFromApiCall = await login( { email, password } ).unwrap();
 
       dispatch( setCredentials( { ...responseFromApiCall } ) );
       

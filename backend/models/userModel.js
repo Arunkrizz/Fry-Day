@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema({
      
     },
     profileImageName: {
-        type: String
+        type: String,
+        default:"https://cdn-icons-png.freepik.com/128/149/149071.png"
     },
     mobile:{
         type:Number
@@ -26,6 +27,10 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verified:{
+        type:Boolean,
+        default:false
+    }
 
 },{
 

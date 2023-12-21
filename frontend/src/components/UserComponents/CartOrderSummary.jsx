@@ -10,10 +10,22 @@ import {
 } from '@chakra-ui/react'
 import { FaArrowRight } from 'react-icons/fa'
 import { formatPrice } from './PriceTag'
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState,useEffect } from 'react';
+import axios from 'axios'
 const AddressModal = lazy(() => import('./DeliveryAddressModal'));
+import { useNavigate } from 'react-router-dom';
+import io from 'socket.io-client'
+
+const ENDPOINT = "http://localhost:5000"
+let socket,orderPlaced;
+
 
 const OrderSummaryItem = (props) => {
+
+  useEffect(()=>{
+    socket = io(ENDPOINT)
+ },[])
+
   const { label, value, children } = props
   return (
     <Flex justify="space-between" fontSize="sm">
@@ -28,9 +40,21 @@ const OrderSummaryItem = (props) => {
 export const CartOrderSummary = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [showDeliveryAddressModal, setShowDeliveryAddressModal] = useState(false)
+  const navigate =useNavigate()
 
-  const addressSubmitHandler = (data) => {
-    console.log(data.pincode,"addresssubhndler");
+  const checkoutSubmitHandler = (formData) => {
+    try {
+      console.log(formData.getAll('name'));
+      axios.post('/api/users/checkout',formData).then((response)=>{
+        console.log(response.data.orderId,"response aftr checkout ")
+        socket.emit("orderPlaced", { orderPlaced: response.data.orderId });
+        navigate('/user/home')
+        
+      })
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   return (
@@ -72,7 +96,7 @@ export const CartOrderSummary = (props) => {
        { showDeliveryAddressModal&&<AddressModal
           showDeliveryAddressModal={showDeliveryAddressModal}
           setShowDeliveryAddressModal={setShowDeliveryAddressModal}
-          submitHandler={addressSubmitHandler}
+          submitHandler={checkoutSubmitHandler}
            isOpen={isOpen}
             onOpen={onOpen}
              onClose={onClose} 

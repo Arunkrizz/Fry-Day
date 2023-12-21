@@ -97,6 +97,6 @@ export const multerUploadProductImages = multer({
 
 export const multerUploadPostImages = multer({
   storage: postImageStorage,
-  fileFilter: fileFilter,
-  limits: { fileSize: 1024 * 1024 * 5 }
+  // fileFilter: fileFilter,
+  // limits: { fileSize: 1024 * 1024 * 5 }
 }).array('images', 3) 

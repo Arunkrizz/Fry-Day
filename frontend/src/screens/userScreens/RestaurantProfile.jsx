@@ -27,7 +27,7 @@ function RestaurantProfile({setLocation}) {
       }
     }
     fetchProducts()
-  },[])
+  },[viewHotel])
 
   useEffect(()=>{
     const fetchHotelDetail =async ()=>{

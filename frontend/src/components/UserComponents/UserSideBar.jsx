@@ -1,11 +1,11 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../../slices/userApiSlice.js';
 import { logout } from '../../slices/authSlice.js';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import SearchDrawer from './SearchDrawer.jsx';
 
 import { PROFILE_IMAGE_DIR_PATH } from "../../utils/constants";
 
@@ -36,6 +36,7 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiSearch
 } from 'react-icons/fi';
 
 
@@ -45,7 +46,7 @@ const LinkItems = [
   { name: 'Trending', icon: FiTrendingUp,path: '/user/home'  },
   { name: 'Messages', icon: FiCompass,path: '/user/chat' },
   { name: 'Cart', icon: FiShoppingCart,path: '/user/cart'  },
-  { name: 'Settings', icon: FiSettings ,path: '/user/home' },
+  // { name: 'Settings', icon: FiSettings ,path: '/user/home' },
 ];
 
 
@@ -83,6 +84,10 @@ export default AdminHeader
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const navigate = useNavigate()
+  const [showSearchBar,setShowSearchBar] = useState(false)
+  
+
+
     return (
       <Box
         transition="3s ease"
@@ -101,7 +106,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
 
-       
+        <NavItem  icon={FiSearch} onClick={()=>{
+          setShowSearchBar(true)
+          
+        }}>
+            <SearchDrawer />
+          </NavItem>
+         
+        
         {LinkItems.map((link) => (
           //  <Link key={link.name} to={link.path}>
            <NavItem key={link.name} icon={link.icon} onClick={()=>{navigate(link.path)}}>
@@ -110,6 +122,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
           //  </Link>
          
         ))}
+
+          
+        
       </Box>
     );
   };

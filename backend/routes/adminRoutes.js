@@ -22,7 +22,8 @@ import {
     getAllHotels,
     updateHotelStatus,
     block_UnblockUser,
-    
+    showReportedPosts,
+    removeReportedPost
 
 } from '../controllers/adminController.js';
 
@@ -75,6 +76,10 @@ router.put('/unListCategory', authenticateAdmin, unListCategoryData);
 router.put('/reListCategory', authenticateAdmin, reListCategoryData);
 
 router.put('/block_UnblockUser',authenticateAdmin,block_UnblockUser)
+
+router.get('/reportedPosts', authenticateAdmin, showReportedPosts);
+
+router.put('/removeReportedPost', authenticateAdmin, removeReportedPost);
 
 
 

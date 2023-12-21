@@ -168,10 +168,28 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             })
 
         }),
+        getReportedPosts: builder.mutation({
+            
+            query: () => ({
+                url: '/api/admin/reportedPosts',
+                method: 'GET'
+            })
+
+        }),
+        removeReportedPost: builder.mutation({
+            
+            query: (data) => ({
+                url: '/api/admin/removeReportedPost',
+                method: 'PUT',
+                body: data
+            })
+
+        }),
 
     })
 
 })
+
 
 
 export const {
@@ -192,6 +210,8 @@ export const {
     useReListCategoryByAdminMutation,
     useGetCategoriesDataMutation,
     useBlockUnblockUserMutation,
+    useGetReportedPostsMutation,
+    useRemoveReportedPostMutation,
     
 
 } = adminApiSlice;
