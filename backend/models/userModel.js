@@ -30,7 +30,38 @@ const userSchema = mongoose.Schema({
     verified:{
         type:Boolean,
         default:false
-    }
+    },
+    address: {
+        // Define the address properties directly here
+        
+        
+      
+        name: {
+            type: String,
+            
+          },
+          streetName: {
+            type: String,
+            
+          },
+          locality: {
+            type: String,
+            
+          },
+          mobile: {
+            type: String,
+           
+          },
+          longitude: {
+            type: String,
+          
+          },
+          latitude: {
+            type: String,
+            
+          },
+
+      },
 
 },{
 

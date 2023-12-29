@@ -6,11 +6,11 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    address: {
+    streetName: {
       type: String,
       required: true,
     },
-    pincode: {
+    locality: {
       type: String,
       required: true,
     },
@@ -18,6 +18,14 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    latitude:{
+      type:String,
+      required:true
+    },
+    longitude:{
+      type:String,
+      required:true
+    }
 
   },
   userName: {

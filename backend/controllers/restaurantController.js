@@ -254,10 +254,16 @@ const updateLiveBrodcastRoomId =asyncHandler(async(req,res)=>{
 })
 
 const fetchLiveOrders = asyncHandler(async(req,res)=>{
+    // console.log("fetch live","liveorders")
     const liveOrders =await Order.find({store:req.hotel._id,status:"placed"}).populate("products.product")
 
-    // console.log("fetch live",liveOrders,"liveorders")
-    res.status(200).json({liveOrders})
+   
+    if(liveOrders){
+        res.status(200).json({liveOrders})
+    }else{
+        res.status(200).json("no Orders")
+    }
+    
 })
 
 const acceptOrder=asyncHandler(async(req,res)=>{
@@ -270,6 +276,32 @@ const rejectOrder= asyncHandler(async(req,res)=>{
     console.log(req.body,"accpt order")
 })
 
+const fetchAcceptedOrders=asyncHandler(async(req,res)=>{
+    const acceptedOrders =await Order.find({store:req.hotel._id,status:"accepted"}).sort({date:-1}).populate("products.product")
+
+    // console.log("fetch live",liveOrders,"liveorders")
+    res.status(200).json({acceptedOrders})
+})
+
+const shipOrder =asyncHandler(async(req,res)=>{
+    await Order.findOneAndUpdate({_id:req.body.orderId},{$set:{status:'shipped'}}).then(()=>{
+        res.status(200).json("success")
+    })
+    // console.log(req.body,"ship order");
+})
+
+const fetchAllOrders =asyncHandler(async (req,res)=>{
+    const orders = await Order.find({store:req.hotel._id})
+    .sort({ date: -1 })
+    .populate("store")
+    .populate("products.product")
+  
+    if(orders){
+    res.status(200).json(orders)
+    }
+    // console.log(orders,"orders fetch")
+  })
+
 export {
 
     register,
@@ -279,6 +311,9 @@ export {
     updateLiveBrodcastRoomId,
     fetchLiveOrders,
     acceptOrder,
-    rejectOrder
+    rejectOrder,
+    fetchAcceptedOrders,
+    shipOrder,
+    fetchAllOrders
 
 };

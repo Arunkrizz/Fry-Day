@@ -15,7 +15,10 @@ import {
     updateLiveBrodcastRoomId,
     fetchLiveOrders,
     acceptOrder,
-    rejectOrder
+    rejectOrder,
+    fetchAcceptedOrders,
+    shipOrder,
+    fetchAllOrders
 } from '../controllers/restaurantController.js'; 
 
 import {
@@ -64,6 +67,10 @@ router.post('/updateLiveBrodcastRoomId', authenticateHotel, updateLiveBrodcastRo
 router.post('/fetchLiveOrders',authenticateHotel,fetchLiveOrders)
 router.post ('/acceptOrder',authenticateHotel,acceptOrder)
 router.post ('/rejectOrder',authenticateHotel,rejectOrder)
+router.post('/fetchAcceptedOrders',authenticateHotel,fetchAcceptedOrders)
+router.post ('/shipOrder',authenticateHotel,shipOrder)
+router.get('/fetchAllOrders',authenticateHotel,fetchAllOrders)
+
 
 router.post('/addPost', (req,res)=>{
     console.log("add post");

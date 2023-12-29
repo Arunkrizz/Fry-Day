@@ -8,6 +8,8 @@ import RestaurantList from '../../components/RestaurantComponents/RestaurantList
 import MapRestaurant from '../../components/RestaurantComponents/MapRestaurant';
 import { useLocation } from 'react-router-dom';
 import OrderUpdates from './OrderUpdates'
+import AllOrderScreen from '../../screens/RestaurantScreens/AllOrderScreen.jsx';
+
 
 // import { useHistory } from 'react-router-dom';
 
@@ -22,60 +24,60 @@ function Homescreen() {
   const locations = useLocation()
 
 
-  // const onClickHandler_ = (location) => {
+  const onClickHandler_ = (location) => {
 
-  //   setRestaurantPosition(location);
-  //   console.log("set res pos ",restaurantPosition);
+    setRestaurantPosition(location);
+    console.log("set res pos ",restaurantPosition);
 
-  //   function haversineDistance(lat1, lon1, lat2, lon2) {
-  //     // Radius of the Earth in kilometers
-  //     var R = 6371;
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      // Radius of the Earth in kilometers
+      var R = 6371;
   
-  //     // Convert latitude and longitude from degrees to radians
-  //     var dLat = (lat2 - lat1) * (Math.PI / 180);
-  //     var dLon = (lon2 - lon1) * (Math.PI / 180);
+      // Convert latitude and longitude from degrees to radians
+      var dLat = (lat2 - lat1) * (Math.PI / 180);
+      var dLon = (lon2 - lon1) * (Math.PI / 180);
   
-  //     var a =
-  //         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  //         Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-  //         Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
   
-  //     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   
-  //     // Distance in kilometers
-  //     var distance = R * c;
+      // Distance in kilometers
+      var distance = R * c;
   
-  //     return distance;
-  // }
+      return distance;
+  }
   
-  // // Example coordinates for a reference point (e.g., your location)
-  // var referenceLatitude = 40.7128;
-  // var referenceLongitude = -74.0060;
+  // Example coordinates for a reference point (e.g., your location)
+  var referenceLatitude = 40.7128;
+  var referenceLongitude = -74.0060;
   
-  // // Example coordinates for the location to check
-  // var checkLatitude = 40.7306;
-  // var checkLongitude = -73.935242;
+  // Example coordinates for the location to check
+  var checkLatitude = 40.7306;
+  var checkLongitude = -73.935242;
   
-  // // Set a threshold distance (in kilometers) for what you consider "near"
-  // var thresholdDistance = 10; // Adjust as needed
+  // Set a threshold distance (in kilometers) for what you consider "near"
+  var thresholdDistance = 10; // Adjust as needed
   
-  // // Calculate the distance between the two points
-  // // var distance = haversineDistance(referenceLatitude, referenceLongitude, checkLatitude, checkLongitude);
-  // var distance = haversineDistance(userPosition.lat, userPosition.lng, 9.9185, 76.2558);
+  // Calculate the distance between the two points
+  // var distance = haversineDistance(referenceLatitude, referenceLongitude, checkLatitude, checkLongitude);
+  var distance = haversineDistance(userPosition.lat, userPosition.lng, 9.9185, 76.2558);
 
   
-  // // Check if the distance is within the threshold
-  // if (distance <= thresholdDistance) {
-  //     console.log(distance,'The location is near.');
-  // } else {
-  //     console.log(distance,'The location is not near.');
-  // }
+  // Check if the distance is within the threshold
+  if (distance <= thresholdDistance) {
+      console.log(distance,'The location is near.');
+  } else {
+      console.log(distance,'The location is not near.');
+  }
   
-  // };
+  };
 
-  // // const apikey = 'agtxtV1U5cHR0CyPXPKSkQEKnELuWU97-SVp2oCym9k'
+  // const apikey = 'agtxtV1U5cHR0CyPXPKSkQEKnELuWU97-SVp2oCym9k'
 
-  // const userPosition = { lat: 64.1472, lng: -21.9398 };
+  const userPosition = { lat: 64.1472, lng: -21.9398 };
 
   const restaurantList = [
     {
@@ -134,7 +136,11 @@ function Homescreen() {
      <MapRestaurant/>
       </>
        
-     } else {
+     } 
+     else if(location === '/hotel/home/allOrders'){
+      return<AllOrderScreen/>
+      }
+     else {
         return <div>Invalid URL</div>;
       }
     }
@@ -156,10 +162,11 @@ function Homescreen() {
   //  }
   return (
     <div style={{ display: 'flex' }}>
-      {/* <SideBar setLocation={setLocation} style={{ flex: 1 }}/> */}
-     < RestaurantSideBar  setLocation={setLocation}/>
+    <RestaurantSideBar setLocation={setLocation} style={{ flex: '0 0 auto' }} />
+    <div style={{ flex: '1', display: 'flex', justifyContent: 'center' }}>
       {component}
     </div>
+  </div>
 
   )
 }

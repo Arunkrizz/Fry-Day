@@ -46,9 +46,10 @@ export const CartOrderSummary = (props) => {
     try {
       console.log(formData.getAll('name'));
       axios.post('/api/users/checkout',formData).then((response)=>{
-        console.log(response.data.orderId,"response aftr checkout ")
+        // console.log(response.data.orderId,"response aftr checkout ")
         socket.emit("orderPlaced", { orderPlaced: response.data.orderId });
-        navigate('/user/home')
+        
+        navigate('/user/myOrders')
         
       })
     } catch (error) {

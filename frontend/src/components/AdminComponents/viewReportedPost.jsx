@@ -35,7 +35,7 @@ const handleRemoveConfirmations=()=>{
             marginBottom: "10px",
           }}
         /> 
-    {console.log(post)}
+    {/* {console.log(post)} */}
     </Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={() =>setShowViewPost(false)}>

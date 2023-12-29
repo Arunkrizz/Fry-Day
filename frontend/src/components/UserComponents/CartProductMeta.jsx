@@ -13,7 +13,7 @@ import {
   export const CartProductMeta = (props) => {
     const { isGiftWrapping = true, image, name, description } = props
     return (
-      <Stack direction="row" spacing="5" width="full">
+      <Stack direction="row" spacing="5"   minW="400" >
         <Image
           rounded="lg"
           width="120px"

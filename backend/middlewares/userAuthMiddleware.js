@@ -30,12 +30,12 @@ const checkRefreshToken = async (refreshToken) => {
 
 
 const authenticateUser = asyncHandler(async (req, res, next) => {
-    // console.log('authenticateUser');
+    console.log('authenticateUser');
 
     const tokenFromRequest = req.cookies.userJwt;
 
     if (tokenFromRequest) {
-
+        // console.log('tokenFromRequest authenticateUser');
         try {
 
             // Decode the jwt token using the secret key in the server
@@ -45,6 +45,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
             const requestUser = await User.findById(decodedTokenData.userId).select('-password');
 
             if (requestUser) {
+                // console.log('requestUser authenticateUser');
 
                 if (requestUser.is_blocked) {
                     console.log("blocked user");
@@ -62,7 +63,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
             }
 
         } catch (error) {
-            // console.log("error jwt");
+            console.log("error jwt");
             if (error.name === 'TokenExpiredError') {
                 const refreshToken = req.cookies.userRefreshToken;
                 if (refreshToken) {

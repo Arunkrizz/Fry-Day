@@ -124,6 +124,12 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
                 body: {data}
             })
         }),
+        fetchAllOrders: builder.mutation({
+            query: () => ({
+                url: `${HOTEL_URL}/fetchAllOrders`,
+                method: 'GET'
+            })
+        }),
     
     })
 })
@@ -148,7 +154,7 @@ export const {
     useDeleteNotificationsMutation,
     useReadMessagesUpdatesMutation,
     useMarkAsReadUpdatesMutation,
-   
+   useFetchAllOrdersMutation
 
 
             } = hotelApiSlice;

@@ -13,33 +13,23 @@ import React,{ useState } from 'react'
 import axios from 'axios'
 
 
-function OrderViewModal({ isOpen, onOpen, onClose,order,refetchLiveOrders, setRefetchLiveOrders,refetchAcceptedOrders,setRefetchAcceptedOrders }) {
+function ShipOrderViewModal({ isOpen, onOpen, onClose,order,refetchAcceptedOrders, setRefetchAcceptedOrders }) {
     // const { isOpen, onOpen, onClose } = useDisclosure()
     const [scrollBehavior, setScrollBehavior] = useState('outside')
 
-    const acceptOrder=(order)=>{
+    const shipOrder=(order)=>{
         try {
-            axios.post('/api/hotel/acceptOrder',
+            axios.post('/api/hotel/shipOrder',
             {orderId:order.order._id}).then(()=>{
-              // setRefetchAcceptedOrders(!refetchAcceptedOrders)
-              // setRefetchLiveOrders(!refetchLiveOrders)
+                setRefetchAcceptedOrders(!refetchAcceptedOrders)
+                
             })
             // console.log(order.order._id,"accpt order")
         } catch (error) {
             console.log("order accept error",error)
         }
     }
-    const rejectOrder=(order)=>{
-        try {
-            axios.post('/api/hotel/rejectOrder',
-            {orderId:order.order._id}).then(()=>{
-              setRefetchLiveOrders(!refetchLiveOrders)
-            })
-            // console.log(order.order._id,"accpt order")
-        } catch (error) {
-            console.log("order accept error",error)
-        }
-    }
+ 
   
     const btnRef = React.useRef(null)
     return (
@@ -64,14 +54,14 @@ function OrderViewModal({ isOpen, onOpen, onClose,order,refetchLiveOrders, setRe
               {/* <Lorem count={15} /> */}
               
              {order?.products?.map((product,index)=>(
-             <div>
+             <>
              <div style={{display:"flex"}}>
                 <h5 style={{marginRight:"5px"}}>Product:</h5>
                 <h5>{product.product.title} </h5>
                 <p style={{color:"red"}}>x{product.quantity}</p>
                 </div>
                 
-                </div>
+                </>
               ))
               }
               <h4>Total:₹{order?.totalAmount} </h4>
@@ -85,16 +75,10 @@ function OrderViewModal({ isOpen, onOpen, onClose,order,refetchLiveOrders, setRe
             <ModalFooter>
             <Button onClick={()=>{
                 onClose()
-                acceptOrder({order})
-                setRefetchLiveOrders(!refetchLiveOrders)
-                setRefetchAcceptedOrders(!refetchAcceptedOrders)
-                }} mr={4} >Accept</Button>
-              <Button onClick={()=>{
-                onClose()
-                rejectOrder({order})
-                setRefetchLiveOrders(!refetchLiveOrders)
-                }}
-                color={"red"} >Reject</Button>
+                 shipOrder({order})
+               
+                }} mr={4} >Ship to customer</Button>
+            
             </ModalFooter>
           </ModalContent>
         </Modal>
@@ -102,4 +86,4 @@ function OrderViewModal({ isOpen, onOpen, onClose,order,refetchLiveOrders, setRe
     )
   }
 
-  export default OrderViewModal
+  export default ShipOrderViewModal

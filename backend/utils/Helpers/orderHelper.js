@@ -95,15 +95,17 @@ const createOrder =async (products)=>{
                  quantity: product.quantity,
                  price:product.price,
                  store:product.item.stores,
-             };
+             }
          }); 
-console.log(productsWithQuantity,"pwithq")
+console.log(details,"pwithq")
          let orderObj = {
              deliveryDetails: {
                  name: details.name,
-                 address: details.address,
-                 pincode: details.pincode,
+                 streetName: details.address,
+                 locality: details.locality,
                  mobile: details.mobile,
+                 latitude:details.latitude,
+                 longitude:details.longitude
              },
              userName: userName,
              userId: user_Id,

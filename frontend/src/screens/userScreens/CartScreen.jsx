@@ -84,13 +84,7 @@ const removeProduct =(cartId,proId)=>{
 }
 }
 
-const checkout = ()=>{
-  try {
-    
-  } catch (error) {
-    console.log("error",error);
-  }
-}
+
 
 
 
@@ -144,7 +138,7 @@ const checkout = ()=>{
       </Stack>
 
       <Flex direction="column" align="center" flex="1">
-        <CartOrderSummary cartItems={cartItems} total={total} />
+        {cartItems.length!==0 && <CartOrderSummary cartItems={cartItems} total={total} />}
         {/* <HStack mt="6" fontWeight="semibold">
           <p>or</p>
           <Link color={mode('blue.500', 'blue.200')}>Continue shopping</Link>

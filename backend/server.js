@@ -192,7 +192,17 @@ import ("socket.io").then((socketIO)=>{
            })
 
 
+           //when an order is cancelled by user 
+
+           socket.on('cancelOrder',(storeId)=>{
+            console.log(storeId,"in cacel sokeet");
+            socket.in(storeId).emit('orderUpdate')
+           })
+
+
     })
+
+    
 }).catch((err)=>{
     console.log("error importing socket io",err); 
 })

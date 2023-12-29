@@ -9,6 +9,8 @@ import { getSender } from "../config/chatLogics"
 import { BellIcon, Icon } from "@chakra-ui/icons";
 import NotificationBadge from 'react-notification-badge'
 import { Effect } from "react-notification-badge"
+import { format } from 'date-fns';
+
 
 const ChatList = () => {
   //   const { userInfo } = useSelector((state) => state.userAuth);
@@ -155,6 +157,10 @@ const ChatList = () => {
                       </Box> : ""}
                       {/* {getSender(userId, chats[0].users,chats[0].restaurants)} */}
                     </Text>
+                    <small style={{ color: "black", display:"flex" }}>
+              {!(selectedChat?._id === chat?._id)&&chat.latestMessage.content}
+              <p style={{marginLeft:"5px", color: "gray"}}>{format(new Date(chat.latestMessage.createdAt), "h:mm a")}</p>
+              </small>
 
                   </Box>
                 ))}

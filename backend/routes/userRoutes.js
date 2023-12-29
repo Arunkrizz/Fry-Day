@@ -32,7 +32,9 @@ import {
     unlikePost,
     commentPost,
     commentDelete,
-    reportPost
+    reportPost,
+    changeAddress,
+    
 } from '../controllers/userController.js';
 
 import {
@@ -59,7 +61,9 @@ import {
  } from '../controllers/cartController.js';
 
  import {
-    checkOut
+    checkOut,
+    fetchAllOrders,
+    cancelOrder
  } from '../controllers/orderController.js'
 
 import { multerUploadUserProfile } from '../config/multerConfig.js';
@@ -93,6 +97,8 @@ router.put('/getHotelDetails',authenticateUser,getHotelDetails)
 
 router.route('/profile').get( authenticateUser, getUserProfile ).put( authenticateUser, multerUploadUserProfile.single('profileImage'), updateUserProfile );
 
+router.post('/changeAddress',authenticateUser,fileUpload(),changeAddress)
+
 router.post('/accessChat', authenticateUser, accessChat)
 router.get('/fetchChats', authenticateUser, fetchChats)
 router.post('/sendMessage', authenticateUser, sendMessage)
@@ -118,6 +124,9 @@ router.delete('/unlikePost/:postId', authenticateUser, unlikePost)
 router.post('/commentPost/:postId', authenticateUser, commentPost)
 router.delete('/commentDelete/:postId', authenticateUser, commentDelete)
 router.post('/reportPost', authenticateUser, reportPost);
+router.get('/fetchAllOrders',authenticateUser,fetchAllOrders)
+router.put('/cancelOrder/:id',authenticateUser,cancelOrder)
+
 
 
 router.put('/checkBlock',authenticateUser, checkBlock)

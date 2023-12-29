@@ -226,6 +226,9 @@ if(responseFromApiCall?.verified){
                       <LinkContainer to='/profile'>
                         <NavDropdown.Item> Profile </NavDropdown.Item>
                       </LinkContainer>
+                      <LinkContainer to='/user/myOrders'>
+                        <NavDropdown.Item> My orders </NavDropdown.Item>
+                      </LinkContainer>
 
                       <NavDropdown.Item onClick={logOutHandler} > Logout </NavDropdown.Item>
 

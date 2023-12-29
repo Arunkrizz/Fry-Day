@@ -18,10 +18,14 @@ import { log } from 'util';
 
 
 const getUserViewPosts = asyncHandler(async (req,res)=>{
-    // console.log("viewwww")
-
+    console.log(req.body,"viewwww")
+    const { offset = 0, limit = 1 } = req.body;
     // const Post = await Posts.find({})
-    const Post = await Posts.find({isRemoved:false}).sort({ dateListed: -1 }).populate("likes");
+    const Post = await Posts.find({isRemoved:false})
+    .sort({ dateListed: -1 })
+    .skip(offset) // Apply pagination using skip
+    .limit(limit)
+    .populate("likes")
 
     if(Post){
 
@@ -81,8 +85,34 @@ console.log(req.body,"login auth ");
             name: user.name,
             email: user.email,
             id:user._id,
-            verified:user.verified
+            verified:user.verified,
+            address:{
+                    name:user.address.name,
+                    streetName:user.address.streetName,
+                    locality:user.address.locality,
+                    mobile:user.address.mobile,
+                    latitude:user.address.latitude,
+                    longitude:user.address.longitude,
+            }
         }
+
+
+        // if needed use this in return
+
+        // id: updatedUserData._id,
+        // name: updatedUserData.name,
+        // email: updatedUserData.email,
+        // profileImageName: updatedUserData.profileImageName,
+        // address:{
+        //     name:updatedUserData.address.name,
+        //     streetName:updatedUserData.address.streetName,
+        //     locality:updatedUserData.address.locality,
+        //     mobile:updatedUserData.address.mobile,
+        //     latitude:updatedUserData.address.latitude,
+        //     longitude:updatedUserData.address.longitude,
+
+
+
 
         if(user.profileImageName){
 
@@ -142,8 +172,18 @@ const gAuthUser = asyncHandler ( async (req, res) => {
                 name: user.name,
                 email: user.email,
                 id:user._id,
-                verified:true
+                verified:true,
+                address:{
+                    name:user.address.name,
+                    streetName:user.address.streetName,
+                    locality:user.address.locality,
+                    mobile:user.address.mobile,
+                    latitude:user.address.latitude,
+                    longitude:user.address.longitude,
             }
+            }
+
+   
     
             if(user.profileImageName){
     
@@ -198,6 +238,8 @@ const user = await User.create({
     profileImageName: userPicture,
     verified:true
 });
+
+
 
 
 if (user) {
@@ -271,6 +313,8 @@ console.log(req.body,"reg user /")
             email: user.email,
             id:user._id
         }
+
+      
 
         res.status(201).json(registeredUserData);
 
@@ -716,6 +760,63 @@ const reportPost = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Report submitted successfully' })
 })
 
+const changeAddress=asyncHandler(async(req,res)=>{
+
+    console.log(req.body,"change address")
+    // let registeredUserData = {
+    //     name: user.name,
+    //     email: user.email,
+    //     id:user._id,
+    //     verified:user.verified,
+    //     profileImageName:user.profileImageName
+    // }
+
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+    console.log(user,"userrr");
+        // Update the user with new data if found or keep the old data itself.
+        user.address.name = req.body.name || user.address.name
+        user.address.streetName= req.body.streetName || user.address.streetName
+        user.address.locality= req.body.locality || user.address.locality
+        user.address.mobile= req.body.mobile || user.address.mobile
+        user.address.latitude= req.body.latitude || user.address.latitude
+        user.address.longitude= req.body.longitude || user.address.longitude
+
+
+
+    
+
+        const updatedUserData = await user.save();
+
+        // Send the response with updated user data
+        res.status(200).json({
+            id: updatedUserData._id,
+            name: updatedUserData.name,
+            email: updatedUserData.email,
+            profileImageName: updatedUserData.profileImageName,
+            address:{
+                name:updatedUserData.address.name,
+                streetName:updatedUserData.address.streetName,
+                locality:updatedUserData.address.locality,
+                mobile:updatedUserData.address.mobile,
+                latitude:updatedUserData.address.latitude,
+                longitude:updatedUserData.address.longitude,
+            }
+
+        });
+
+    } else {
+
+        res.status(404);
+
+        throw new Error("Requested User not found.");
+
+    };
+})
+
+
+
 
 export {
 
@@ -741,6 +842,7 @@ export {
     unlikePost,
     commentPost,
     commentDelete,
-    reportPost
+    reportPost,
+    changeAddress
 
 };

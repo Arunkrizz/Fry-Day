@@ -238,6 +238,25 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             })
         }),
+        changeAddress: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/changeAddress`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        fetchAllOrders: builder.mutation({
+            query: () => ({
+                url: `${USERS_URL}/fetchAllOrders`,
+                method: 'GET'
+            })
+        }),
+        cancelOrder: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/cancelOrder/${data}`,
+                method: 'PUT'
+            })
+        }),
 
     })
 
@@ -272,8 +291,9 @@ export const {
     useUnlikePostMutation,
     useCommentPostMutation,
     useCommentDeleteMutation,
-    useReportPostMutation
-
-
+    useReportPostMutation,
+    useChangeAddressMutation,
+    useFetchAllOrdersMutation,
+    useCancelOrderMutation
 
 } = usersApiSlice;

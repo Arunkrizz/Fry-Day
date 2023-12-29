@@ -103,13 +103,12 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
 
 
   const handleCommentPost = (postId, addedComment) => {
-    console.log(post.post.comments, "added post ");
-    // const updatedPosts =
-
-    //      { ...post, comments: [...post.comments, addedComment] }
-
-    // setPost(updatedPosts);
-    setPostRefresh(!postRefresh)
+    // console.log(post.post,"poster");
+    const updatedPosts =
+    post.post.comments=[... post.post.comments,addedComment]
+   
+// setPost(...updatedPosts);
+    // setPostRefresh(!postRefresh)
 
     if (addedComment) {
       toast({
@@ -130,7 +129,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
     }
     // Find the post based on postId
     // const postDetails = post.find((post) => post._id === postId);
-    console.log(post.post, "p-p");
+    // console.log(post.post, "p-p");
     setCommentModalPost(post.post);
     onOpenCommentsModal();
   };
@@ -174,7 +173,9 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
 
   }
 
-  const imageUrl = POST_IMAGE_DIR_PATH + post.post.images[0]
+  const imageUrl = POST_IMAGE_DIR_PATH + post?.post?.images[0]
+  // const imageUrl=""
+
   // console.log(imageUrl,post,"postting")
   return (
 
@@ -250,7 +251,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
                 
               </Button>
               <Text mt={2} textAlign="center" onClick={handleOpenModal} _hover={{ cursor: 'pointer' }}>
-                {post?.post.likes.length>1?post?.post.likes.length+"  Likes":" "} 
+                {post?.post?.likes?.length>1?(post?.post?.likes?.length+"  Likes"):((post?.post?.likes?.length==1)?(post?.post?.likes?.length+" Like"):"")} 
               </Text>
             </Box>
             

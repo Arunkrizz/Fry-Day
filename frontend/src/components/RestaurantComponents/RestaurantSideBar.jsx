@@ -21,7 +21,8 @@ import {
   FiSettings,
   FiMenu,
   FiMessageSquare,
-  FiVideo
+  FiVideo,
+  FiPackage
 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 // import { IconType } from 'react-icons';
@@ -33,6 +34,7 @@ const LinkItems = [
   { name: 'Add Post', icon: FiCompass,path:'/hotel/home/addPost' },
   { name: 'Messages', icon: FiMessageSquare,path: '/hotel/chat'},
   { name: 'Go Live', icon: FiVideo,path: '/hotel/live' },
+  { name: 'All orders', icon: FiPackage,path: '/hotel/home/allOrders' },
 ];
 
 

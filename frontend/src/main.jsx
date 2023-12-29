@@ -20,7 +20,9 @@ import Cart from './screens/userScreens/CartScreen.jsx'
 import EmailVerificationComponent from './components/UserComponents/EmailVerificationComponent.jsx'
 import ForgotPasswordScreen from './screens/userScreens/forgotPasswordScreen.jsx'
 import PasswordOtpVerify from './screens/userScreens/PasswordOtpVerify.jsx'
-
+import UpdateProfileScreen from './screens/userScreens/UpdateProfileScreen.jsx'
+import ManageAddress from './screens/userScreens/ManageAddress.jsx'
+import OrderScreen from './screens/userScreens/OrderScreen.jsx'
 
 //? ==================================== Admin Screens Import ====================================
 import AdminPrivateRoutes from './screens/adminScreens/PrivateRoutes.jsx';
@@ -47,6 +49,7 @@ import HotelChatScreen from './screens/RestaurantScreens/ChatScreen.jsx';
 import LiveScreen from './screens/RestaurantScreens/LiveScreen.jsx';
 import RestaurantPrivateRoutes from './screens/RestaurantScreens/RestaurantPrivateRoutes.jsx'
 import ResetPassword from './screens/userScreens/ResetPasswordScreen.jsx'
+
 const router = createBrowserRouter(
 
   createRoutesFromElements(
@@ -80,11 +83,18 @@ const router = createBrowserRouter(
         
         <Route path='/user/profile' element={ <ProfileScreen /> } />
 
+        <Route path='/user/myOrders' element={ <OrderScreen /> } />
+
+        <Route path='/user/updateProfile' element={<UpdateProfileScreen />}/>
+
+        <Route path='/user/manageAddress' element={<ManageAddress />}/>
+
         <Route index={true} path='/user/home/*' element={ <HomePage /> } />
 
         <Route path='/user/chat' element={<ChatScreen />} />
 
         <Route path='/user/cart' element={<Cart />}/>
+
 
 
 
@@ -111,6 +121,8 @@ const router = createBrowserRouter(
        <Route path='/hotel/home/*' element={ <RestaurantHome/>  } />
 
        <Route path='/hotel/chat' element={ <HotelChatScreen/>  } />
+
+      
 
 
       </Route>

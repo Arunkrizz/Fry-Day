@@ -230,7 +230,9 @@ import { Outlet } from 'react-router-dom';
                 <HStack>
                   <Avatar
                     size="sm"
-                    src={PROFILE_IMAGE_DIR_PATH + userInfo?.profileImageName}
+                    src={(!userInfo?.profileImageName?.startsWith('http')) ? (`${PROFILE_IMAGE_DIR_PATH}${userInfo?.profileImageName}`) : `${userInfo?.profileImageName}`}
+
+                    // src={PROFILE_IMAGE_DIR_PATH + userInfo?.profileImageName}
                   />
                   <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                     <Text fontSize="sm">{userInfo?.name}</Text>
@@ -244,6 +246,9 @@ import { Outlet } from 'react-router-dom';
               <MenuList bg="white" borderColor="gray.200">
                 <LinkContainer to='/user/profile'>
                 <MenuItem>Profile</MenuItem>
+                </LinkContainer>
+                <LinkContainer to='/user/myOrders'>
+                <MenuItem>my orders</MenuItem>
                 </LinkContainer>
                 {/* <MenuItem>Settings</MenuItem>
                 <MenuItem>Billing</MenuItem> */}

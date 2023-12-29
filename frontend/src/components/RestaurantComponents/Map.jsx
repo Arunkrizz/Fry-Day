@@ -16,9 +16,9 @@ const Map = ( props ) => {
    
     useEffect(
     () => {
-      console.log("res pos",restaurantPosition);
+      // console.log("res pos",restaurantPosition);
       if (restaurantPosition) {
-        console.log("res pos",restaurantPosition);
+        console.log("res pos",userPosition,restaurantPosition);
         calculateRoute(platform.current, map.current, userPosition, restaurantPosition);
     }
 
@@ -58,7 +58,7 @@ const Map = ( props ) => {
         }
     
         // Get an instance of the H.service.RoutingService8 service
-        const router = platform.getRoutingService(null, 8);
+        const router = platform?.getRoutingService(null, 8);
     
         // Define the routing service parameters
         const routingParams = {
@@ -68,7 +68,7 @@ const Map = ( props ) => {
             'return': 'polyline'
         };
         // Call the routing service with the defined parameters
-        router.calculateRoute(routingParams, routeResponseHandler, console.error);
+        router?.calculateRoute(routingParams, routeResponseHandler, console.error);
     }
     
 

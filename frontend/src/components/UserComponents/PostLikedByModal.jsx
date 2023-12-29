@@ -15,7 +15,7 @@ const PostLikedByModal = ({ show, handleClose, users }) => {
        
             {/* {console.log(users,"liked modal")} */}
 
-          {users.map((user, index) => (
+          {users?.map((user, index) => (
          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
          <Image
            boxSize="40px"
@@ -31,7 +31,7 @@ const PostLikedByModal = ({ show, handleClose, users }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close Modal
+          Close 
         </Button>
       </Modal.Footer>
     </Modal>

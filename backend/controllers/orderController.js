@@ -1,10 +1,11 @@
 import asyncHandler from 'express-async-handler';
 import { getCartProductList, getTotal, placeOrder } from '../utils/Helpers/orderHelper.js';
+import Order from '../models/orderModel.js';
 
 
-
-const checkOut = asyncHandler(async (req, res) => {
-  try {
+ 
+const checkOut = asyncHandler(async (req, res) => {  
+  try { 
     const user = req.user
 
     let products = await getCartProductList(req.user._id)
@@ -39,7 +40,29 @@ const checkOut = asyncHandler(async (req, res) => {
   }
 })
 
+const fetchAllOrders =asyncHandler(async (req,res)=>{
+  const orders = await Order.find({userId:req.user._id})
+  .sort({ date: -1 })
+  .populate("store")
+  .populate("products.product")
+
+  if(orders){
+  res.status(200).json(orders)
+  }
+  // console.log(orders,"orders fetch")
+})
+
+const cancelOrder =asyncHandler(async(req,res)=>{
+
+  console.log('rerer',req.params.id);
+  await Order.findByIdAndUpdate(req.params.id,{$set:{status:"cancelled"}})
+  .then(()=>{
+    res.status(200).json("success")
+  })
+})
+
 export {
   checkOut,
-
+  fetchAllOrders,
+  cancelOrder
 }

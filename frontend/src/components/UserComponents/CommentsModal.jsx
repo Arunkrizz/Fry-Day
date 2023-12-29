@@ -57,11 +57,12 @@ import {
           postId: post._id,
           text: newComment,
         });
-        console.log(response,"response");
+        // console.log(response,"response");
         const addedComment = response?.data.comment;
         setComments([...comments, addedComment]);
         setNewComment('');
-  
+        // setPostRefresh(!postRefresh)
+        // console.error(' adding comment:');
         onCommentPost(post._id, addedComment);
       } catch (error) {
         console.error('Error adding comment:', error);
@@ -101,7 +102,9 @@ import {
         //     post._id === post._id ? { ...post, comments: updatedComments } : post
         // );
         // setPosts(updatedPosts);
-        setPostRefresh(!postRefresh)
+        const updatedPosts =
+    post.comments=[...updatedComments]
+        // setPostRefresh(!postRefresh)
         if (response && response.statusCode === 200) {
             toast.warning("Comment Deleted");
         }
