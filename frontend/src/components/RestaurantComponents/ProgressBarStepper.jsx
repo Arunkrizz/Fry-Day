@@ -11,8 +11,6 @@ import  { ProgressBarContext } from '../../../store/progressBarStore';
 import { useContext } from "react";
 
 
-
-
 const steps = [
   {
     label: "Restaurant Information",
@@ -36,19 +34,6 @@ const steps = [
 export default function VerticalLinearStepper() {
   const { handleNext,handleBack,handleReset,activeStep,setActiveStep } = useContext(ProgressBarContext);
   
-  // const [activeStep, setActiveStep] = React.useState(0);
-
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
-
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-
-  // const handleReset = () => {
-  //   setActiveStep(0);
-  // };
 
   return (
     <Box sx={{ maxWidth: 250 }}>
@@ -70,13 +55,7 @@ export default function VerticalLinearStepper() {
               <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
-                  {/* <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                  </Button> */}
+               
                   <Button
                     disabled={index === 0}
                     onClick={handleBack}

@@ -8,6 +8,8 @@ import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 
+import ErrorPage from './screens/ErrorScreen.jsx';
+import NotFoundPage from './screens/404ErrorScreen.jsx'
 //? ==================================== User Screens Import ====================================
 import PrivateRoutes from './screens/PrivateRoutes.jsx';
 import HomeScreen from './screens/HomeScreen.jsx';
@@ -37,7 +39,6 @@ import AdminRegister from './screens/adminScreens/AdminRegister.jsx';
 import CategoriesManagementScreen from './screens/adminScreens/CategoryManagementScreen.jsx';
 import ReportedPostsScreen from './screens/adminScreens/ReportedPostManagement.jsx';
 
-
 //? ======================================Restaurant Screen imports ===================================
 import RestaurantLandingPage from './screens/RestaurantScreens/LandingPage.jsx'
 import RegistrationScreen from './screens/RestaurantScreens/RegistrationScreen.jsx';
@@ -49,12 +50,17 @@ import HotelChatScreen from './screens/RestaurantScreens/ChatScreen.jsx';
 import LiveScreen from './screens/RestaurantScreens/LiveScreen.jsx';
 import RestaurantPrivateRoutes from './screens/RestaurantScreens/RestaurantPrivateRoutes.jsx'
 import ResetPassword from './screens/userScreens/ResetPasswordScreen.jsx'
+import DashboardRestaurant from './screens/RestaurantScreens/DashboardRestaurant.jsx';
 
 const router = createBrowserRouter(
 
   createRoutesFromElements(
 
     <Route path='/' element={ <App/> } >
+
+<Route path='/error-page' element={<ErrorPage/>} />
+
+<Route path='*' element={<NotFoundPage/>} />
 
       { /* ===================================== User Routes ===================================== */ }
 
@@ -122,7 +128,7 @@ const router = createBrowserRouter(
 
        <Route path='/hotel/chat' element={ <HotelChatScreen/>  } />
 
-      
+       <Route path='/hotel/dashboard' element={ <DashboardRestaurant/>  } />
 
 
       </Route>
@@ -141,6 +147,8 @@ const router = createBrowserRouter(
 
       {/* <Route path='/admin/register' element={ <AdminRegisterScreen /> } /> */}
       <Route path='/admin/register' element={ <AdminRegister /> } />
+
+      <Route path='/admin/error-page' element={<ErrorPage/>} />
 
       {/* ADMIN PRIVATE ROUTES */}
       <Route path='' element={ <AdminPrivateRoutes /> } >

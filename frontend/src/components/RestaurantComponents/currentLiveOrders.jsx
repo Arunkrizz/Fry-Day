@@ -23,11 +23,15 @@ const currentLiveOrders = ({refetchAcceptedOrders,setRefetchAcceptedOrders}) => 
         if (hotelInfo) {
           socket = io(ENDPOINT)
           socket.emit("setupHotel", hotelInfo.hotelInfo._id)
-          socket.on('orderUpdate',()=>{
-            console.log("order up sockt");
-            setRefetchLiveOrders(!refetchLiveOrders)
-          })
+          
         }
+
+        socket.on('orderUpdate',()=>{
+          console.log("order up sockt");
+          fetchLiveOrders()
+          setRefetchLiveOrders(!refetchLiveOrders)
+        })
+
       }, [hotelInfo])
 
 
@@ -47,37 +51,59 @@ const currentLiveOrders = ({refetchAcceptedOrders,setRefetchAcceptedOrders}) => 
     }, [refetchLiveOrders])
     return (
 
-        <div>
-            <Box borderWidth="3px" p="4" borderRadius="md" marginLeft={5} 
-              width="300px"  // Set the desired width
-              >
+    <div>
+    
+      <Box
+        borderWidth="3px"
+        p="4"
+        borderRadius="md"
+        width="300px" // Set the desired width
+        textAlign="center" // Center content inside the box
+      >
       <Text fontSize="xl" fontWeight="bold" mb="4">
         Live Orders
       </Text>
-      <VStack align="start" spacing="2">
+      {liveOrders.length === 0 && <Text  color="gray.500"   >No Orders</Text>}
+
+      <VStack align="start" spacing="4" textAlign="center">
         {liveOrders.map((item, index) => (
-          <Box key={index} borderWidth="1px" p="4" borderRadius="md"  width="250px">
-            {item.products.map((product,index)=>(
-                <Box key ={index} display="flex">
-                <Text  marginRight="4" >{product.product.title}</Text>
+          <Box
+            key={index}
+            borderWidth="1px"
+            p="4"
+            borderRadius="md"
+            width="250px"
+            boxShadow="md"
+          >
+            {item.products.map((product, index) => (
+              <Box key={index} display="flex" justifyContent="space-between">
+                <Text>{product.product.title}</Text>
                 <Text color="red">x{product.quantity}</Text>
-                </Box>
+              </Box>
             ))}
-            <Text>Total:  ₹{item.totalAmount}</Text>
-            <Button  onClick={()=>{
-                onOpen()
-                setOrder(item)
-                setRefetchLiveOrders(!refetchLiveOrders)
-                }}>View</Button>
-            <OrderViewModal setRefetchAcceptedOrders={setRefetchAcceptedOrders} refetchAcceptedOrders={refetchAcceptedOrders} isOpen ={isOpen} onOpen={onOpen} onClose={onClose} order={order} refetchLiveOrders={refetchLiveOrders} setRefetchLiveOrders={setRefetchLiveOrders} />
+            <Text fontWeight="bold" mt="2">
+              Total: ₹{item.totalAmount}
+            </Text>
+            <Button
+              onClick={() => {
+                onOpen();
+                setOrder(item);
+                setRefetchLiveOrders(!refetchLiveOrders);
+              }}
+              mt="3"
+              colorScheme="blue"
+            >
+              View
+            </Button>
+          <OrderViewModal socket={socket} setRefetchAcceptedOrders={setRefetchAcceptedOrders} refetchAcceptedOrders={refetchAcceptedOrders} isOpen ={isOpen} onOpen={onOpen} onClose={onClose} order={order} refetchLiveOrders={refetchLiveOrders} setRefetchLiveOrders={setRefetchLiveOrders} />
+
           </Box>
         ))}
-        {liveOrders.length==0&&<h3>No Orders</h3> }
-
       </VStack>
     </Box>
-        </div>
-
+    
+   
+  </div>
     )
 }
 

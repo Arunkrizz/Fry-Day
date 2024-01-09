@@ -16,15 +16,9 @@ function CheckApiExample() {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [confirmPassword,setConfirmPassword] = useState('')
-
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
-
     const navigate=useNavigate()
-
     const [hotelRegister2] = useHotelRegister2Mutation();
-
-    // console.log(hotelInfo.hotelInfo._id,"redux store")
-
     
   function validatePassword(password) {
     // Define criteria

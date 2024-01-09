@@ -1,10 +1,11 @@
 import multer from "multer";
 import path from "path";
 
-// console.log("multer")
 const storage = multer.diskStorage({
 
-  destination: (req, file, cb) => { cb(null, "backend/Public/UserProfileImages") },
+ 
+
+  destination: (req, file, cb) => { cb(null, "./Public/UserProfileImages") },
 
   filename: (req, file, cb) => { cb( null, file.fieldname + "_" + Date.now() + path.extname(file.originalname) ) }
 
@@ -12,6 +13,7 @@ const storage = multer.diskStorage({
 
 
 const fileFilter = (req, file, cb) => {
+  
 
   if (file.mimetype.startsWith("image/")) {
     
@@ -27,7 +29,7 @@ const fileFilter = (req, file, cb) => {
 
 const postImageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "backend/Public/PostImages");
+    cb(null, "./Public/PostImages");
   
   },
   filename: (req, file, cb) => {
@@ -39,7 +41,7 @@ const postImageStorage = multer.diskStorage({
 
 const productImageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "backend/Public/ProductImages");
+    cb(null, "./Public/ProductImages");
   
   },
   filename: (req, file, cb) => {
@@ -51,7 +53,7 @@ const productImageStorage = multer.diskStorage({
 
 const restaurantStorage= multer.diskStorage({
 
-  destination: (req, file, cb) => { cb(null, "backend/Public/restaurantImages") },
+  destination: (req, file, cb) => { cb(null, "./Public/restaurantImages") },
 
   filename: (req, file, cb) => { cb( null, file.fieldname + "_" + Date.now() + path.extname(file.originalname) ) }
 
@@ -73,15 +75,6 @@ export const multerUploadRestaurantImages = multer({
 ])
 
 
- // Here, '3' is the maximum number of images you can upload at a time.
-
-// export const cpUpload = multerUploadRestaurantImages.fields([
-//   { name: 'restaurantImages', maxCount: 3 },
-//   { name: 'menuImages', maxCount: 1 },
-//   { name: 'foodImages', maxCount: 1 }
-  
-// ])
-
 export const multerUploadUserProfile = multer({
   storage: storage,
   fileFilter: fileFilter,
@@ -97,6 +90,4 @@ export const multerUploadProductImages = multer({
 
 export const multerUploadPostImages = multer({
   storage: postImageStorage,
-  // fileFilter: fileFilter,
-  // limits: { fileSize: 1024 * 1024 * 5 }
 }).array('images', 3) 

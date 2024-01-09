@@ -82,7 +82,7 @@ router.post('/register', registerUser);
 router.post('/gAuthRegister',gAuthRegister)
 
 router.post('/auth', authUser);
-
+ 
 router.post('/gAuthLogin', gAuthUser);
 
 router.post('/logout', logoutUser);
@@ -100,41 +100,58 @@ router.route('/profile').get( authenticateUser, getUserProfile ).put( authentica
 router.post('/changeAddress',authenticateUser,fileUpload(),changeAddress)
 
 router.post('/accessChat', authenticateUser, accessChat)
+
 router.get('/fetchChats', authenticateUser, fetchChats)
+
 router.post('/sendMessage', authenticateUser, sendMessage)
+
 router.get('/allMessages/:chatId', authenticateUser, allMessages)
+
 router.get('/allNotifications', authenticateUser, fetchNotifications)
+
 router.put('/deleteNotification/:notificationId', authenticateUser, deleteNotification)
+
 router.put('/readMessagesUpdate/:chatId', authenticateUser, readMessagesUpdate)
+
 router.post('/markAsReadUpdate', authenticateUser, markAsReadUpdate)
+
 router.post('/addToCart',authenticateUser,addToCart)
+
 router.get ('/getCart',authenticateUser,getCart)
+
 router.post('/changeProductQuantity',authenticateUser,changeQuantity)
+
 router.post ('/removeCartProduct',authenticateUser,removeCartProduct)
+
 router.post ('/checkout',authenticateUser,fileUpload(),checkOut)
+
 router.post ('/verifyMail',verifyMail)
 
 router.post('/forgotPassword', forgotPassword)
+
 router.post('/otpVerify', authenticateUser, verifyOtp)
+
 router.post('/resendOtp', authenticateUser, resendOtp)
+
 router.post('/resetPassword', authenticateUser, resetPassword)
+
 router.post('/fetchRestaurantDatas',authenticateUser,fetchRestaurantDatas)
+
 router.post('/likePost/:postId', authenticateUser, likePost)
+
 router.delete('/unlikePost/:postId', authenticateUser, unlikePost)
+
 router.post('/commentPost/:postId', authenticateUser, commentPost)
+
 router.delete('/commentDelete/:postId', authenticateUser, commentDelete)
+
 router.post('/reportPost', authenticateUser, reportPost);
+
 router.get('/fetchAllOrders',authenticateUser,fetchAllOrders)
+
 router.put('/cancelOrder/:id',authenticateUser,cancelOrder)
 
-
-
 router.put('/checkBlock',authenticateUser, checkBlock)
-
-
-
-
-
 
 
 export default router;

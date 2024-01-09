@@ -3,7 +3,8 @@ import AddUser from '../../components/AdminComponents/AdminAddUser'
 import { useEffect,useState } from "react"
 import { toast } from "react-toastify";
 import Pagination from "../../components/AdminComponents/Pagination";
-
+import handleGlobalError from "../GlobalErrorHandler";
+import { useNavigate } from "react-router-dom";
 
 import { useGetUsersDataMutation } from "../../slices/adminApiSlice";
 
@@ -11,6 +12,8 @@ import Loader from "../../components/UserComponents/Loader";
 
 
 const AdminHomeScreen = () => {
+
+  const navigate = useNavigate()
 
   const [usersData, setUsersData] = useState([]);
   const [render,setRender]=useState(false)
@@ -20,7 +23,6 @@ const AdminHomeScreen = () => {
   const [usersDataFromAPI, { isLoading } ] = useGetUsersDataMutation();
 
   useEffect (()=>{
-    console.log("here", updated)
     if(updated===true){
       setRender(true)
     }else if(updated===false){
@@ -34,7 +36,9 @@ const AdminHomeScreen = () => {
 
       const fetchData = async () => {
 
-        const responseFromApiCall = await usersDataFromAPI({pages: page});
+        const responseFromApiCall = await usersDataFromAPI({pages: page})
+        .then((response)=>handleGlobalError(response,navigate))
+
 
         const usersArray = responseFromApiCall.data.usersData;
         

@@ -15,12 +15,13 @@ import {
     ADMIN_UNLIST_CATEGORY_URL,
     ADMIN_RELIST_CATEGORY_URL,
     ADMIN_CATEGORIES_DATA_FETCH_URL,
-    ADMIN_BLOCK_UNBLOCK_USER
+    ADMIN_BLOCK_UNBLOCK_USER,
+    ADMIN_UPDATE_HOTEL_UNLIST_STATUS_URL
 
 
 } from '../utils/constants.js';
 
-
+const ADMIN_URL = '/api/admin'
 
 export const adminApiSlice = apiSlice.injectEndpoints({
     
@@ -185,7 +186,34 @@ export const adminApiSlice = apiSlice.injectEndpoints({
             })
 
         }),
+        updateUnlistStatus: builder.mutation({
+            
+            query: (data) => ({
+                url: ADMIN_UPDATE_HOTEL_UNLIST_STATUS_URL,
+                method: 'PUT',
+                body: data
+            })
 
+        }),
+        adminGetHotelDash: builder.query({
+            query: (data) => ({
+              url: `${ADMIN_URL}/adminGetHotelDashboard`,
+              method: 'GET',      
+            }),
+          }),
+
+          adminGetDeptDashboardBoxs: builder.query({
+            query: (data) => ({
+              url: `${ADMIN_URL}/adminGetDeptDashboardBoxs`,
+              method: 'GET',      
+            }),
+          }),
+          adminGetRestaurantOrderCount: builder.query({
+            query: (data) => ({
+              url: `${ADMIN_URL}/adminGetRestaurantOrderCount`,
+              method: 'GET',      
+            }),
+          }),
     })
 
 })
@@ -212,6 +240,11 @@ export const {
     useBlockUnblockUserMutation,
     useGetReportedPostsMutation,
     useRemoveReportedPostMutation,
+    useUpdateUnlistStatusMutation,
+    useAdminGetHotelDashQuery,
+    useAdminGetDeptDashboardBoxsQuery,
+    useAdminGetRestaurantOrderCountQuery,
+    
     
 
 } = adminApiSlice;

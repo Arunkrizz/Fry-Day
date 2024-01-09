@@ -5,9 +5,7 @@ import mongoose from 'mongoose'
 const { ObjectId } = mongoose.Types;
 
 const createProduct = asyncHandler(async (req, res) => {
-    console.log("here in create1")
- 
-// console.log('Request Body:', req.body);
+ console.log(req.files,"create product")
     const { title, description, category,price } = req.body;
     const images = req.files.map((file) => file.filename);
     let categoryId;
@@ -19,7 +17,6 @@ const createProduct = asyncHandler(async (req, res) => {
         console.error('Invalid category ObjectId:', error);
         return res.status(400).json({ success: false, message: 'Invalid category ObjectId' });
             }
-    console.log("id", categoryId)
     // Create a new product
     const newProduct = new Product({
         title,
@@ -32,7 +29,6 @@ const createProduct = asyncHandler(async (req, res) => {
  
     // Save the product to the database
     const createdProduct = await newProduct.save();
-console.log("createdProduct",createdProduct)
 
         // Send the response with updated user data
     if (createProduct) {

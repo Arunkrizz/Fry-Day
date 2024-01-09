@@ -22,15 +22,16 @@ function AdminAddUser() {
 
                 name: userName,
                 email: userEmail,
-                password:userPassword
+                password: userPassword
 
             })
-            if(responseFromApiCall){
-                console.log(responseFromApiCall)
-                toast.success("User Added Successfully.")}
-            else{
+            if (responseFromApiCall) {
+                toast.success("User Added Successfully.")
+            }
+            else {
                 console.log("err")
-                toast.error("error occured")}
+                toast.error("error occured")
+            }
             // toast.success("User Added Successfully.");
             setShowAddUserModal(false); // Close the update modal
 
@@ -43,10 +44,9 @@ function AdminAddUser() {
     };
 
     const handleOpenAddUserModal = () => {
-     
+
         setShowAddUserModal(true);
-        // console.log(showAddUserModal,"shown")
-      };
+    };
 
     return (
         <>

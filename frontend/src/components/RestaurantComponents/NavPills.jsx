@@ -4,14 +4,7 @@ function BgColorExample(props) {
   return (
     <>
       {[
-        // 'Primary',
-        // 'Secondary',
-        // 'Success',
-        // 'Danger',
-        // 'Warning',
-        // 'Info',
         'Light',
-        // 'Dark',
       ].map((variant) => (
         <Card
           bg={variant.toLowerCase()}

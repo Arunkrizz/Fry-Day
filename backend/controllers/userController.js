@@ -15,38 +15,59 @@ import bcrypt from 'bcryptjs';
 import Report from '../models/reportModel.js';
 import { log } from 'util';
 
-
-
 const getUserViewPosts = asyncHandler(async (req,res)=>{
-    console.log(req.body,"viewwww")
-    const { offset = 0, limit = 1 } = req.body;
-    // const Post = await Posts.find({})
-    const Post = await Posts.find({isRemoved:false})
-    .sort({ dateListed: -1 })
-    .skip(offset) // Apply pagination using skip
-    .limit(limit)
-    .populate("likes")
+    const { offset = 2, limit = 2 } = req.body;
+    const Post = await Posts.aggregate([
+        {
+          $match: {
+            isRemoved: false
+          }
+        },
+        {
+          $lookup: {
+            from: "restaurants",
+            localField: "stores",
+            foreignField: "_id",
+            as: "stores"
+          }
+        },
+        {
+            $lookup: {
+              from: "users",
+              localField: "likes",
+              foreignField: "_id",
+              as: "likes"
+            }
+          },
+        
+        {
+          $match: {
+            "stores.approved": "true"
+          }
+        },
+        {
+            $sort: {
+              dateListed: -1
+            }
+          },
+          {
+            $skip: offset
+          },
+          {
+            $limit: limit
+          }
+      ])
 
     if(Post){
-
         res.status(200).json({ Post });
-
     }else{
-
         res.status(404);
-
         throw new Error("Post data fetch failed.");
-
-    }
-
-    // console.log(Post,"possttt")
-    
+    }    
 })
 
 const authUser = asyncHandler ( async (req, res) => {
-  
-console.log(req.body,"login auth ");
-    /*
+      /*
      # Desc: Auth user/set token
      # Route: POST /api/users/auth
      # Access: PUBLIC
@@ -96,24 +117,6 @@ console.log(req.body,"login auth ");
             }
         }
 
-
-        // if needed use this in return
-
-        // id: updatedUserData._id,
-        // name: updatedUserData.name,
-        // email: updatedUserData.email,
-        // profileImageName: updatedUserData.profileImageName,
-        // address:{
-        //     name:updatedUserData.address.name,
-        //     streetName:updatedUserData.address.streetName,
-        //     locality:updatedUserData.address.locality,
-        //     mobile:updatedUserData.address.mobile,
-        //     latitude:updatedUserData.address.latitude,
-        //     longitude:updatedUserData.address.longitude,
-
-
-
-
         if(user.profileImageName){
 
             registeredUserData.profileImageName = user.profileImageName;
@@ -137,8 +140,7 @@ console.log(req.body,"login auth ");
 });
 
 const gAuthUser = asyncHandler ( async (req, res) => {
-    // console.log("jjjjj");
-    // console.log(req.body,"login gauth ");
+
         /*
          # Desc: Auth user/set token
          # Route: POST /api/users/auth
@@ -213,7 +215,6 @@ const gAuthRegister = asyncHandler (async(req,res)=>{
      # Route: POST /api/users/auth
      # Access: PUBLIC
     */
-console.log(req.body,"reg user /")
 
 const { userName, userPicture, userEmail} = req.body;
 
@@ -222,7 +223,6 @@ const userExists = await User.findOne({email: userEmail });
 
 // If the user already exists, throw an error
 if (userExists) {
-    console.log("userexists")
 
     res.status(400);
     
@@ -231,7 +231,6 @@ if (userExists) {
 }
 
 // Store the user data to DB if the user dosen't exist already.
-console.log("kk")
 const user = await User.create({
     name: userName,
     email: userEmail,
@@ -243,7 +242,6 @@ const user = await User.create({
 
 
 if (user) {
-    console.log(user,"userrr")
     // If user is created, send response back with jwt token
 
     generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
@@ -252,6 +250,7 @@ if (user) {
         name: user.name,
         email: user.email,
         id:user._id,
+        profileImageName:user. profileImageName,
         verified:true
     }
 
@@ -260,7 +259,6 @@ if (user) {
 }else {
 
     // If user was NOT Created, send error back
-console.log("error reg user ")
     res.status(400);
 
     throw new Error('Invalid user data, User registration failed.');
@@ -276,7 +274,6 @@ const registerUser = asyncHandler ( async (req, res) => {
      # Route: POST /api/users/auth
      # Access: PUBLIC
     */
-console.log(req.body,"reg user /")
     const { userRegisterName, userRegisterEmail, userRegisterPassword,userRegisterMobile} = req.body;
     
     // Check if user already exist
@@ -284,7 +281,6 @@ console.log(req.body,"reg user /")
     
     // If the user already exists, throw an error
     if (userExists) {
-        console.log("userexists")
 
         res.status(400);
         
@@ -293,7 +289,6 @@ console.log(req.body,"reg user /")
     }
 
     // Store the user data to DB if the user dosen't exist already.
-    console.log("kk")
     const user = await User.create({
         name: userRegisterName,
         email: userRegisterEmail,
@@ -303,7 +298,6 @@ console.log(req.body,"reg user /")
 
     
     if (user) {
-        console.log(user,"userrr")
         // If user is created, send response back with jwt token
 
         generateUserToken(res, user._id); // Middleware to Generate token and send it back in response object
@@ -367,81 +361,90 @@ const getUserProfile = asyncHandler ( async (req, res) => {
 
 const updateUserProfile = asyncHandler ( async (req, res) => {
 
+    const {  currentPassword,password,confirmPassword } = req.body;
+
+
+   // Find the user data with user id in the request object
+    const user = await User.findById(req.user._id);
+
+    let valid = false;
+    
+    if (user) {
+
+        if(currentPassword||password||confirmPassword){
+            valid = await user.matchPassword(currentPassword);
+        }else{
+            valid=true
+        }
+
+        
+
+    }
+
+    if ( valid ) {
+        if (user) {
+    
+            // Update the user with new data if found or keep the old data itself.
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+    
+            // If request has new password, update the user with the new password
+            if (req.body.password) {
+    
+                user.password = req.body.password
+            
+            }
+    
+            if(req.file){    
+                user.profileImageName = req.file.filename || user.profileImageName;
+            }
+    
+            const updatedUserData = await user.save();
+    
+            // Send the response with updated user data
+            res.status(200).json({
+    
+                name: updatedUserData.name,
+                email: updatedUserData.email,
+                profileImageName: updatedUserData.profileImageName
+    
+            });
+    
+        } else {
+    
+            res.status(404);
+    
+            throw new Error("Requested User not found.");
+    
+        };
+    }else {
+         // If password is wrong, return error
+
+        res.status(401);
+        throw new Error('current Password doesnt match');
+    }
+
     /*
      # Desc: Update user profile
      # Route: PUT /api/users/profile
      # Access: PRIVATE
     */
 
-    // Find the user data with user id in the request object
-    const user = await User.findById(req.user._id);
-
-    if (user) {
-    
-        // Update the user with new data if found or keep the old data itself.
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-
-        // If request has new password, update the user with the new password
-        if (req.body.password) {
-
-            user.password = req.body.password
-        
-        }
-
-        if(req.file){
-            console.log(req.file,"filessss");
-
-            user.profileImageName = req.file.filename || user.profileImageName;
-
-        }
-
-        const updatedUserData = await user.save();
-
-        // Send the response with updated user data
-        res.status(200).json({
-
-            name: updatedUserData.name,
-            email: updatedUserData.email,
-            profileImageName: updatedUserData.profileImageName
-
-        });
-
-    } else {
-
-        res.status(404);
-
-        throw new Error("Requested User not found.");
-
-    };
-
 });
 
 const getHotelProducts = asyncHandler (async (req,res)=>{
-    // console.log(req.body,"res prodss")
 
     const products = await Product.find({stores:req.body._id})
-
- 
 if (products) {
-
     res.status(201).json(products);
-
 }else {
-
     res.status(400).json({products:null});
-
 }
-
-    // console.log(products,"hotel proddss")
 });
 
 const getHotelLocation = asyncHandler(async(req,res)=>{
-    // console.log(req.body,"location")
     
     const hotel = await Hotel.find({_id:req.body._id})
-
-    // console.log(hotel,"hotel")
 
     if(hotel){
         res.status(200).json({lat:hotel[0].latitude,lng:hotel[0].longitude})
@@ -453,7 +456,6 @@ const getHotelLocation = asyncHandler(async(req,res)=>{
 })
 
 const getHotelDetails = asyncHandler(async(req,res)=>{
-    // console.log(req.body,"htl details");
     const hotel = await Hotel.findById(req.body.id)
     if(hotel){
         res.status(200).json(hotel)
@@ -461,14 +463,11 @@ const getHotelDetails = asyncHandler(async(req,res)=>{
     else {
         res.status(400).json({hotelLocation:null});
     }
-    // console.log(hotel,"resssss")
 })
 
 const checkBlock = asyncHandler(async (req, res) => {
-    // console.log(req.body,"check block")
     const users = await User.findById(req.body.id)
     if (users) {
-        // console.log(users,"blocked stat")
     res.status(200).json(users)
 }
     
@@ -495,7 +494,6 @@ let transporter = nodemailer.createTransport({
 })
 
 const sendOtpVerification = asyncHandler(async ({_id, email}, res) => {
-    console.log(process.env.AUTH_EMAIL,"env");
     try {
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -527,14 +525,6 @@ const sendOtpVerification = asyncHandler(async ({_id, email}, res) => {
             }
         });
 
-        // res.json({
-        //     status: "Pending",
-        //     message: "Otp send to email",
-        //     data: {
-        //         userId: _id,
-        //         email
-        //     }
-        // });
     } catch (error) {
         res.json({
             status: "Failed",
@@ -545,7 +535,6 @@ const sendOtpVerification = asyncHandler(async ({_id, email}, res) => {
 
 const forgotPassword = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email: req.body.email, verified: true })
-    console.log(user,req.body,"frgt")
     if (!user) {
         res.status(401);
         throw new Error('User not found, User authentication failed, Please SignUp again');
@@ -570,7 +559,6 @@ const resetPassword = asyncHandler(async (req, res) => {
     }
 
     const updatedUserData = await user.save();
-    console.log("updatedUserData", updatedUserData)
     res.status(200).json({message: "password updated"})
 })
 
@@ -612,7 +600,6 @@ const verifyOtp = asyncHandler(async (req, res) => {
 })
 
 const resendOtp = asyncHandler(async (req, res) => {
-    console.log("user:", req.user._id)
     let userId = req.user._id
     let email = req.user.email
 
@@ -631,7 +618,6 @@ const fetchRestaurantDatas=asyncHandler(async(req,res)=>{
 })
 
 const likePost = asyncHandler(async (req, res) => {
-    // console.log("liked");
     const postId = req.params.postId;
     const userId = req.user._id;
     const post = await Posts.findById(postId)
@@ -643,7 +629,6 @@ const likePost = asyncHandler(async (req, res) => {
     if (!post.likes.includes(userId)) {
         post.likes.push(userId);
       }
-    // post.likes.push(userId)
 
     await post.save()
     await post.populate("likes")
@@ -655,14 +640,12 @@ const unlikePost = asyncHandler(async (req, res) => {
     const postId = req.params.postId;
     const userId = req.user._id;
     const post = await Posts.findById(postId).populate("likes")
-    // console.log(post,"unliked");
 
     if (!post) {
         return res.status(404).json({ message: 'Post not found' });
     }
 
     // Check if the user has already liked the post
-    // const indexOfUser = post.likes._id.indexOf(userId);
     const indexOfUser = post.likes.findIndex((like) => like._id.equals(userId));
     // log(indexOfUser, userId,"i of user unlike")
     if (indexOfUser === -1) {
@@ -677,7 +660,6 @@ const unlikePost = asyncHandler(async (req, res) => {
 })
 
 const commentPost = asyncHandler(async (req, res) => {
-    console.log(req.body,"comment post ");
     const postId = req.params.postId;
     const userId = req.user._id;
     const text = req.body.text;
@@ -689,8 +671,6 @@ const commentPost = asyncHandler(async (req, res) => {
 
     // Find the user and populate the necessary fields
     const user = await User.findById(userId).select('_id name profileImageName');
-
-    // console.log(user,"user");
 
     if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -705,19 +685,15 @@ const commentPost = asyncHandler(async (req, res) => {
     post.comments.push(newComment);
   
     await post.save();
-    // console.log(post,"poost");
     // Fetch the newly added comment from the post object
     const addedComment = post.comments[post.comments.length - 1];
 
-    // console.log("result:", addedComment._id);
-// console.log("comment added");
     res.status(200).json({ message: 'Comment added successfully', comment: addedComment });
 });
 
 const commentDelete = asyncHandler(async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.body.commentId;
-    console.log("postId,commentId ", postId, commentId);
     const result = await Posts.updateOne(
       { _id: postId },
       { $pull: { comments: { _id: commentId } } }
@@ -754,7 +730,6 @@ const reportPost = asyncHandler(async (req, res) => {
     await newReport.save();
 
     post.reports.push(newReport);
-    console.log(post,"report post ")
     await post.save();
 
     res.status(201).json({ message: 'Report submitted successfully' })
@@ -762,19 +737,10 @@ const reportPost = asyncHandler(async (req, res) => {
 
 const changeAddress=asyncHandler(async(req,res)=>{
 
-    console.log(req.body,"change address")
-    // let registeredUserData = {
-    //     name: user.name,
-    //     email: user.email,
-    //     id:user._id,
-    //     verified:user.verified,
-    //     profileImageName:user.profileImageName
-    // }
 
     const user = await User.findById(req.user._id);
 
     if (user) {
-    console.log(user,"userrr");
         // Update the user with new data if found or keep the old data itself.
         user.address.name = req.body.name || user.address.name
         user.address.streetName= req.body.streetName || user.address.streetName
@@ -782,10 +748,6 @@ const changeAddress=asyncHandler(async(req,res)=>{
         user.address.mobile= req.body.mobile || user.address.mobile
         user.address.latitude= req.body.latitude || user.address.latitude
         user.address.longitude= req.body.longitude || user.address.longitude
-
-
-
-    
 
         const updatedUserData = await user.save();
 
@@ -819,7 +781,6 @@ const changeAddress=asyncHandler(async(req,res)=>{
 
 
 export {
-
     authUser,
     registerUser,
     logoutUser,
@@ -844,5 +805,4 @@ export {
     commentDelete,
     reportPost,
     changeAddress
-
 };

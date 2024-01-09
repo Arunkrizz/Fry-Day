@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-// import axios from 'axios';
-// import { useSelector } from 'react-redux';
+
 
 
 function randomID(len) {
@@ -26,27 +25,6 @@ export function getUrlParams(
 
 export default function LiveStreaming() {
 
-    // function sendRoomId(roomId){
-    //     if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
-
-    //         try {
-    //                    axios.post('/api/hotel/updateLiveBrodcastRoomId', {
-    //                     roomId: roomId,
-    //                     hotelInfo:hotelInfo.hotelInfo._id
-    //                     // other data you want to send
-    //                   });
-    //                   console.log('Data sent successfully');
-    //                 } catch (error) {
-    //                   console.error('Error sending data to the backend', error);
-    //                 }
-        
-        
-        
-    //       }
-    // }
-
-    // const { hotelInfo } = useSelector((state) => state.hotelAuth);
-    
   const roomID = getUrlParams().get('roomID') || randomID(5);
   let role_str = getUrlParams(window.location.href).get('role') || 'Host';
   const role =
@@ -58,17 +36,6 @@ export default function LiveStreaming() {
 
   let sharedLinks = [];
   if (role === ZegoUIKitPrebuilt.Host || role === ZegoUIKitPrebuilt.Cohost) {
-
-    // try {
-    //            axios.post('/api/hotel/updateLiveBrodcastRoomId', {
-    //             roomID: roomID,
-    //             hotelInfo:hotelInfo.hotelInfo._id
-    //             // other data you want to send
-    //           });
-    //           console.log('Data sent successfully');
-    //         } catch (error) {
-    //           console.error('Error sending data to the backend', error);
-    //         }
 
     sharedLinks.push({
       name: 'Join as co-host',
@@ -86,7 +53,6 @@ export default function LiveStreaming() {
     url:
      window.location.protocol + '//' + 
      window.location.host +
-    //   window.location.pathname +
       "/user/live"+
       '?roomID=' +
       roomID +
@@ -101,7 +67,6 @@ export default function LiveStreaming() {
   // start the call
   let myMeeting = async (element) => {
       // Create instance object from Kit Token.
-    //   sendRoomId(roomID)
 
       const zp = ZegoUIKitPrebuilt.create(kitToken);
       // start the call

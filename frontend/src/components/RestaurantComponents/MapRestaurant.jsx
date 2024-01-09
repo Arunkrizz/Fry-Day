@@ -6,18 +6,11 @@ const MapRestaurant = ( props ) => {
     const mapRef = useRef(null);
     const map = useRef(null);
     const platform = useRef(null)
-    // const {  userPosition, restaurantPositions } = props;
      const { hotelInfo } = useSelector((state) => state.hotelAuth);
      const [showMap,setShowMap] = useState(false)
 
     const restaurantLocation = {lat: hotelInfo.hotelInfo.latitude, lng: hotelInfo.hotelInfo.longitude}
-
-    console.log(restaurantLocation,"res loc")
-
     const apikey =import.meta.env.VITE_HERE_MAP_API_KEY
-
-    console.log(apikey ,"api")
-
      
    
     useEffect(
@@ -25,15 +18,11 @@ const MapRestaurant = ( props ) => {
       setTimeout(()=>{
         setShowMap(true)
       },1000)
-
-      // console.log("res pos",props);
       if (showMap) {
-        // console.log("res pos",restaurantPositions);
         calculateRoute(platform.current, map.current, restaurantLocation, restaurantLocation);
     }
 
       function calculateRoute(platform, map, start, destination) {
-        // console.log("calc route");
         function routeResponseHandler(response) {
             
             map.addObjects([
@@ -124,8 +113,5 @@ const MapRestaurant = ( props ) => {
   // Return a div element to hold the map
   return <div style={ { width: "100%", height: "500px" } } ref={mapRef} />;
    }
-
-  
-
   
   export default MapRestaurant;

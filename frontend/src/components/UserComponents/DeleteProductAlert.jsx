@@ -17,10 +17,7 @@ import {
   
     return (
       <>
-        {/* <Button colorScheme='red' onClick={onOpen}>
-          Delete Customer
-        </Button> */}
-  {/* {console.log(props,"deletealert")} */}
+      
         <AlertDialog
           isOpen={isOpen}
           leastDestructiveRef={cancelRef}

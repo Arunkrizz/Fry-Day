@@ -24,6 +24,7 @@ const UpdateProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profileImage, setProfileImage] = useState();
 
@@ -58,12 +59,12 @@ const UpdateProfileScreen = () => {
         formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('currentPassword', currentPassword);
         formData.append('profileImage', profileImage);
 
         console.log(formData,"formdata")
 
         const responseFromApiCall = await updateProfile( formData ).unwrap();
-        console.log(responseFromApiCall,"updted prof");
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         
@@ -130,7 +131,18 @@ const UpdateProfileScreen = () => {
             </Form.Group>
 
             <Form.Group className="my-2" controlId="password">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Current Password</Form.Label>
+                <Form.Control
+                    type="password"
+                    placeholder="Enter current password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                ></Form.Control>
+            </Form.Group>
+
+
+            <Form.Group className="my-2" controlId="password">
+                <Form.Label> New Password</Form.Label>
                 <Form.Control
                     type="password"
                     placeholder="Enter password"
@@ -140,7 +152,7 @@ const UpdateProfileScreen = () => {
             </Form.Group>
 
             <Form.Group className="my-2" controlId="confirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>Confirm New Password</Form.Label>
                 <Form.Control
                     type="password"
                     placeholder="Re-enter password"

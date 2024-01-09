@@ -5,7 +5,7 @@ const initialState = {
     adminInfo: localStorage.getItem('adminInfo') ? JSON.parse( localStorage.getItem('adminInfo') ) : null
 
 }
-
+ 
 const adminAuthSlice = createSlice({
 
     name: 'adminAuth',

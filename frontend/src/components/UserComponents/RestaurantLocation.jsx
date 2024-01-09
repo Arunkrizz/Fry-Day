@@ -1,55 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import H from '@here/maps-api-for-javascript';
 import { useSelector } from 'react-redux';
-// import { useGetHotelLocationMutation } from '../../slices/userApiSlice';
 
 const MapRestaurant = ( {location} ) => {
 
-    // const [fetchHotelLocation] = useGetHotelLocationMutation()
     const { viewHotel } = useSelector( (state) => state.viewHotel);
-    // const [restaurantLocation,setRestaurantLocation] = useState(false)
-    // console.log(viewHotel.latitude,"res loc")
     const mapRef = useRef(null);
     const map = useRef(null);
     const platform = useRef(null)
-    // const {  userPosition, restaurantPositions } = props;
      const [showMap,setShowMap] = useState(false)
 
     const restaurantLocation =  {lat: viewHotel.latitude, lng: viewHotel.longitude}
 
     const apikey =import.meta.env.VITE_HERE_MAP_API_KEY
 
-//       useEffect(()=>{
-//     const fetchLocation =async ()=>{
-//       try {
-//         const responseFromApiCall = await fetchHotelLocation({...viewHotel})
-//         setRestaurantLocation (responseFromApiCall.data)
-    
-        
-//       } catch (error) {
-        
-//       }
-//     }
-//     fetchLocation()
-//   },[])
-
- 
    
     useEffect(
     () => {
       setTimeout(()=>{
         setShowMap(true)
-        // console.log(restaurantLocation,"location hotel")
       },1000)
       
-      // console.log("res pos",props);
       if (showMap) {
-        // console.log("res pos",restaurantPositions);
         calculateRoute(platform.current, map.current, restaurantLocation, restaurantLocation);
     }
 
       function calculateRoute(platform, map, start, destination) {
-        // console.log("calc route");
         function routeResponseHandler(response) {
             
             map.addObjects([

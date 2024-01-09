@@ -36,10 +36,8 @@ import {
     const [showDeleteConfirmation,setShowDeleteConfirmation] = useState(false)
     const deleteAlertDialogRef = useRef();
     const { userInfo } = useSelector((state) => state.auth);
-  
     const [commentPost] = useCommentPostMutation();
     const [commentDelete] = useCommentDeleteMutation();
-  
     const isPostButtonDisabled = !newComment.trim();
   
     useEffect(() => {
@@ -56,13 +54,10 @@ import {
         const response = await commentPost({
           postId: post._id,
           text: newComment,
-        });
-        // console.log(response,"response");
+        }); 
         const addedComment = response?.data.comment;
         setComments([...comments, addedComment]);
         setNewComment('');
-        // setPostRefresh(!postRefresh)
-        // console.error(' adding comment:');
         onCommentPost(post._id, addedComment);
       } catch (error) {
         console.error('Error adding comment:', error);
@@ -70,13 +65,6 @@ import {
       }
     };
   
-    // const handleOpenDeleteAlert = () => {
-    //   setIsDeleteAlertOpen(true);
-    // };
-  
-    // const handleCloseDeleteAlert = () => {
-    //   setIsDeleteAlertOpen(false);
-    // };
 
     const deleteConfirmation=()=>{
       setShowDeleteConfirmation(true)
@@ -91,17 +79,11 @@ import {
       }
       try {
         const response = await commentDelete({ postId: post._id, commentId: comments[hoveredCommentIndex]._id }).unwrap()
-        console.log("response:", response);
         // Update local state (remove the deleted comment)
         const updatedComments = [...comments];
         updatedComments.splice(hoveredCommentIndex, 1);
         setComments(updatedComments);
-  
-        // Update local state (remove the deleted comment from the post)
-        // const updatedPosts = posts.map((post) =>
-        //     post._id === post._id ? { ...post, comments: updatedComments } : post
-        // );
-        // setPosts(updatedPosts);
+
         const updatedPosts =
     post.comments=[...updatedComments]
         // setPostRefresh(!postRefresh)
@@ -113,42 +95,6 @@ import {
         toast.error('Error deleting comment', error);
       }
     };
-  
-  //   const handleConfirmDelete = async () => {
-  //   try {
-  //     console.log("deleting");
-  //     // Check if hoveredCommentIndex is a valid index
-  //     if (hoveredCommentIndex !== null && hoveredCommentIndex >= 0 && hoveredCommentIndex < comments.length) {
-  //       // Get the comment from the comments array
-  //       const commentToDelete = comments[hoveredCommentIndex];
-  
-  //       // Check if the comment is defined and has a valid _id
-  //       if (commentToDelete && commentToDelete._id) {
-  //         // Delete the comment
-  //         const response = await commentDelete(post._id, commentToDelete._id);
-  //         console.log("response from comment delete: ", response);
-  
-  //         // Update local state (remove the deleted comment)
-  //         const updatedComments = [...comments];
-  //         updatedComments.splice(hoveredCommentIndex, 1);
-  //         setComments(updatedComments);
-  
-  //         // Update post
-  //         onCommentPost(post._id, updatedComments);
-  //         setIsDeleteAlertOpen(false);
-  //       } else {
-  //         console.error('Comment not found or missing _id property');
-  //         toast.error('Error deleting comment');
-  //       }
-  //       console.error('Invalid hoveredCommentIndex');
-  //       toast.error('Error deleting comment');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting comment:', error);
-  //     toast.error('Error deleting comment', error);
-  //   }
-  // };
-  
   
     return (
       <>
@@ -173,11 +119,9 @@ import {
                       variant="outline"
                       overflow="hidden"
                       onMouseEnter={() => {
-                        // console.log('Mouse enter:', index);
                         setHoveredCommentIndex(index);
                       }}
                       onMouseLeave={() => {
-                        // console.log('Mouse leave:', index);
                         setHoveredCommentIndex(null);
                       }}
                     >
@@ -190,8 +134,6 @@ import {
                             alt={comment?.user.profileImageName}
                             
                           />
-                          {/* {console.log((!comment.user.profileImageName.startsWith('https://'))?(`${VITE_PROFILE_IMAGE_DIR_PATH}${comment.user.profileImageName}`):`${comment.user.profileImageName}`)} */}
-                          {/* {console.log(comment.user,"user",index)} */}
                           <b>{comment?.user.name}</b>
                           <p style={{ marginBottom: '0' }}>{comment.text}</p>
                         </HStack>

@@ -7,14 +7,16 @@ import {
     ModalBody,
     ModalCloseButton,
     Button,
+    VStack,
+    HStack,
+    Text,
     
   } from '@chakra-ui/react'
 import React,{ useState } from 'react'
 import axios from 'axios'
 
 
-function ShipOrderViewModal({ isOpen, onOpen, onClose,order,refetchAcceptedOrders, setRefetchAcceptedOrders }) {
-    // const { isOpen, onOpen, onClose } = useDisclosure()
+function ShipOrderViewModal({socket, isOpen, onOpen, onClose,order,refetchAcceptedOrders, setRefetchAcceptedOrders,refetchUpdateDelivery,setRefetchUpdateDelivery }) {
     const [scrollBehavior, setScrollBehavior] = useState('outside')
 
     const shipOrder=(order)=>{
@@ -22,58 +24,51 @@ function ShipOrderViewModal({ isOpen, onOpen, onClose,order,refetchAcceptedOrder
             axios.post('/api/hotel/shipOrder',
             {orderId:order.order._id}).then(()=>{
                 setRefetchAcceptedOrders(!refetchAcceptedOrders)
+                setRefetchUpdateDelivery(!refetchUpdateDelivery)
+                socket.emit("orderAccepted",  order.order.userId );
                 
             })
-            // console.log(order.order._id,"accpt order")
         } catch (error) {
             console.log("order accept error",error)
         }
     }
+
+
  
   
     const btnRef = React.useRef(null)
     return (
       <>
-      
-  
-        {/* <Button mt={3} ref={btnRef} onClick={onOpen}>
-          Trigger modal
-        </Button> */}
-  
-        <Modal
-          onClose={onClose}
-          finalFocusRef={btnRef}
-          isOpen={isOpen}
-          scrollBehavior={scrollBehavior}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Order Details</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {/* <Lorem count={15} /> */}
-              
-             {order?.products?.map((product,index)=>(
-             <>
-             <div style={{display:"flex"}}>
-                <h5 style={{marginRight:"5px"}}>Product:</h5>
-                <h5>{product.product.title} </h5>
-                <p style={{color:"red"}}>x{product.quantity}</p>
-                </div>
-                
-                </>
-              ))
-              }
-              <h4>Total:₹{order?.totalAmount} </h4>
-              <h5>Address:</h5>
-              <p>Name:{order?.deliveryDetails?.name}</p>
-              <p>Address:{order?.deliveryDetails?.address}</p>
-              <p>Mobile:{order?.deliveryDetails?.mobile}</p>
-              <p>Pincode:{order?.deliveryDetails?.pincode}</p>
-             
-            </ModalBody>
+
+       
+<Modal onClose={onClose} finalFocusRef={btnRef} isOpen={isOpen} scrollBehavior={scrollBehavior}>
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader>Order Details</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+      {order?.products?.map((product, index) => (
+        <VStack key={index} spacing={2} align="start">
+          <HStack>
+            <Text fontWeight="bold">Product:</Text>
+            <Text>{product.product.title}</Text>
+            <Text color="red">x{product.quantity}</Text>
+          </HStack>
+        </VStack>
+      ))}
+      <Text fontWeight="bold" mt={4}>
+        Total: ₹{order?.totalAmount}
+      </Text>
+      <VStack spacing={2} align="start" mt={4}>
+        <Text fontWeight="bold">Address:</Text>
+        <Text>Name: {order?.deliveryDetails?.name}</Text>
+        <Text>Street name: {order?.deliveryDetails?.streetName}</Text>
+        <Text>Mobile: {order?.deliveryDetails?.mobile}</Text>
+        <Text>Locality: {order?.deliveryDetails?.locality}</Text>
+      </VStack>
+    </ModalBody>
             <ModalFooter>
-            <Button onClick={()=>{
+            <Button colorScheme='green' onClick={()=>{
                 onClose()
                  shipOrder({order})
                

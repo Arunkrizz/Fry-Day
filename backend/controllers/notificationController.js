@@ -3,9 +3,6 @@ import asyncHandler from 'express-async-handler'
 import User from "../models/userModel.js";
 import Hotel from '../models/restaurantModel.js'
 
-
-
-
 //////////////////////////////////////////////// User notification controllers //////////////////////////////////////////////
 
 async function storeNotification(userId, newMessageReceived) {
@@ -25,7 +22,6 @@ async function storeNotification(userId, newMessageReceived) {
         })
             await notification.save();
             console.log(`Notification stored for user ${userId}`);
-
         }
     } catch (error) {
         console.error('Error storing notification:', error);
@@ -81,7 +77,6 @@ const deleteNotification = asyncHandler(async (req, res) => {
 
     res.status(200).json({ message: 'Notification Deleted' });
 })
-
 
 
 //////////////////////////////////////// Hotel notification controllers /////////////////////////////////////////////////

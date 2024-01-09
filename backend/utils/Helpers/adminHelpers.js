@@ -2,7 +2,7 @@ import User from "../../models/userModel.js";
 import Hotel from '../../models/restaurantModel.js'
 
 
-const updateRegisterStatus = async (id)=>{
+const updateRegisterStatus = async (id) => {
   try {
 
     const hotel = await Hotel.findById(id);
@@ -11,12 +11,11 @@ const updateRegisterStatus = async (id)=>{
 
       // If the user wasn't found, return a status indicating failure
       return { success: false, message: "Hotel not found." };
-      
+
     }
 
     // Update user.name and user.email with the new values
     hotel.approved = true;
-   
 
     // Save the updated user data
     await hotel.save();
@@ -31,15 +30,15 @@ const updateRegisterStatus = async (id)=>{
   }
 }
 
-const fetchAllHotels = async ({pages}) =>{
-  const PAGE_SIZE =3
+const fetchAllHotels = async ({ pages }) => {
+  const PAGE_SIZE = 3
   try {
 
     // console.log(pages,"pgs");
 
     const hotels = await Hotel.find()
-    .skip((pages - 1) * PAGE_SIZE)
-  .limit(PAGE_SIZE);
+      .skip((pages - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE);
 
     return hotels;
 
@@ -52,13 +51,13 @@ const fetchAllHotels = async ({pages}) =>{
   }
 }
 
-const fetchAllUsers = async ({pages}) => {
-  const PAGE_SIZE=3
+const fetchAllUsers = async ({ pages }) => {
+  const PAGE_SIZE = 3
   try {
 
     const users = await User.find({})
-    .skip((pages - 1) * PAGE_SIZE)
-  .limit(PAGE_SIZE);
+      .skip((pages - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE);
 
     return users;
 
@@ -109,15 +108,15 @@ const updateUser = async (userId) => {
 
       // If the user wasn't found, return a status indicating failure
       return { success: false, message: "User not found." };
-      
+
     }
 
-    if(user.is_blocked===false){
-      user.is_blocked=true
-    }else if(user.is_blocked===true){
-      user.is_blocked=false
+    if (user.is_blocked === false) {
+      user.is_blocked = true
+    } else if (user.is_blocked === true) {
+      user.is_blocked = false
     }
-console.log(user,"upd sts")
+    console.log(user, "upd sts")
     // Save the updated user data
     await user.save();
 
@@ -132,4 +131,40 @@ console.log(user,"upd sts")
 
 };
 
-export { updateRegisterStatus,fetchAllUsers, deleteUser, updateUser, fetchAllHotels };
+const updateHotelUnlistStatus = async (id) => {
+  try {
+
+    const hotel = await Hotel.findById(id);
+
+    if (!hotel) {
+
+      // If the user wasn't found, return a status indicating failure
+      return { success: false, message: "Hotel not found." };
+
+    }
+
+    // Update user.name and user.email with the new values
+    hotel.approved = false;
+
+    // Save the updated user data
+    await hotel.save();
+
+    return { success: true, message: "Hotel updated successfully." };
+
+  } catch (error) {
+
+    console.error("Error updating hotel:", error);
+    throw error;
+
+  }
+}
+
+export {
+  updateRegisterStatus,
+  fetchAllUsers,
+  deleteUser,
+  updateUser,
+  fetchAllHotels,
+  updateHotelUnlistStatus,
+
+};

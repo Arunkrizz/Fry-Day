@@ -3,7 +3,6 @@ import { Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react
 import { ChatState } from "../context/chatProvider"
 import { useEffect } from "react"
 import { useSelector } from 'react-redux';
-// import { useToast } from "@chakra-ui/react"
 import { useFetchChatsMutation, useDeleteNotificationsMutation,useMarkAsReadUpdatesMutation } from '../../slices/hotelApiSlice'
 import { getSender } from "../config/chatLogics"
 import { BellIcon, Icon } from "@chakra-ui/icons";
@@ -13,21 +12,17 @@ import { format } from 'date-fns';
 
 
 const ChatList = () => {
-  //   const { userInfo } = useSelector((state) => state.userAuth);
   const { hotelInfo } = useSelector((state) => state.hotelAuth);
   const { selectedChat, setSelectedChat, chats, setChats, notification, setNotification } = ChatState()
   const [fetchChat] = useFetchChatsMutation()
   const [markAsRead] = useDeleteNotificationsMutation()
   const [markMsgRead] =useMarkAsReadUpdatesMutation()
-
-  // console.log(userInfo,"user chat info")
   const userId = hotelInfo.hotelInfo._id
   const toast = useToast()
 
   const fetchChats = async () => {
     try {
       const { data } = await fetchChat()
-      // console.log("data", data);
       setChats(data)
     } catch (error) {
       console.log(error.message);
@@ -110,7 +105,6 @@ const ChatList = () => {
                 }}
               >
                 {`New Message from ${getSender(userId, notif?.chat?.users, notif?.chat?.restaurants)}`}
-                {/* {getSender(userId, chat.users,chat.restaurants)} */}
 
               </MenuItem>
             ))}
@@ -146,7 +140,6 @@ const ChatList = () => {
                     borderRadius="lg"
                     key={chat._id}
                   >
-                    {/* {console.log(chat, "cht", selectedChat, "cht vs slcht")} */}
                     <Text style={{ display: 'flex', justifyContent: 'space-between' }}>
                       {getSender(userId, chat?.users, chat?.restaurants)}
                       {chat.read.restaurants.read ? <Box display="inline-block" position="relative">
@@ -155,7 +148,6 @@ const ChatList = () => {
                         </Icon>
                         
                       </Box> : ""}
-                      {/* {getSender(userId, chats[0].users,chats[0].restaurants)} */}
                     </Text>
                     <small style={{ color: "black", display:"flex" }}>
               {!(selectedChat?._id === chat?._id)&&chat.latestMessage.content}

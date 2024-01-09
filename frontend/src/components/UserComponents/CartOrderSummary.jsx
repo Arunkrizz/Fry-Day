@@ -19,12 +19,21 @@ import io from 'socket.io-client'
 const ENDPOINT = "http://localhost:5000"
 let socket,orderPlaced;
 
+import { useSelector } from 'react-redux';
+
+
+
 
 const OrderSummaryItem = (props) => {
 
+  const { userInfo } = useSelector((state) => state.auth);
   useEffect(()=>{
     socket = io(ENDPOINT)
- },[])
+    socket.emit("setup", userInfo.id)
+    socket.on('orderUpdatessss',()=>{
+      console.log("user side socket");
+    })
+ },[userInfo])
 
   const { label, value, children } = props
   return (
@@ -46,9 +55,7 @@ export const CartOrderSummary = (props) => {
     try {
       console.log(formData.getAll('name'));
       axios.post('/api/users/checkout',formData).then((response)=>{
-        // console.log(response.data.orderId,"response aftr checkout ")
-        socket.emit("orderPlaced", { orderPlaced: response.data.orderId });
-        
+        socket.emit("orderPlaced", { orderPlaced: response.data.orderId });        
         navigate('/user/myOrders')
         
       })
@@ -66,17 +73,7 @@ export const CartOrderSummary = (props) => {
         {props.cartItems.map((item, i) => (
           <OrderSummaryItem key={i} label="Subtotal" value={formatPrice(item.quantity * item.product.price)} />
         ))}
-        {/* <OrderSummaryItem label="Subtotal" value={formatPrice(props.total)} /> */}
-        {/* <OrderSummaryItem label="Shipping + Tax">
-            <Link href="#" textDecor="underline">
-              Calculate shipping
-            </Link>
-          </OrderSummaryItem> */}
-        {/* <OrderSummaryItem label="Coupon Code">
-            <Link href="#" textDecor="underline">
-              Add coupon code
-            </Link>
-          </OrderSummaryItem> */}
+      
         <Flex justify="space-between">
           <Text fontSize="lg" fontWeight="semibold">
             Total

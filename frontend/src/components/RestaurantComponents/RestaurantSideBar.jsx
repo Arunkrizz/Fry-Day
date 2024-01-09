@@ -10,8 +10,6 @@ import {
   Drawer,
   DrawerContent,
   useDisclosure,
-//   BoxProps,
-//   FlexProps,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -24,12 +22,12 @@ import {
   FiVideo,
   FiPackage
 } from 'react-icons/fi';
+import { MdOutlineDashboard } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-// import { IconType } from 'react-icons';
-// import { ReactText } from 'react';
 
 const LinkItems = [
   { name: 'Home', icon: FiHome,path:'/hotel/home' },
+  { name: 'Dashboard', icon: MdOutlineDashboard,path:'/hotel/dashboard' },
   { name: 'Add Product', icon: FiTrendingUp,path:'/hotel/home/addProduct'  },
   { name: 'Add Post', icon: FiCompass,path:'/hotel/home/addPost' },
   { name: 'Messages', icon: FiMessageSquare,path: '/hotel/chat'},
@@ -56,10 +54,8 @@ export default function SimpleSidebar() {
           <SidebarContent onClose={onClose}  />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
       </Box>
     </Box>
   );

@@ -40,7 +40,9 @@ const ProfileScreen = () => {
     
 <>
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+
       {userInfo.profileImageName && (
+        
         <img
           // src={PROFILE_IMAGE_DIR_PATH + userInfo.profileImageName}
           src={(!userInfo?.profileImageName?.startsWith('https://')) ? (`${PROFILE_IMAGE_DIR_PATH}${userInfo?.profileImageName}`) : `${userInfo?.profileImageName}`}

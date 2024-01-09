@@ -29,16 +29,7 @@ const ReportModal = ({ showModal, handleClose, handleReport, postToReport }) => 
               onChange={(e) => setReason(e.target.value)}
             />
           </Form.Group>
-          {/* <Form.Group controlId="description">
-            <Form.Label>Description (optional)</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Enter additional details"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Form.Group> */}
+         
         </Form>
       </Modal.Body>
       <Modal.Footer>

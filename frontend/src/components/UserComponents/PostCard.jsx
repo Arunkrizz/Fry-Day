@@ -103,12 +103,8 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
 
 
   const handleCommentPost = (postId, addedComment) => {
-    // console.log(post.post,"poster");
     const updatedPosts =
     post.post.comments=[... post.post.comments,addedComment]
-   
-// setPost(...updatedPosts);
-    // setPostRefresh(!postRefresh)
 
     if (addedComment) {
       toast({
@@ -138,17 +134,12 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
   // useEffect(()=>{
   const fetchHotel = async () => {
     try {
-      // console.log("hotel");
       const responseFromApiCall = await fetchHotelData({ id: post.post.stores })
-      // console.log(responseFromApiCall,"hotel details")
       dispatch(setCredentials(responseFromApiCall.data));
     } catch (error) {
 
     }
   }
-
-  //  fetchHotel()
-  // },[])
 
   const viewHotelHandler = async () => {
 
@@ -161,8 +152,6 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
       setLocation('/user/home/restaurant')
 
 
-      // dispatch( setCredentials({id:post.post.stores}) );
-
 
 
     } catch (err) {
@@ -174,9 +163,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
   }
 
   const imageUrl = POST_IMAGE_DIR_PATH + post?.post?.images[0]
-  // const imageUrl=""
 
-  // console.log(imageUrl,post,"postting")
   return (
 
     <>
@@ -184,7 +171,6 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
         direction="column"
         align="center"
         justify="center"
-      // h="100vh" // Set the height of the container to the full viewport height
       >
 
         <Card
@@ -197,7 +183,6 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
           <CardHeader>
             <Flex spacing='4'>
               <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                {/* <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' /> */}
 
                 <Box>
                   <Heading size='sm'>{post.post.title}</Heading>
@@ -243,9 +228,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
               },
             }}
           >
-            {/* <Button flex='1' variant='ghost' leftIcon={<BiLike />} style={{ color: post.post.isLiked ? 'blue' : '' }} onClick={(event) => handleLikeClick(event, post.post._id)}>
-       
-          </Button> */}
+        
             <Box>
               <Button flex='1' variant='ghost' leftIcon={<BiLike />} style={{ color: post.post.isLiked ? 'blue' : '' }} onClick={(event) => handleLikeClick(event, post.post._id)}>
                 
@@ -256,18 +239,12 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
             </Box>
             
             <Button flex='1' variant='ghost' onClick={(event) => handleCommentClick(event, post._id)} leftIcon={<BiChat />}>
-              {/* Comment */}
             </Button>
-            {/* <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
-            Share
-          </Button> */}
+         
             <Button flex='1' variant='ghost' onClick={viewHotelHandler}>
               View More..
             </Button>
-            {/* <Button ml={5} variant='solid' colorScheme='blue' 
-      onClick={viewHotelHandler}>
-        View More..
-      </Button> */}
+        
           </CardFooter>
         </Card> 
         <CommentsModal post={commentModalPost} isOpen={isCommentsModalOpen} onClose={onCloseCommentsModal} onCommentPost={handleCommentPost} formatTimeDifference={formatTimeDifference} setPosts={setPost} posts={post} postRefresh={postRefresh} setPostRefresh={setPostRefresh} />

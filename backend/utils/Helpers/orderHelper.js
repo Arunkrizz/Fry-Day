@@ -97,7 +97,7 @@ const createOrder =async (products)=>{
                  store:product.item.stores,
              }
          }); 
-console.log(details,"pwithq")
+// console.log(details,"pwithq")
          let orderObj = {
              deliveryDetails: {
                  name: details.name,
@@ -140,7 +140,7 @@ console.log(details,"pwithq")
                                  resolve(orders)
                               }
 
-                         console.log("+++++++++", Products, "order popu product");
+                        //  console.log("+++++++++", Products, "order popu product");
 
                         
 

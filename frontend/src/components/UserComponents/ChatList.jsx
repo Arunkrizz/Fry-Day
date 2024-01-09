@@ -3,7 +3,6 @@ import { Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react
 import { ChatState } from "../context/chatProvider"
 import { useEffect } from "react"
 import { useSelector } from 'react-redux';
-// import { useToast } from "@chakra-ui/react"
 import { useFetchChatMutation,useDeleteNotificationMutation ,useMarkAsReadUpdateMutation} from '../../slices/userApiSlice'
 import { getSender } from "../config/chatLogics"
 import { BellIcon,Icon } from "@chakra-ui/icons";
@@ -12,23 +11,17 @@ import { Effect } from "react-notification-badge"
 import { format } from 'date-fns';
 
 const ChatList = ({fetchAgain}) => {
-//   const { userInfo } = useSelector((state) => state.userAuth);
   const { userInfo } = useSelector((state) => state.auth);
   const { selectedChat, setSelectedChat, chats, setChats, notification, setNotification } = ChatState()
   const [fetchChat] = useFetchChatMutation()
   const [markAsRead] = useDeleteNotificationMutation()
   const [markMsgRead] =useMarkAsReadUpdateMutation()
-
-  
-
-  // console.log(userInfo,"user chat info")
   const userId = userInfo.id
   const toast = useToast()
 
   const fetchChats = async () => {
     try {
       const { data } = await fetchChat()
-      console.log("data", data);
       setChats(data)
     } catch (error) {
       console.log(error.message);
@@ -49,7 +42,6 @@ const ChatList = ({fetchAgain}) => {
 
   const handleNotificationClick = async (notification) => {
     try {
-      console.log("notificationzz: ", notification);
         setSelectedChat(notification.chat);
         setNotification((prevNotifications) => [
           ...prevNotifications.filter((n) => n._id !== notification._id),
@@ -148,7 +140,6 @@ const ChatList = ({fetchAgain}) => {
                         </Icon>
                        
                       </Box> : ""}
-                      {/* {getSender(userId, chats[0].users,chats[0].restaurants)} */}
                     </Text>
                 
                     <small style={{ color: "black", display:"flex" }}>

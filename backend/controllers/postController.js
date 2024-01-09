@@ -1,13 +1,9 @@
 import asyncHandler from 'express-async-handler'
-// import User from '../models/userModel.js'
 import Post from '../models/postModel.js'
 import mongoose from 'mongoose'
 const { ObjectId } = mongoose.Types;
 
-const createPost = asyncHandler(async (req, res) => {
-    console.log("here in create1")
- 
-// console.log('Request Body:', req.body);
+const createPost = asyncHandler(async (req, res) => { 
     const { title, description, category } = req.body;
     const images = req.files.map((file) => file.filename);
     let categoryId;
@@ -19,7 +15,6 @@ const createPost = asyncHandler(async (req, res) => {
         console.error('Invalid category ObjectId:', error);
         return res.status(400).json({ success: false, message: 'Invalid category ObjectId' });
             }
-    // console.log("id", categoryId)
     // Create a new product
     const newPost = new Post({
         title,

@@ -3,7 +3,6 @@ import RestaurantHeroHeader from '../../components/UserComponents/RestaurantHero
 import { useSelector } from 'react-redux'
 import RestaurantProducts from '../../components/UserComponents/RestaurantProducts';
 import { useGetHotelProductsMutation} from '../../slices/userApiSlice';
-// import { useGetHotelLocationMutation } from '../../slices/userApiSlice';
 import { useGetHotelDetailsMutation } from '../../slices/userApiSlice';
 
 function RestaurantProfile({setLocation}) {
@@ -15,12 +14,10 @@ function RestaurantProfile({setLocation}) {
   const [hotel,setHotel] = useState('')
 
   const { viewHotel } = useSelector( (state) => state.viewHotel);
-  // console.log(viewHotel,"viewHotel")
   useEffect(()=>{
     const fetchProducts =async ()=>{
       try {
         const responseFromApiCall = await fetchHotelProducts({...viewHotel})
-        // console.log(responseFromApiCall,"proddss hotel")
         setProducts (responseFromApiCall.data)
       } catch (error) {
         
@@ -34,7 +31,6 @@ function RestaurantProfile({setLocation}) {
       try {
 
         const responseFromApiCall = await fetchHotel({id:viewHotel._id})
-        // console.log(responseFromApiCall,"details profile hotel")
         setHotel (responseFromApiCall.data)
       } catch (error) {
         console.log(error)
@@ -46,7 +42,7 @@ function RestaurantProfile({setLocation}) {
   return (
     <>
     <RestaurantHeroHeader hotel={hotel} setLocation={setLocation}/>
-    <div style={{ display: "flex", flexWrap: "wrap"}}>
+    <div style={{ display: "flex", flexWrap: "wrap"  , justifyContent: "center",alignItems: "center",height: "100vh"}}>
   {products?(products.map((item, index) => (
     <React.Fragment key={index}>
       <RestaurantProducts product={item}  />

@@ -28,12 +28,6 @@ const AllOrderScreen = () => {
     const [refetch, setRefetch] = useState(false)
 
 
-  
-
-
-
-
-
     const formatTimeDifference = (timestamp) => {
         const now = moment();
         const postTime = moment(timestamp);
@@ -59,7 +53,6 @@ const AllOrderScreen = () => {
             try {
                 const responseFromApi = await fetchOrders()
                 setOrders(responseFromApi.data)
-                console.log(responseFromApi, "all orders fetch");
             } catch (error) {
                 console.log("error:", error);
             }

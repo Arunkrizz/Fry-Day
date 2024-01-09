@@ -71,9 +71,6 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
             <h6>or sign in with google</h6> <GoogleAuthSignIn setShowLoginUserModal={setShowLoginUserModal} />
           </Modal.Body>
           <Modal.Footer>
-            {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
                     
             <Button variant="primary" onClick={submitHandler} >
               sign In
@@ -153,16 +150,12 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
             <h6>or sign up with google</h6> <GoogleAuth setshowRegisterUserModal={setshowRegisterUserModal} />
           </Modal.Body>
           <Modal.Footer>
-            {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
             <Button variant="primary"  onClick={async(e)=>{
              await  handleSignUp()
               registerSubmit(e)
              
               }} disabled={''}>
               sign Up
-              {/* {isUpdating ? "Adding..." : "Add User"} */}
             </Button>
           </Modal.Footer>
         </Modal>

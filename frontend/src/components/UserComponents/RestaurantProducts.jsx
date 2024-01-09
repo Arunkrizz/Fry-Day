@@ -12,19 +12,16 @@ import {
 } from '@chakra-ui/react'
 
 const IMAGE =
-  'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80'
-
+'https://imgs.search.brave.com/_fWIJgKMfSuHYV5nCtcC2MIKwYL6lzTOfpbGrtdwZio/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/NjYzMDU5Nzc1NzEt/NTY2NjY3N2M2ZTk4/P3E9ODAmdz0xMDAw/JmF1dG89Zm9ybWF0/JmZpdD1jcm9wJml4/bGliPXJiLTQuMC4z/Jml4aWQ9TTN3eE1q/QTNmREI4TUh4elpX/RnlZMmg4TVRsOGZH/ZHlaWGw4Wlc1OE1I/eDhNSHg4ZkRBPQ'
 import {PRODUCT_IMAGE_DIR_PATH }from '../../utils/constants'
 import axios from 'axios'
 
   export default function RestaurantProducts({product}) {
 
-// console.log(product,"card ui")
 const addToCart =(proId)=>{
   try {
     axios.post('/api/users/addToCart', {
      proId: proId,
-    //  hotelInfo:hotelInfo.hotelInfo._id
      // other data you want to send
    }).then((response)=>{
     if(response.data.status){
@@ -32,11 +29,9 @@ const addToCart =(proId)=>{
     }else{
       toast.error("error occured")
     }
-    // console.log(response.data.status,"added to cart")
   }).catch((err)=>{
     toast.error("error occured!!")
   })
-  //  console.log('Data sent successfully');
  } catch (error) {
    console.error('Error sending data to the backend', error);
  }
@@ -75,6 +70,7 @@ const addToCart =(proId)=>{
             backgroundImage: `url(${IMAGE})`,
             filter: 'blur(15px)',
             zIndex: -1,
+            
           }}
           _groupHover={{
             _after: {
@@ -101,9 +97,7 @@ const addToCart =(proId)=>{
             <Text fontWeight={800} fontSize={'xl'}>
               ${product.price}
             </Text>
-            {/* <Text textDecoration={'line-through'} color={'gray.600'}>
-              $199
-            </Text> */}
+           
             
           </Stack>
           <Button onClick={(e)=>{addToCart(product._id)}}>Add to Cart </Button>

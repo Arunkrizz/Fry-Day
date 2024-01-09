@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 const ScrollableChat = ({ messages }) => {
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
-// console.log(messages,"scrollblechtres");
   return (
     <ScrollableFeed>
         {messages &&
@@ -30,8 +29,6 @@ const ScrollableChat = ({ messages }) => {
                 {format(new Date(m.createdAt), "h:mm a")}
               </small>
                     </span>
-                    {/* {console.log("marginLeft", isSameSenderMargin(messages, userInfo.id))} */}
-            {/* {console.log("marginTop", isSameUser(messages, m, i) ? 3 : 10)} */}
                 </div>
               ))
         }

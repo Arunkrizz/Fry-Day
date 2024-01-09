@@ -68,7 +68,6 @@ const ManageAddress = () => {
       navigator.permissions
         .query({ name: "geolocation" })
         .then(function (result) {
-          console.log(result);
           if (result.state === "granted") {
             //If granted then you can directly call your function here
             navigator.geolocation.getCurrentPosition(success, errors, options);
@@ -114,10 +113,8 @@ const ManageAddress = () => {
         formDatas.append('latitude', accessLatitude);
         formDatas.append('longitude', accessLongitude);
 
-        // console.log(formData,"formdata")
 
         const responseFromApiCall = await changeAddress( formDatas ).unwrap();
-        console.log(responseFromApiCall,"responseFromApiCall mnge address")
 
         dispatch( setCredentials( { ...responseFromApiCall } ) ); // chnge userinfo if necessary
         

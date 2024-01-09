@@ -25,38 +25,6 @@ const ChatScreen = () => {
 
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
    
-    // const userId = hotelInfo.hotelInfo._id
-
-    // useEffect(()=>{
-    //     const accessChat = async (userId) => {
-    //         try {
-    //             setLoadingChat(true)
-    //             const { data } = await getChat(userId)
-    //             if (!chats.find((c) => c._id === data._id)) {
-    //               setChats([data, ...chats])
-    //               setSelectedChat(data)
-    //             }
-    //             setSelectedChat(data)
-    //             setLoadingChat(false)
-    //             navigate('/hotel/chat')
-                
-    //         } catch (error) {
-    //             toast({
-    //                 title: "Error fetching the Chat",
-    //                 description: error.message,
-    //                 status: "error",
-    //                 duration: 5000,
-    //                 isClosable: true,
-    //                 position: "bottom-left"
-    //               })
-    //               console.log("hi",error.message)
-    //         }
-    //       }
-
-    //       accessChat(userId)
-
-    // },[userId])
-
     return (
        
             <div style={{width: "100%"}}>

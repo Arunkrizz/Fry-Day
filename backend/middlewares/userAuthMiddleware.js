@@ -20,9 +20,7 @@ const checkRefreshToken = async (refreshToken) => {
             throw new Error('User not found');
         }
     } catch (error) {
-        console.log("error in ref jwt ", error);
         throw new Error(error );
-        // res.status(401).json({ success: false, message: 'Invalid refresh token' });
     }
 
 }
@@ -30,12 +28,10 @@ const checkRefreshToken = async (refreshToken) => {
 
 
 const authenticateUser = asyncHandler(async (req, res, next) => {
-    console.log('authenticateUser');
 
     const tokenFromRequest = req.cookies.userJwt;
 
     if (tokenFromRequest) {
-        // console.log('tokenFromRequest authenticateUser');
         try {
 
             // Decode the jwt token using the secret key in the server
@@ -45,25 +41,18 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
             const requestUser = await User.findById(decodedTokenData.userId).select('-password');
 
             if (requestUser) {
-                // console.log('requestUser authenticateUser');
 
                 if (requestUser.is_blocked) {
-                    console.log("blocked user");
                     res.status(401)
-                    // throw new Error('Your account lll is blocked')
-                    // res.status(400)
                     throw new Error(`Your Account is blocked.`)
-                    // return res.status(403).json({ error: { message: 'Your this Account is blocked.' } });
                 }
 
                 req.user = requestUser; // Set the request user with the user data fetched from the Db
-                // console.log("userAuth");
                 next(); // Proceed to next process
 
             }
 
         } catch (error) {
-            console.log("error jwt");
             if (error.name === 'TokenExpiredError') {
                 const refreshToken = req.cookies.userRefreshToken;
                 if (refreshToken) {
@@ -84,29 +73,19 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
                         if (requestUser) {
 
                             if (requestUser.is_blocked) {
-                                console.log("blocked user");
                                 res.status(401)
-                                // throw new Error('Your account lll is blocked')
-                                // res.status(400)
-                                // throw new Error(`Your Account is blocked.`)
-                                // return res.status(403).json({ error: { message: 'Your this Account is blocked.' } });
+                               
                             }
 
                             req.user = requestUser; // Set the request user with the user data fetched from the Db
-                            // console.log(requestUser, "userAuth ref jwt");
-                            // res.redirect('/login');
+                          
                             next(); // Proceed to next process
                         } else {
-                            // res.redirect('/login');
                             res.status(401);
                             throw new Error(`Authentication  failed.`)
                         }
 
-
-
-                        // console.log(data, "chkrfrsh then");
                     }).catch((err) => {
-                        console.log("errorre",err, "ref err");
                         res.status(401).json({ message: 'Token expired or invalid. Please log in again.' });
                         return;
                     })
@@ -116,9 +95,6 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
                     throw new Error(`Authentication  failed. You are Blocked`)
                 }
             }
-            // res.status(401);
-
-            // throw new Error(`Authentication  failed. You are Blocked`)
         }
 
     } else {

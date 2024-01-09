@@ -11,9 +11,6 @@ import OrderUpdates from './OrderUpdates'
 import AllOrderScreen from '../../screens/RestaurantScreens/AllOrderScreen.jsx';
 
 
-// import { useHistory } from 'react-router-dom';
-
-
 function Homescreen() {
    // Get the current pathname from the window location
    const currentPath = window.location.pathname;
@@ -27,7 +24,6 @@ function Homescreen() {
   const onClickHandler_ = (location) => {
 
     setRestaurantPosition(location);
-    console.log("set res pos ",restaurantPosition);
 
     function haversineDistance(lat1, lon1, lat2, lon2) {
       // Radius of the Earth in kilometers
@@ -147,19 +143,6 @@ function Homescreen() {
     setComponent(renderComponent())
   },[location,restaurantPosition])
 
-  
-
-   
-   // Based on the currentPath, render different components
-  //  const renderComponent = () => {
-  //    if (location === '/hotel/home/addProduct') {
-  //      return <AddProduct />;
-  //    } else if(location === '/hotel/home'){
-  //       return <div>Homepage</div>
-  //    } else {
-  //      return <div>Invalid URL</div>;
-  //    }
-  //  }
   return (
     <div style={{ display: 'flex' }}>
     <RestaurantSideBar setLocation={setLocation} style={{ flex: '0 0 auto' }} />

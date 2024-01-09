@@ -6,7 +6,6 @@ import React from 'react'
 const viewReportedPost = ({showViewPost,setShowViewPost,handleRemoveConfirmation,post}) => {
 
 const handleRemoveConfirmations=()=>{
-    console.log("remove confirmation");
     handleRemoveConfirmation(post)
 }
 
@@ -27,7 +26,6 @@ const handleRemoveConfirmations=()=>{
           style={{
             width: "150px",
             height: "150px",
-            // borderRadius: "50%",
             objectFit: "cover",
             display: "block",
             marginTop: "5px",
@@ -35,7 +33,6 @@ const handleRemoveConfirmations=()=>{
             marginBottom: "10px",
           }}
         /> 
-    {/* {console.log(post)} */}
     </Modal.Body>
     <Modal.Footer>
       <Button variant="secondary" onClick={() =>setShowViewPost(false)}>

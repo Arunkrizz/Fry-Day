@@ -13,6 +13,7 @@ import React, {  useContext } from "react";
 import ProgressBarContext from "../store/progressBarStore.jsx";
 import RegistrationHeader from "./components/RestaurantComponents/RegistrationHeader.jsx";
 import ChatProvider from "./components/context/chatProvider.jsx";
+// import NavigateProvider from '../store/NavigationContext.jsx'
 
 
 
@@ -48,7 +49,7 @@ else if(isHotelPage){
     <>
 
 
-      
+  {/* <NavigateProvider>    */}
 <ProgressBarContext>
 <ChatProvider>
   {header}
@@ -69,7 +70,7 @@ else if(isHotelPage){
       </ChatProvider>
 
       </ProgressBarContext>
-
+      {/* </NavigateProvider>  */}
       
    
    

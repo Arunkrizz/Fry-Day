@@ -43,10 +43,8 @@ import {
 
 const LinkItems = [
   { name: 'Home', icon: FiHome ,path: '/user/home' },
-  { name: 'Trending', icon: FiTrendingUp,path: '/user/home'  },
   { name: 'Messages', icon: FiCompass,path: '/user/chat' },
   { name: 'Cart', icon: FiShoppingCart,path: '/user/cart'  },
-  // { name: 'Settings', icon: FiSettings ,path: '/user/home' },
 ];
 
 
@@ -85,6 +83,7 @@ export default AdminHeader
 const SidebarContent = ({ onClose, ...rest }) => {
   const navigate = useNavigate()
   const [showSearchBar,setShowSearchBar] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
   
 
 
@@ -108,9 +107,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         <NavItem  icon={FiSearch} onClick={()=>{
           setShowSearchBar(true)
+          setDrawerOpen(true)
           
         }}>
-            <SearchDrawer />
+          Search
+           {drawerOpen? <SearchDrawer setDrawerOpen={setDrawerOpen} />: null}
           </NavItem>
          
         
@@ -223,7 +224,6 @@ import { Outlet } from 'react-router-dom';
         </Text>
   
         <HStack spacing={{ base: '0', md: '6' }}>
-          {/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
           <Flex alignItems="center">
             <Menu>
               <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
@@ -232,11 +232,9 @@ import { Outlet } from 'react-router-dom';
                     size="sm"
                     src={(!userInfo?.profileImageName?.startsWith('http')) ? (`${PROFILE_IMAGE_DIR_PATH}${userInfo?.profileImageName}`) : `${userInfo?.profileImageName}`}
 
-                    // src={PROFILE_IMAGE_DIR_PATH + userInfo?.profileImageName}
                   />
                   <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                     <Text fontSize="sm">{userInfo?.name}</Text>
-                    {/* <Text fontSize="xs" color="gray.600">Admin</Text> */}
                   </VStack>
                   <Box display={{ base: 'none', md: 'flex' }}>
                     <FiChevronDown />
@@ -250,8 +248,7 @@ import { Outlet } from 'react-router-dom';
                 <LinkContainer to='/user/myOrders'>
                 <MenuItem>my orders</MenuItem>
                 </LinkContainer>
-                {/* <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem> */}
+              
                 <MenuDivider />
                 <MenuItem onClick={logOutHandler} >Sign out</MenuItem>
               </MenuList>

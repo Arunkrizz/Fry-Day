@@ -23,30 +23,20 @@ function HomePage() {
   const [unlikePostApi] = useUnlikePostMutation();
   const [fetchHotelLocation] = useGetHotelLocationMutation()
   const { viewHotel } = useSelector((state) => state.viewHotel);
-  // console.log(viewHotel,"homepage view hotel")
   const [restaurantLocation, setRestaurantLocation] = useState('')
-
-
-
-
   const [hasMorePosts, setHasMorePosts] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-
-
   const [blocked, setBlocked] = useState(false)
   const [blockCheck] = useCheckBlockMutation()
   const { userInfo } = useSelector((state) => state.auth);
   const [logoutApiCall] = useLogoutMutation();
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
   const [getPosts] = useGetUserPostsMutation()
   const [post, setPost] = useState('')
   const [location, setLocation] = useState(window.location.pathname)
   const [component, setComponent] = useState('')
   const [postRefresh, setPostRefresh] = useState(false)
-
   const locations = useLocation()
 
 
@@ -54,16 +44,12 @@ function HomePage() {
     setIsLoading(true);
     try {
       const response = await getPosts({ offset: post.length }); // Adjust offset based on API requirements
-    //  console.log(response,"posts in home");
-      // setPost([ ...response.data.Post]);
       setHasMorePosts(response.data.Post.length > 0); // Check if there's more to load
-      let postsData = [ ...post,...response.data.Post]
-      // setPosts([...posts, ...response.data.Post]);
+      let postsData = [...post, ...response.data.Post]
 
       // Check if the current user has liked each post
       const likedPosts = postsData.map((post) => ({
         ...post,
-        // isLiked: userInfo ? post.likes.includes(userInfo.id) : false
         isLiked: userInfo && post.likes.some((like) => like._id === userInfo.id)
       }));
       setPost(likedPosts);
@@ -76,14 +62,13 @@ function HomePage() {
 
 
   useEffect(() => {
-    
+
     fetchMorePosts();
   }, [postRefresh]);
 
   useEffect(() => {
     const checkBlocked = async () => {
       try {
-        // console.log(userInfo,"userInfos");
         const response = await blockCheck({ id: userInfo.id })
         if (response.error?.status === 401) {
           await logoutApiCall().unwrap();
@@ -96,7 +81,7 @@ function HomePage() {
           toast.error("Your account is blocked");
         }
       } catch (error) {
-        console.log(error, "jjjjjjjjjjj")
+        console.log(error, "error")
       }
     }
     checkBlocked()
@@ -106,7 +91,6 @@ function HomePage() {
   useEffect(() => {
     const handleBackButton = () => {
       // Do something when the back button is pressed
-      // console.log(window.location.pathname,"locations");
       setLocation(window.location.pathname)
     };
 
@@ -115,36 +99,13 @@ function HomePage() {
 
   }, [locations]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const responseFromApiCall = await getPosts();
-  //       setPost(responseFromApiCall.data.Post)
-  //       let postsData = responseFromApiCall.data.Post
-
-  //       // Check if the current user has liked each post
-  //       const likedPosts = postsData.map((post) => ({
-  //         ...post,
-  //         isLiked: userInfo ? post.likes.includes(userInfo.id) : false
-  //       }));
-  //       setPost(likedPosts);
-  //       //    console.log(responseFromApiCall,"resss view post")
-  //     } catch (error) {
-  //       // Handle errors
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData(); // Call the async function
-  // }, [postRefresh]); // Include dependencies if necessary
 
   const handleLikeClick = async (event, postId) => {
     event.stopPropagation(); // Prevent the event from propagating to the parent (Card) click handler
     if (!userInfo) {
-      navigate('/login') 
+      navigate('/login')
     }
     try {
-      // console.log(postId, "like button clik", post);
       const response = post.find((post) => post._id === postId).isLiked
         ? await unlikePostApi(postId).unwrap()
         : await likePost(postId).unwrap();
@@ -176,7 +137,7 @@ function HomePage() {
             dataLength={post.length}
             next={fetchMorePosts}
             hasMore={hasMorePosts}
-            loader={post.length>0?<Loader/>:""}
+            loader={post.length > 0 ? <Loader /> : ""}
             endMessage={
               <p style={{ textAlign: 'center' }}>
                 <b>Yay! You have seen it all</b>
@@ -190,7 +151,7 @@ function HomePage() {
         } else if (location === '/user/home/viewHotelLocation') {
           return <RestaurantLocation location={restaurantLocation} />;
         }
-       
+
         if (location === '/user/home/live') {
           return <LiveStreaming />;
         } else {
@@ -208,7 +169,6 @@ function HomePage() {
     const fetchLocation = async () => {
       try {
         const responseFromApiCall = await fetchHotelLocation({ ...viewHotel })
-        // console.log(responseFromApiCall,"loctn")
         if (responseFromApiCall) {
           setRestaurantLocation(responseFromApiCall.data)
         }

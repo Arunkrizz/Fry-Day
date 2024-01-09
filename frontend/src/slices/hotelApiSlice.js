@@ -130,6 +130,24 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             })
         }),
+        getHotelDash: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getPostsCountByDate`,
+              method: 'GET',      
+            }),
+          }),
+          getDeptDashboardBoxs: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getDeptDashboardBoxs`,
+              method: 'GET',      
+            }),
+          }),
+          getRestaurantOrderCount: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getOrderCountByDate`,
+              method: 'GET',      
+            }),
+          }),
     
     })
 })
@@ -154,7 +172,10 @@ export const {
     useDeleteNotificationsMutation,
     useReadMessagesUpdatesMutation,
     useMarkAsReadUpdatesMutation,
-   useFetchAllOrdersMutation
+   useFetchAllOrdersMutation,
+   useGetHotelDashQuery,
+   useGetDeptDashboardBoxsQuery,
+   useGetRestaurantOrderCountQuery,
 
 
             } = hotelApiSlice;

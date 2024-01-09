@@ -32,7 +32,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
 
     
     
-// console.log(userInfo,"userii")
     const userId = userInfo.id
 
     const toast = useToast()
@@ -40,7 +39,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
     const fetchChats = async () => {
         try {
           const { data } = await fetchChat()
-        //   console.log("data", data);
           setChats(data)
         } catch (error) {
           console.log(error.message);
@@ -61,7 +59,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
 
             try {
                 const { data } = await sendNewMessage({ content: newMessage, chatId: selectedChat._id,type:"User" });
-                // console.log("snd msg", data)
                 socket.emit('new Message', data)
                 setMessages([...messages, data]);
                 setNewMessage(""); 
@@ -95,8 +92,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
         try {
             const { data } = await fetchAllMessages(selectedChat._id);
             setMessages(data)
-            // console.log("messages", messages)
-            // console.log("messagesData", data)
             setLoading(false)
             socket.emit("join chat", selectedChat._id)
 
@@ -118,8 +113,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
         try {
             const { data } = await fetchAllMessages(selectedChat._id);
             setMessages(data)
-            // console.log("messages")
-            // console.log("messagesData", data)
             setLoading(false)
 
             socket.emit("join chat", selectedChat._id)
@@ -151,16 +144,13 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
            
             if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
 
-                // console.log("msg rcvd");
                 fetchChats()
                 await updateReadMessages(newMessageReceived.chat._id)
-                // console.log("msg received socket ");
               const existingNotification = notification.find((n) => n.chat._id === newMessageReceived.chat._id);
         
               if (!existingNotification) {
                 setNotification([newMessageReceived, ...notification]);
               const chat =await fetchMessage()
-                //   setFetchAgain(!fetchAgain)
               } else {
                 // Update the existing notification
                 setNotification([
@@ -173,7 +163,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
             } else {
               console.log(messages,"else msg rcvd");
               const chat =await fetchMessage()
-              // setMessages([...messages, newMessageReceived]);
             }
           });
         }, [ selectedChatCompare]);
@@ -182,7 +171,6 @@ const SingleChat = ({fetchAgain ,setFetchAgain}) => {
             const fetchNotificationsData = async () => {
                 try {
                     const { data } = await fetchNotifications();
-                    console.log("notifications: ", data);
                     setNotification(data);
                 } catch (error) {
                     console.error('Error fetching notifications:', error.message);

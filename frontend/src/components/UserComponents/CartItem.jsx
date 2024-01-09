@@ -51,14 +51,11 @@ export const CartItem = (props) => {
       justify="space-between"
       align="center"
     >
-       {/* {console.log(props,"props")} */}
       <CartProductMeta
         name={name}
         description={description}
         image={image}
-        // isGiftWrapping={isGiftWrapping}
       />
-
       {/* Desktop */}
       <Flex
         width="full"
@@ -73,14 +70,11 @@ export const CartItem = (props) => {
           onChange={(e) => {
             const count = e.target.value;
             changeProductQuantity(props._id,props.item,count)
-            // console.log('Selected value:', count);
           }}
         />
         <PriceTag price={price} currency={currency} />
         <CloseButton aria-label={`Delete ${name} from cart`} onClick={(e) => {
             onOpen()
-            // removeProduct(props._id,props.item)
-            // console.log('Selected value:', count);
           }} />
           <DeleteAlert isOpen={isOpen} onOpen={onOpen} onClose={onClose} removeProduct={props.removeProduct} cartId={props._id} proId={props.item} />
       </Flex>
@@ -99,7 +93,6 @@ export const CartItem = (props) => {
         <Link fontSize="sm" textDecor="underline"
         onClick={(e)=>{
           onOpen()
-          // removeProduct(props._id,props.item)
         }
           }>
           Delete
@@ -109,7 +102,6 @@ export const CartItem = (props) => {
           onChange={(e) => {
             const count = e.target.value;
             changeProductQuantity(props._id,props.item,count)
-            // console.log('Selected value:', count);
           }}
         />
         <PriceTag price={props.product.price} currency={currency} />

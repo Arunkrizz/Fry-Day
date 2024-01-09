@@ -12,8 +12,6 @@ const ReportedPostsTable = ({ reportedPosts, setReportedPosts }) => {
     const [removePostByAdmin] = useRemoveReportedPostMutation();
     
     const handleRemoveConfirmation = (post) => {
-        console.log("here inn")
-        // setSelectedPost(post);
         setShowModal(true);
     };
 
@@ -42,10 +40,6 @@ const ReportedPostsTable = ({ reportedPosts, setReportedPosts }) => {
         } catch (err) {
             toast.error(err?.data?.message || err?.error);
         }
-        // Update the state or fetch updated data as needed
-        // removePost(selectedPost.id).then(() => {
-        //   // Update state or fetch updated data
-        // });
 
         setShowModal(false);
     };
@@ -78,14 +72,6 @@ const ReportedPostsTable = ({ reportedPosts, setReportedPosts }) => {
                             <td>{post.isReviewed?"Removed":"Review pending"}</td>
                             <td>{post.reportedReason}</td>
                             <td>
-                                {/* <Button
-                                    type="button"
-                                    variant={getButtonVariant(post)}
-                                    onClick={() => handleRemoveConfirmation(post)}
-                                    disabled={isPostRemoved(post)}
-                                >
-                                    {getButtonText(post)}
-                                </Button> */}
                                 <Button onClick={()=>{
                                     setSelectedPost(post);
                                     setShowViewPost(true)

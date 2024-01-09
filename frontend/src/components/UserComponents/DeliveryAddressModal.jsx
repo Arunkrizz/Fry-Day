@@ -98,7 +98,6 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
       formDatas.append('latitude', accessLatitude);
       formDatas.append('longitude', accessLongitude);
       formDatas.append('paymentMethod', paymentMethod);
-      // console.log(firstName, address, locality, mobile, paymentMethod, "hh  ");
 
       submitHandler(formDatas)
     } catch (error) {
@@ -133,7 +132,6 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
       navigator.permissions
         .query({ name: "geolocation" })
         .then(function (result) {
-          console.log(result);
           if (result.state === "granted") {
             //If granted then you can directly call your function here
             navigator.geolocation.getCurrentPosition(success, errors, options);
@@ -163,7 +161,6 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
           finalFocusRef={btnRef}
           size={"sm"}
         >
-          {/* {console.log("lazyy1")} */}
           <DrawerOverlay />
           <DrawerContent>
             <DrawerCloseButton />
@@ -259,14 +256,7 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
                     checked={paymentMethod === 'cod'}
                     onChange={() => setPaymentMethod('cod')}
                   />
-                  {/* <BootstrapForm.Check
-                    type="radio"
-                    label="Online Payment"
-                    id="online"
-                    name="paymentMethod"
-                    checked={paymentMethod === 'online'}
-                    onChange={() => setPaymentMethod('online')}
-                  /> */}
+               
                 </BootstrapForm.Group>
 
               </BootstrapForm>
@@ -284,15 +274,7 @@ const DeliveryAddressModal = ({ submitHandler, isOpen, onOpen, onClose }) => {
             </DrawerBody>
 
             <DrawerFooter>
-              {/* <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button variant='blue' mr={3} onClick={()=>{
-              onClose()
-              submitHandler()
-              }}>
-              Set Delivery Address
-            </Button> */}
+             
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

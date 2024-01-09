@@ -20,7 +20,6 @@ const EmailVerificationComponent = () => {
       handleEmailVerification(oobCode,email);
     } else {
       // Invalid parameters, handle appropriately (e.g., redirect to an error page)
-    //   history.push('/error');
     alert('Error verifying email.');
 
     }
@@ -31,7 +30,6 @@ const EmailVerificationComponent = () => {
       
 
      await checkActionCode(auth, oobCode).then((data)=>{
-    console.log( data.data.email)
     axios.post('/api/users/verifyMail',{
         email:data.data.email
     })

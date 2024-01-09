@@ -29,14 +29,9 @@ const SingleChat = () => {
 
     const { selectedChat, setSelectedChat, notification, setNotification, chats, setChats } = ChatState()
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
-// console.log(userInfo,"userii")
     const userId = hotelInfo.hotelInfo._id
-
     const toast = useToast()
 
-    
-   
- 
     useEffect(()=>{
         socket = io(ENDPOINT)
         socket.emit("setup", hotelInfo.hotelInfo._id)
@@ -44,23 +39,13 @@ const SingleChat = () => {
         socket.on("typing",()=>setIsTyping(true))
         socket.on("stop typing",()=>setIsTyping(false))
      },[])
-    //  useEffect(()=>{
-    //      socket.on('message received',(newMessageReceived)=>{
-    //          if(!selectedChatCompare || selectedChatCompare._id !==newMessageReceived.chat._id){
-    //              // give notification 
-    //              console.log(selectedChatCompare, selectedChatCompare._id ,newMessageReceived.chat._id,"io");
-    //          }else{
-    //              setMessages([...messages,newMessageReceived])
-    //          }
-    //      })
-    //  })
+
 
     const sendMessage = async (event) => {
         if (event.key === "Enter" && newMessage) {
            socket.emit('stop typing',selectedChat._id)
             try {
                 const { data } = await sendNewMessage({ content: newMessage, chatId: selectedChat._id,type:"Restaurant" });
-                // console.log("data", data)
 
                 socket.emit('new Message', data)
                 setMessages([...messages, data]);
@@ -78,8 +63,6 @@ const SingleChat = () => {
         }
     };
 
-  
-
 
     const fetchMessages = async () => {
         if (!selectedChat) return
@@ -87,10 +70,7 @@ const SingleChat = () => {
         try {
             const { data } = await fetchAllMessages(selectedChat._id);
             setMessages(data)
-            console.log("messages")
-            // console.log("messagesData", data)
             setLoading(false)
-
             socket.emit("join chat", selectedChat._id)
         } catch (error) { 
             toast({
@@ -110,8 +90,6 @@ const SingleChat = () => {
         try {
             const { data } = await fetchAllMessages(selectedChat._id);
             setMessages(data)
-            // console.log("messages")
-            // console.log("messagesData", data)
             setLoading(false)
 
             socket.emit("join chat", selectedChat._id)
@@ -127,9 +105,6 @@ const SingleChat = () => {
         }
     }
 
-
-
-
     useEffect(() => {
         fetchMessages()
        selectedChatCompare = selectedChat
@@ -138,7 +113,6 @@ const SingleChat = () => {
     const fetchChats = async () => {
         try {
           const { data } = await fetchChat()
-        //   console.log("data", data);
           setChats(data)
         } catch (error) {
           console.log(error.message);
@@ -155,10 +129,7 @@ const SingleChat = () => {
 
 useEffect( () => {
     socket.on("message received", async (newMessageReceived) => {
-       
       if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-
-        console.log("msg rcvd");
         fetchChats()
 
         await updateReadMessages(newMessageReceived.chat._id)
@@ -169,9 +140,7 @@ useEffect( () => {
         if (!existingNotification) {
           setNotification([newMessageReceived, ...notification]);
         const chat =await fetchMessage()
-          //   setFetchAgain(!fetchAgain)
         } else {
-
           // Update the existing notification
           setNotification([
             ...notification.filter((n) => n.chat._id !== newMessageReceived.chat._id),
@@ -181,9 +150,7 @@ useEffect( () => {
           
         }
       } else {
-        console.log(messages,"else msg rcvd");
         const chat =await fetchMessage()
-        // setMessages([...messages, newMessageReceived]);
       }
     });
   }, [ selectedChatCompare]);
@@ -192,7 +159,6 @@ useEffect( () => {
     const fetchNotificationsData = async () => {
         try {
             const { data } = await fetchNotifications();
-            // console.log("notifications: ", data);
             setNotification(data);
         } catch (error) {
             console.error('Error fetching notifications:', error.message);

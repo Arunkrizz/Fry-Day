@@ -13,8 +13,6 @@ const PostLikedByModal = ({ show, handleClose, users }) => {
       </Modal.Header>
       <Modal.Body>
        
-            {/* {console.log(users,"liked modal")} */}
-
           {users?.map((user, index) => (
          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
          <Image

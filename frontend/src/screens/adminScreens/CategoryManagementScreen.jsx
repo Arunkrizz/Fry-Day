@@ -3,9 +3,11 @@ import { useEffect,useState } from "react"
 import { toast } from "react-toastify";
 import { useGetCategoriesDataMutation } from "../../slices/adminApiSlice";
 import Loader from "../../components/UserComponents/Loader";
-
+import handleGlobalError from "../GlobalErrorHandler";
+import { useNavigate } from "react-router-dom";
 
 const CategoryScreen = () => { 
+  const navigate = useNavigate()
 
   const [categoriesData, setCategoriesData] = useState([]);
   const [categoriesDataFromAPI, { isLoading } ] = useGetCategoriesDataMutation();
@@ -14,7 +16,9 @@ const CategoryScreen = () => {
     
     try {
       const fetchData = async () => {
-        const responseFromApiCall = await categoriesDataFromAPI();
+        const responseFromApiCall = await categoriesDataFromAPI()
+        .then((response)=>handleGlobalError(response,navigate))
+
         const categoriesArray = responseFromApiCall.data.categoryData;
         setCategoriesData(categoriesArray);
       };

@@ -98,7 +98,6 @@ const Header = () => {
 
 
   const registerSubmit = async (e) => {
-    console.log("api called")
     e.preventDefault();
     let passwordValidation
     let emailValidation
@@ -117,7 +116,6 @@ const Header = () => {
     try{
 
       if (passwordValidation && emailValidation){
-      console.log("api called")
 
     const responseFromApiCall = await register( { userRegisterName, userRegisterEmail, userRegisterPassword, userRegisterMobile } ).unwrap();
 
@@ -142,7 +140,6 @@ const submitHandler = async (e) => {
   try {
     // navigate('/user/home');
     const responseFromApiCall = await login( { userEmail, userPassword } ).unwrap();
-console.log(responseFromApiCall,"response login")
 if(responseFromApiCall?.verified){
     dispatch( setCredentials( { ...responseFromApiCall } ) );
     setShowLoginUserModal(false)
@@ -223,7 +220,7 @@ if(responseFromApiCall?.verified){
 
                     <NavDropdown title={userInfo.name} id="userName">
 
-                      <LinkContainer to='/profile'>
+                      <LinkContainer to='/user/profile'>
                         <NavDropdown.Item> Profile </NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to='/user/myOrders'>
