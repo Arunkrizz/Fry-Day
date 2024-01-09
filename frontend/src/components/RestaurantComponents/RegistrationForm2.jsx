@@ -7,9 +7,7 @@ import { Link } from "react-router-dom";
 import { useHotelRegisterMutation } from "../../slices/hotelApiSlice.js";
 import { toast } from "react-toastify";
 import { Row, Col } from 'react-bootstrap';
-
 import { setCredential } from "../../slices/hotelAuthSlice";
-// import { setCredentials } from "../../slices/authSlice";
 import { useDispatch } from 'react-redux';
 
 
@@ -18,11 +16,7 @@ import { useDispatch } from 'react-redux';
 
 function CheckApiExample() {
     const { postDetails, setPostDetails, handleNext } = useContext(ProgressBarContext);
-
     const [hotelRegister] = useHotelRegisterMutation();
-
-
-
     const [selectedOption, setSelectedOption] = useState(null);
     const [describeCheckedValues, setDescribeCheckedValues] = useState([]);
     const [checkedCuisineValues, setCheckedCuisineValues] = useState([]);
@@ -33,10 +27,6 @@ function CheckApiExample() {
     const [menuImagePreviews, setMenuImagePreviews] = useState([]);
     const [foodImagePreviews, setFoodImagePreviews] = useState([]);
     const dispatch = useDispatch();
-
-
-
-
 
     const isFormValid = () => {
         // Check if every field is filled
@@ -93,16 +83,13 @@ function CheckApiExample() {
 
     const handleSubmitClick = () => {
 
-        // console.log("here");
         if (isFormValid()) {
 
             handleNext()
             submitHandler()
         } else {
             // Display an error message or take other actions as needed
-
             toast.error('Please fill in all fields before proceeding.');
-
         }
 
     };
@@ -115,7 +102,6 @@ function CheckApiExample() {
 
         setMenuImagePreviews(newPreviews);
         setMenuImages(newMenuImages)
-        console.log(menuImages,"menuImages")
       }
 
       const handleFoodDeleteImage = (index) => {
@@ -126,7 +112,6 @@ function CheckApiExample() {
 
         setFoodImagePreviews(newPreviews);
         setFoodImages(newFoodImages)
-        console.log(foodImages,"foodImages")
       }
 
       const handleRestaurantDeleteImage = (index) => {
@@ -137,17 +122,13 @@ function CheckApiExample() {
 
         setResImagePreviews(newPreviews);
         setRestaurantImages(newResImages)
-        console.log(restaurantImages,"resImages")
       }
 
     const submitHandler = async (e) => {
 
         try {
-            // console.log(postDetails[0], "submit");
-            // handleNext()
 
             const formData = new FormData();
-            // formData.append('restaurantImages', restaurantImages[0]);
             formData.append('restaurantName', postDetails[0].restaurantName)
             formData.append('restaurantAddress', postDetails[0].restaurantAddress)
             formData.append('ownerName', postDetails[0].ownerName)
@@ -158,9 +139,6 @@ function CheckApiExample() {
             formData.append('dineAndDelivery', selectedOption)
             formData.append('describeOutlet', describeCheckedValues)
             formData.append('cuisineType', checkedCuisineValues)
-            // formData.append('restaurantImages', restaurantImages[0])
-            // formData.append('menuImages', menuImages[0])
-            // formData.append('foodImages', foodImages[0])
             restaurantImages.forEach((image, index) => {
                 formData.append('RestaurantImages', image);
             });
@@ -178,10 +156,6 @@ function CheckApiExample() {
 
             dispatch(setCredential({ ...responseFromApiCall }));
 
-            console.log(responseFromApiCall, "response");
-
-            // navigate('/hotel/registerCompleted');
-
         } catch (err) {
 
             toast.error(err?.data?.message || err?.error);
@@ -190,16 +164,7 @@ function CheckApiExample() {
 
     }
 
-    // const { hotelInfo } = useSelector((state) => state.hotelAuth);
-
-    // console.log(hotelInfo,"redux store")
-
-
-
     const handleRestaurantImageChange = (e) => {
-        // const files = e.target.files;
-        // const fileListArray = Array.from(files);
-        // setRestaurantImages(fileListArray);
         const files = e.target.files;
         const previews = Array.from(files).map(file => URL.createObjectURL(file));
         setRestaurantImages(Array.from(files)); // Convert files to an array
@@ -207,8 +172,6 @@ function CheckApiExample() {
     };
 
     const handleMenuImageChange = (e) => {
-        // const files = e.target.files;
-        // setMenuImages(Array.from(files));
         const files = e.target.files;
         const previews = Array.from(files).map(file => URL.createObjectURL(file));
         setMenuImages(Array.from(files)); // Convert files to an array
@@ -216,8 +179,6 @@ function CheckApiExample() {
     };
 
     const handleFoodImageChange = (e) => {
-        // const files = e.target.files;
-        // setFoodImages(Array.from(files));
         const files = e.target.files;
         const previews = Array.from(files).map(file => URL.createObjectURL(file));
         setFoodImages(Array.from(files)); // Convert files to an array
@@ -258,12 +219,6 @@ function CheckApiExample() {
         setSelectedOption(event.target.value);
 
     };
-
-
-
-
-
-
 
     const variant = 'Light'
     const type = 'radio'
@@ -644,12 +599,6 @@ function CheckApiExample() {
                 <Button variant="outline-info" id="button-addon2" style={{marginTop: "30px"}} onClick={handleSubmitClick}>
                     Next
                 </Button>
-
-                {/* <Link to='/hotel/registerCompleted'>
-                <Button variant="outline-info" id="button-addon2" onClick={handleOnClick}>
-                    Finish
-                </Button>
-                </Link> */}
             </Card>
 
         </>

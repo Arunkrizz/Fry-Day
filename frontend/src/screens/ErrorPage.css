@@ -1,0 +1,127 @@
+.error-page {
+    background-color: #fffeee;
+    font-family: "Comic Sans MS", Arial, sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .error-headline {
+    font-size: 3rem;
+    color: #070606;
+    margin-bottom: 20px;
+  }
+  
+  /* .error-image {
+    width: 300px;
+    margin-bottom: 20px;
+    animation: wobble 2s ease-in-out infinite;
+  } */
+  
+  @keyframes wobble {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .error-message {
+    font-size: 1.5rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+  
+  .error-button {
+    background-color: #91f26b;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .error-button:hover {
+    background-color: #70d050;
+  }
+  
+  .error-button.secondary {
+    background-color: #f2e596;
+    color: #333;
+  }
+  
+  .error-button.secondary:hover {
+    background-color: #d8c07a;
+  }
+  
+
+  .not-found {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f8f8;
+    font-family: sans-serif;
+  }
+  
+  img {
+    width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .rescue-options {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+  }
+  
+  .rescue-options li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  .rescue-options a {
+    text-decoration: none;
+    color: #222;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .rescue-options a:hover {
+    background-color: #eee;
+  }
+  
+  .bonus-tip {
+    font-size: 0.8em;
+    margin-top: 20px;
+    color: #666;
+  }
+
+
+  /* .not-found {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url("https://i.pinimg.com/564x/9c/00/b8/9c00b8c1300d6589801add1f35e041e6.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  } */
+
+  .not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* For vertical centering as well */
+    flex-direction: column;
+    
+  }
+  

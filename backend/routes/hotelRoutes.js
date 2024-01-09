@@ -11,19 +11,43 @@ import {
     register,
     register2,
     logout,
-    login
+    login,
+    updateLiveBrodcastRoomId,
+    fetchLiveOrders,
+    acceptOrder,
+    rejectOrder,
+    fetchAcceptedOrders,
+    shipOrder,
+    fetchAllOrders,
+    fetchShippedOrders,
+    updateOrderDelivery
 } from '../controllers/restaurantController.js'; 
+
+import {
+    getProductSales,
+    hotelGetOrderCountByDate,
+    getDeptDashboardBoxs
+} from '../controllers/dashboardController.js'
 
 import {
     accessChats,
     fetchChatss,
     sendMessages,
-    allMessages
+    allMessages,
+    readMessagesUpdates,
+    markAsReadUpdates
 } from '../controllers/chatController.js'
 
 import {
     getAllCategories
 } from '../controllers/categoryController.js'
+
+import {
+    fetchNotificationss,
+    deleteNotifications
+} from '../controllers/notificationController.js'
+
+
 
 
 
@@ -38,23 +62,52 @@ router.post('/login',login)
 router.get('/getCategories', getAllCategories);
 
 router.post('/addProduct', authenticateHotel, multerUploadProductImages, createProduct);
+// router.post('/addProduct', authenticateHotel, fileUpload(), createProduct);
+
+
+
 
 router.post('/addPost', authenticateHotel, multerUploadPostImages, createPost);
 
 router.post('/accessChat', authenticateHotel, accessChats)
+
 router.get('/fetchChats', authenticateHotel, fetchChatss)
+
 router.post('/sendMessage', authenticateHotel, sendMessages)
+
 router.get('/allMessages/:chatId', authenticateHotel, allMessages)
 
-router.post('/addPost', (req,res)=>{
-    console.log("add post");
-});
+router.get('/allNotifications', authenticateHotel, fetchNotificationss)
 
+router.put('/deleteNotification/:notificationId', authenticateHotel, deleteNotifications)
 
+router.put('/readMessagesUpdate/:chatId', authenticateHotel, readMessagesUpdates)
 
-router.get('/cities',(req,res)=>{
-    console.log("cities")
-    res.status(200).json({turn:"true"})
-})
+router.post('/markAsReadUpdates/', authenticateHotel, markAsReadUpdates)
+
+router.post('/updateLiveBrodcastRoomId', authenticateHotel, updateLiveBrodcastRoomId)
+
+router.post('/fetchLiveOrders',authenticateHotel,fetchLiveOrders)
+
+router.post ('/acceptOrder',authenticateHotel,acceptOrder)
+
+router.post ('/rejectOrder',authenticateHotel,rejectOrder)
+
+router.post('/fetchAcceptedOrders',authenticateHotel,fetchAcceptedOrders)
+
+router.post ('/shipOrder',authenticateHotel,shipOrder)
+
+router.get('/fetchAllOrders',authenticateHotel,fetchAllOrders)
+
+router.post('/fetchShippedOrders',authenticateHotel,fetchShippedOrders)
+
+router.post ('/updateOrderDelivery',authenticateHotel,updateOrderDelivery)
+
+router.get('/getPostsCountByDate',authenticateHotel,getProductSales)
+
+router.get('/getDeptDashboardBoxs',authenticateHotel, getDeptDashboardBoxs);
+
+router.get('/getOrderCountByDate',authenticateHotel,hotelGetOrderCountByDate)
+
 
 export default router;

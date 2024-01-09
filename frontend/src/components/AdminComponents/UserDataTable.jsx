@@ -7,8 +7,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const UsersDataTable = ({ users ,setUpdated,updated}) => {
   const [searchQuery, setSearchQuery] = useState("");
-  // const [showConfirmation, setShowConfirmation] = useState(false); // State for the confirmation dialog
-  // const [userIdToDelete, setUserIdToDelete] = useState(null); // Track the user ID to delete
 
   const [showUpdateModal, setShowUpdateModal] = useState(false); // State for the update modal
   const [userIdToUpdate, setUserIdToUpdate] = useState("");
@@ -26,23 +24,8 @@ const UsersDataTable = ({ users ,setUpdated,updated}) => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // const [deleteUser, { isLoading }] = useDeleteUserMutation();
   const [updateUserByAdmin, { isLoading: isUpdating }] = useUpdateUserByAdminMutation();
   const [blockUnblockUser] = useBlockUnblockUserMutation()
-
-  // const handleDelete = async () => {
-  //   try {
-  //     const responseFromApiCall = await deleteUser({ userId: userIdToDelete });
-  //     toast.success("User Deleted Successfully.");
-  //     setUserIdToDelete(null); // Clear the user ID to delete
-  //     setShowConfirmation(false); // Close the confirmation dialog
-
-  //     // Reload the page to reflect the updated data
-  //     window.location.reload();
-  //   } catch (err) {
-  //     toast.error(err?.data?.message || err?.error);
-  //   }
-  // };
 
   //alert confirmation
   const submit = (user) => {
@@ -63,7 +46,6 @@ const UsersDataTable = ({ users ,setUpdated,updated}) => {
   };
 
 const handleBlockUnblockUser = async (user) =>{
-  // console.log(user,"blk");
   
 if(!user.is_blocked){
 
@@ -83,7 +65,6 @@ const handleUpdateStatus = async (user)=>{
     const responseFromApiCall = await blockUnblockUser({
       userId: user._id
     })
-    // console.log(responseFromApiCall,"res")
     toast.success("User Updated Successfully.");
     setUserIdToUpdate(null); // Clear the user ID to update
 
@@ -118,8 +99,6 @@ const handleUpdateStatus = async (user)=>{
       setUserIdToUpdate(null); // Clear the user ID to update
       setShowUpdateModal(false); // Close the update modal
 
-      // Reload the page to reflect the updated data
-      // window.location.reload();
       
     } catch (err) {
       toast.error(err?.data?.message || err?.error);
@@ -148,7 +127,6 @@ const handleUpdateStatus = async (user)=>{
             <th> Name</th>
             <th> Email</th>
             <th>Status</th>
-            {/* <th>Delete</th> */}
           </tr>
         </thead>
         <tbody>
@@ -168,42 +146,11 @@ const handleUpdateStatus = async (user)=>{
                  {user.is_blocked ?"Unblock":"Block"} 
                 </Button>
               </td>
-              {/* <td>
-                <Button
-                  type="button"
-                  variant="danger"
-                  className="mt-3"
-                  onClick={() => {
-                    setUserIdToDelete(user._id); // Set the user ID to delete
-                    setShowConfirmation(true); // Open the confirmation dialog
-                  }}
-                >
-                  Delete
-                </Button>
-              </td> */}
             </tr>
              
           ))}
         </tbody>
       </Table>
-
-     
-
-      {/* delete Confirmation Dialog */}
-      {/* <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
-            {isLoading ? "Deleting..." : "Delete"}
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
 
       {/* Update User Modal */}
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>

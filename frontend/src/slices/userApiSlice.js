@@ -117,7 +117,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 url: `${USERS_URL}/fetchChats`,
                 method: 'GET'
             })
-        }), 
+        }),
         sendMessage: builder.mutation({
             query: (data) => ({
                 url: `${USERS_URL}/sendMessage`,
@@ -135,7 +135,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             query: (userId) => ({
                 url: `${USERS_URL}/accessChat`,
                 method: 'POST',
-                body: {userId}
+                body: { userId }
             })
         }),
         checkBlock: builder.mutation({
@@ -145,7 +145,118 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data
             })
         }),
+        fetchNotifications: builder.mutation({
+            query: () => ({
+                url: `${USERS_URL}/allNotifications`,
+                method: 'GET'
+            })
+        }),
+        deleteNotification: builder.mutation({
+            query: (notificationId) => ({
+                url: `${USERS_URL}/deleteNotification/${notificationId}`,
+                method: 'PUT'
+            })
+        }),
+        readMessagesUpdate: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/readMessagesUpdate/${data}`,
+                method: 'PUT'
+            })
+        }),
+        markAsReadUpdate: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/markAsReadUpdate`,
+                method: 'POST',
+                body: { data }
+            })
+        }),
+        forgotPassword: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/forgotPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        otpVerify: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/otpVerify`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        resendOtp: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/resendOtp`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/resetPassword`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        likePost: builder.mutation({
+            query: (postId) => ({
+                url: `${USERS_URL}/likePost/${postId}`,
+                method: 'POST'
+            })
+        }),
+        unlikePost: builder.mutation({
+            query: (postId) => ({
+                url: `${USERS_URL}/unlikePost/${postId}`,
+                method: 'DELETE'
+            })
+        }),
+        commentPost: builder.mutation({
+            query: ({ postId, text }) => ({
+                url: `${USERS_URL}/commentPost/${postId}`,
+                method: 'POST',
+                body: JSON.stringify({ text }), // Stringify the body
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type
+                },
+            }),
+        }),
+        commentDelete: builder.mutation({
+            query: ({ postId, commentId }) => ({
+                url: `${USERS_URL}/commentDelete/${postId}`,
+                method: 'DELETE',
+                body: { commentId }, // Send commentId directly in the body
 
+            })
+        }),
+        reportPost: builder.mutation({
+            query: ({ postId, data }) => ({
+                url: `${USERS_URL}/reportPost`,
+                method: 'POST',
+                body: {
+                    postId: postId,
+                    data: data
+                }
+            })
+        }),
+        changeAddress: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/changeAddress`,
+                method: 'POST',
+                body: data
+            })
+        }),
+        fetchAllOrders: builder.mutation({
+            query: () => ({
+                url: `${USERS_URL}/fetchAllOrders`,
+                method: 'GET'
+            })
+        }),
+        cancelOrder: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/cancelOrder/${data}`,
+                method: 'PUT'
+            })
+        }),
 
     })
 
@@ -167,6 +278,22 @@ export const {
     useSendMessageMutation,
     useFetchMessagesMutation,
     useAccessChatMutation,
-    useCheckBlockMutation
+    useCheckBlockMutation,
+    useFetchNotificationsMutation,
+    useDeleteNotificationMutation,
+    useReadMessagesUpdateMutation,
+    useMarkAsReadUpdateMutation,
+    useForgotPasswordMutation,
+    useOtpVerifyMutation,
+    useResendOtpMutation,
+    useResetPasswordMutation,
+    useLikePostMutation,
+    useUnlikePostMutation,
+    useCommentPostMutation,
+    useCommentDeleteMutation,
+    useReportPostMutation,
+    useChangeAddressMutation,
+    useFetchAllOrdersMutation,
+    useCancelOrderMutation
 
 } = usersApiSlice;

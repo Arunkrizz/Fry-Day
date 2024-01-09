@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema({
         required: true,
     },
     description: String,
-    isListed:{
+    isListed:{ 
     type:Boolean,
     default:true
   }

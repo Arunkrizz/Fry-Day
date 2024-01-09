@@ -30,13 +30,6 @@ function RegistrationScreen() {
   </div>
  
 
- 
-  {/* <div>
-  <AddProductForm/>
-  </div> */}
-  {/* <div>
-  <HeaderList/>
-  </div> */}
 </div>
   )
 }

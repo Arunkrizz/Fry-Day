@@ -10,7 +10,8 @@ import { useUpdateAdminMutation } from "../../slices/adminApiSlice";
 import { toast } from "react-toastify";
 
 import Loader from "../../components/UserComponents/Loader";
-
+import handleGlobalError from "../GlobalErrorHandler";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -18,6 +19,7 @@ import Loader from "../../components/UserComponents/Loader";
 
 const AdminProfileScreen = () => {
 
+  const navigate = useNavigate()
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,7 +52,9 @@ const AdminProfileScreen = () => {
 
       try{
 
-        const responseFromApiCall = await updateProfile( { name, email, password } ).unwrap();
+        const responseFromApiCall = await updateProfile( { name, email, password } ).unwrap()
+        .then((response)=>handleGlobalError(response,navigate))
+
 
         dispatch( setCredentials( { ...responseFromApiCall } ) );
         

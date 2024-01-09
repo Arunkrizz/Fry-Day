@@ -106,7 +106,6 @@ const CategoriesDataTable = ({ categories }) => {
         name: categoryNameToUpdate,
         description: categoryDescriptionToUpdate,
       });
-console.log("responseFromApiCall", responseFromApiCall)
       if (responseFromApiCall.data) {
         toast.success("Category Updated Successfully.");
         window.location.reload();

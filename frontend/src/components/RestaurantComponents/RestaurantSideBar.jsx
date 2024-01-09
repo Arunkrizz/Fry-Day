@@ -10,8 +10,6 @@ import {
   Drawer,
   DrawerContent,
   useDisclosure,
-//   BoxProps,
-//   FlexProps,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -20,18 +18,21 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-  FiMessageSquare
+  FiMessageSquare,
+  FiVideo,
+  FiPackage
 } from 'react-icons/fi';
+import { MdOutlineDashboard } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-// import { IconType } from 'react-icons';
-// import { ReactText } from 'react';
 
 const LinkItems = [
   { name: 'Home', icon: FiHome,path:'/hotel/home' },
+  { name: 'Dashboard', icon: MdOutlineDashboard,path:'/hotel/dashboard' },
   { name: 'Add Product', icon: FiTrendingUp,path:'/hotel/home/addProduct'  },
   { name: 'Add Post', icon: FiCompass,path:'/hotel/home/addPost' },
   { name: 'Messages', icon: FiMessageSquare,path: '/hotel/chat'},
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Go Live', icon: FiVideo,path: '/hotel/live' },
+  { name: 'All orders', icon: FiPackage,path: '/hotel/home/allOrders' },
 ];
 
 
@@ -53,10 +54,8 @@ export default function SimpleSidebar() {
           <SidebarContent onClose={onClose}  />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
       </Box>
     </Box>
   );
@@ -77,7 +76,7 @@ const SidebarContent = ({setLocation, onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          Fry-Day
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -148,7 +147,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       />
 
       <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
+        Fry-Day
       </Text>
     </Flex>
   );

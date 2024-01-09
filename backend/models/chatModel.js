@@ -9,8 +9,9 @@ const chatSchema = mongoose.Schema(
         users: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'User' 
-            }
+                ref: 'User'
+            },
+
         ],
 
         //update
@@ -25,11 +26,36 @@ const chatSchema = mongoose.Schema(
         latestMessage: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "ChatMessage"
-        }
+        },
+        read: {
+            users: {
+                read: {
+                    type: Boolean,
+                    default: false,
+                },
+                count: {
+                    type: Number,
+                    default: 0,
+                },
+            },
+            restaurants: {
+                read: {
+                    type: Boolean,
+                    default: false,
+                },
+
+                count: {
+                    type: Number,
+                    default: 0,
+                },
+            },
+        },
+
     },
     {
         timestamps: true  // Add this line to enable automatic timestamps
-    }
+    },
+
 );
 const ChatRoom = mongoose.model('ChatRoom', chatSchema);
 

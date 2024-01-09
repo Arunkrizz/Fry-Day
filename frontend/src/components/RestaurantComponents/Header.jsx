@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
@@ -10,8 +10,6 @@ import { toast } from "react-toastify";
 import { useHotelLogoutMutation } from '../../slices/hotelApiSlice.js';
 import { useHotelLoginMutation } from '../../slices/hotelApiSlice.js';
 import { logout, setCredential } from '../../slices/hotelAuthSlice.js';
-
-
 
 
 function Header() {
@@ -29,19 +27,11 @@ function Header() {
 
   const [isHovered, setIsHovered] = useState(false);
   const [hotelState, setHotelState] = useState(null)
-  // console.log((!hotelState&&hotelInfo),"state")
-
-  // console.log(hotelInfo,hotelState,"header")
-
   const [hotelLogin] = useHotelLoginMutation();
 
   const submitHandler = async (e) => {
-    console.log("hotel sign in")
     e.preventDefault();
-
     try {
-      //   navigate('/home');
-      console.log("login resss");
       const responseFromApiCall = await hotelLogin({ email: hotelEmail, password: hotelPassword }).unwrap();
 
       dispatch(setCredential({ ...responseFromApiCall }));
@@ -65,10 +55,6 @@ function Header() {
 
 
   const { hotelInfo } = useSelector((state) => state.hotelAuth);
-
-
-  // console.log(hotelInfo, "header res")
-
 
 
   const handleMouseEnter = () => {
@@ -131,8 +117,6 @@ function Header() {
 
   }
 
-  // console.log(hotelInfo.hotelInfo.restaurantName,"hotelInfo 12")
-
   return (
     <div>
       <header>
@@ -165,10 +149,6 @@ function Header() {
                     <NavDropdown
                       title={hotelInfo.hotelInfo.restaurantName}
                       id="hotelName">
-
-                      {/* <LinkContainer to='/hotel/profile'>
-  <NavDropdown.Item> Profile </NavDropdown.Item>
-</LinkContainer> */}
 
                       <NavDropdown.Item onClick={logOutHandler} > Logout </NavDropdown.Item>
 
@@ -242,12 +222,10 @@ function Header() {
                 </button>
               </Link>
 
-              {/* <Link to="/hotel/login"> */}
               <button
                 style={buttonStyle2}
                 onClick={showLoginModal}
               >Login to view your existing restaurants</button>
-              {/* </Link> */}
 
             </div>
           </div>
@@ -295,13 +273,10 @@ function Header() {
 
         </Modal.Body>
         <Modal.Footer>
-          {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
+
 
           <Button variant="primary" onClick={submitHandler} >
             sign In
-            {/* {isUpdating ? "Adding..." : "Add User"} */}
           </Button>
         </Modal.Footer>
       </Modal>

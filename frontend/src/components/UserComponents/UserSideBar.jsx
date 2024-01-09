@@ -1,11 +1,11 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../../slices/userApiSlice.js';
 import { logout } from '../../slices/authSlice.js';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import SearchDrawer from './SearchDrawer.jsx';
 
 import { PROFILE_IMAGE_DIR_PATH } from "../../utils/constants";
 
@@ -31,21 +31,20 @@ import {
   FiHome,
   FiTrendingUp,
   FiCompass,
-  FiStar,
+  FiShoppingCart,
   FiSettings,
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiSearch
 } from 'react-icons/fi';
 
 
 
 const LinkItems = [
   { name: 'Home', icon: FiHome ,path: '/user/home' },
-  { name: 'Trending', icon: FiTrendingUp,path: '/user/home'  },
   { name: 'Messages', icon: FiCompass,path: '/user/chat' },
-  { name: 'Favourites', icon: FiStar,path: '/user/home'  },
-  { name: 'Settings', icon: FiSettings ,path: '/user/home' },
+  { name: 'Cart', icon: FiShoppingCart,path: '/user/cart'  },
 ];
 
 
@@ -83,6 +82,11 @@ export default AdminHeader
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const navigate = useNavigate()
+  const [showSearchBar,setShowSearchBar] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  
+
+
     return (
       <Box
         transition="3s ease"
@@ -101,7 +105,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
 
-       
+        <NavItem  icon={FiSearch} onClick={()=>{
+          setShowSearchBar(true)
+          setDrawerOpen(true)
+          
+        }}>
+          Search
+           {drawerOpen? <SearchDrawer setDrawerOpen={setDrawerOpen} />: null}
+          </NavItem>
+         
+        
         {LinkItems.map((link) => (
           //  <Link key={link.name} to={link.path}>
            <NavItem key={link.name} icon={link.icon} onClick={()=>{navigate(link.path)}}>
@@ -110,6 +123,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
           //  </Link>
          
         ))}
+
+          
+        
       </Box>
     );
   };
@@ -208,18 +224,17 @@ import { Outlet } from 'react-router-dom';
         </Text>
   
         <HStack spacing={{ base: '0', md: '6' }}>
-          {/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
           <Flex alignItems="center">
             <Menu>
               <MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
                 <HStack>
                   <Avatar
                     size="sm"
-                    src={PROFILE_IMAGE_DIR_PATH + userInfo?.profileImageName}
+                    src={(!userInfo?.profileImageName?.startsWith('http')) ? (`${PROFILE_IMAGE_DIR_PATH}${userInfo?.profileImageName}`) : `${userInfo?.profileImageName}`}
+
                   />
                   <VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
                     <Text fontSize="sm">{userInfo?.name}</Text>
-                    {/* <Text fontSize="xs" color="gray.600">Admin</Text> */}
                   </VStack>
                   <Box display={{ base: 'none', md: 'flex' }}>
                     <FiChevronDown />
@@ -230,8 +245,10 @@ import { Outlet } from 'react-router-dom';
                 <LinkContainer to='/user/profile'>
                 <MenuItem>Profile</MenuItem>
                 </LinkContainer>
-                {/* <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem> */}
+                <LinkContainer to='/user/myOrders'>
+                <MenuItem>my orders</MenuItem>
+                </LinkContainer>
+              
                 <MenuDivider />
                 <MenuItem onClick={logOutHandler} >Sign out</MenuItem>
               </MenuList>

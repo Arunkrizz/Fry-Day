@@ -17,7 +17,8 @@ const userSchema = mongoose.Schema({
      
     },
     profileImageName: {
-        type: String
+        type: String,
+        default:"https://cdn-icons-png.freepik.com/128/149/149071.png"
     },
     mobile:{
         type:Number
@@ -26,6 +27,41 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verified:{
+        type:Boolean,
+        default:false
+    },
+    address: {
+        // Define the address properties directly here
+        
+        
+      
+        name: {
+            type: String,
+            
+          },
+          streetName: {
+            type: String,
+            
+          },
+          locality: {
+            type: String,
+            
+          },
+          mobile: {
+            type: String,
+           
+          },
+          longitude: {
+            type: String,
+          
+          },
+          latitude: {
+            type: String,
+            
+          },
+
+      },
 
 },{
 

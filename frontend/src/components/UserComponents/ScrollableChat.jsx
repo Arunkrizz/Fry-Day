@@ -2,6 +2,7 @@ import ScrollableFeed from 'react-scrollable-feed'
 import { useSelector } from 'react-redux';
 import { isSameSenderMargin, isSameUser } from '../config/chatLogics';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 const ScrollableChat = ({ messages }) => {
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -23,9 +24,12 @@ const ScrollableChat = ({ messages }) => {
                         }}
                     >
                         {m.content}
+                        <br />
+              <small style={{ color: "gray" }}>
+                {format(new Date(m.createdAt), "h:mm a")}
+              </small>
                     </span>
-                    {/* {console.log("marginLeft", isSameSenderMargin(messages, userInfo.id))} */}
-            {/* {console.log("marginTop", isSameUser(messages, m, i) ? 3 : 10)} */}
+                   
                 </div>
               ))
         }

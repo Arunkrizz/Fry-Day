@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom'
 
 const ChatButton = ({ userId }) => {
 
-  // console.log(userId," hotel id chat button");
     const {setSelectedChat, chats, setChats} = ChatState()
     const [loadingChat, setLoadingChat] = useState("")
     const [getChat] = useAccessChatsMutation()
@@ -39,24 +38,15 @@ const ChatButton = ({ userId }) => {
               isClosable: true,
               position: "bottom-left"
             })
-            console.log("hi",error.message)
+            console.log("error:",error.message)
       }
     }
-    //  toast.error(error?.message || error?.error);
 
     return (
       <>
         <div
         className="followButton"
-        style={{
-            // color: 'white',  
-            // backgroundColor: '#007BFF',  
-            // fontSize: 16,
-            // fontFamily: 'Roboto',
-            // fontWeight: '700',
-            // padding: '8px 16px',  
-            // border: 'none',  
-            // borderRadius: '4px',  
+        style={{ 
             cursor: 'pointer',
         }}
         onClick={() => accessChat(userId)}
@@ -69,8 +59,5 @@ const ChatButton = ({ userId }) => {
     )
 }
 
-// ChatButton.propTypes = {
-//     userId: PropTypes.string.isRequired
-// };
 
 export default ChatButton

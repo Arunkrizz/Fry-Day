@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Button, Modal, Table, Form as BootstrapForm } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useDeleteUserMutation, useUpdateRegisterStatusMutation } from "../../slices/adminApiSlice";
+import { useDeleteUserMutation, useUpdateRegisterStatusMutation,useUpdateUnlistStatusMutation } from "../../slices/adminApiSlice";
 import { HOTEL_IMAGE_DIR_PATH } from "../../utils/constants";
 
 const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showConfirmation, setShowConfirmation] = useState(false); // State for the confirmation dialog
-  const [hotelIdToApprove, setHotelIdToApprove] = useState(null); // Track the user ID to delete
 
   const [showUpdateModal, setShowUpdateModal] = useState(false); // State for the update modal
   const [hotelIdToUpdate, setHotelIdToUpdate] = useState("");
@@ -21,9 +19,9 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
   const [dineAndDelivery, setDineAndDelivery] = useState("");
   const [describeOutlet, setDescribeOutlet] = useState("");
   const [cuisineType, setCuisineType] = useState("");
-  const [restaurantImages, setRestaurantImages] = useState("");
-  const [menuImages, setMenuImages] = useState("");
-  const [foodImages, setFoodImages] = useState("");
+  const [restaurantImages, setRestaurantImages] = useState([]);
+  const [menuImages, setMenuImages] = useState([]);
+  const [foodImages, setFoodImages] = useState([]);
   const [approved, setApproved] = useState("");
 
   const handleOpenUpdateModal = (hotel) => {
@@ -43,10 +41,6 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
     setFoodImages(hotel.foodImages)
     setApproved(hotel.approved)
 
-
-
-
-
     setShowUpdateModal(true);
   };
 
@@ -62,22 +56,27 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
 
   const [deleteUser, { isLoading }] = useDeleteUserMutation();
   const [updateHotelStatusByAdmin, { isLoading: isUpdating }] = useUpdateRegisterStatusMutation();
+  const [updateHotelUnlistStatus,{ isLoading: Updating }]=useUpdateUnlistStatusMutation()
 
-  const handleDelete = async () => {
+
+  const handleUnlistUpdate = async () => {
     try {
-      const responseFromApiCall = await deleteUser({ userId: hotelIdToApprove });
-      toast.success("User Deleted Successfully.");
-      setHotelIdToApprove(null); // Clear the user ID to delete
-      setShowConfirmation(false); // Close the confirmation dialog
-
-      // Reload the page to reflect the updated data
-      // window.location.reload();
+      const responseFromApiCall = await updateHotelUnlistStatus({
+       hotelId: hotelIdToUpdate,
+      });
+      toast.success("Hotel Status Updated Successfully.");
+      setHotelIdToUpdate(null); // Clear the user ID to update
+      setShowUpdateModal(false); // Close the update modal
+      if(updated===true){
+        setUpdated(false)
+      }else if(updated===false){
+        setUpdated(true)
+      }
+     
     } catch (err) {
       toast.error(err?.data?.message || err?.error);
     }
   };
-
-
 
   const handleUpdate = async () => {
     try {
@@ -93,9 +92,6 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
         setUpdated(true)
       }
     
-
-      // Reload the page to reflect the updated data
-      // window.location.reload();
       
     } catch (err) {
       toast.error(err?.data?.message || err?.error);
@@ -143,41 +139,12 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
                   View
                 </Button>
               </td>
-              {/* <td>
-                <Button
-                  type="button"
-                  variant="danger"
-                  className="mt-3"
-                  onClick={() => {
-                    setHotelIdToApprove(hotel._id); // Set the user ID to delete
-                    setShowConfirmation(true); // Open the confirmation dialog
-                  }}
-                >
-                  Delete
-                </Button>
-              </td> */}
+
             </tr>
           ))}
         </tbody>
       </Table>
 
-   
-
-      {/* Confirmation Dialog */}
-      <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete} disabled={isLoading}>
-            {isLoading ? "Deleting..." : "Delete"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
 
       {/* Update User Modal */}
       <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
@@ -199,8 +166,8 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             <p>Describe outlet: {describeOutlet}</p>
             <p>Cuisine type: {cuisineType}</p>
            
-            <p>Restaurant images:  <img
-          src={HOTEL_IMAGE_DIR_PATH + restaurantImages}
+            <p>Restaurant images:{restaurantImages?.map((image, index) => (  <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -212,9 +179,11 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /> </p>
-            <p>menu images: <img
-          src={HOTEL_IMAGE_DIR_PATH + menuImages}
+        /> 
+        ))}</p>
+        
+            <p>menu images:{menuImages?.map((image, index) => ( <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -226,9 +195,10 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /></p>
-            <p>food images: <img
-          src={HOTEL_IMAGE_DIR_PATH + foodImages}
+        />  ))}
+        </p>
+            <p>food images:{foodImages?.map((image, index) => ( <img
+          src={HOTEL_IMAGE_DIR_PATH + image}
           alt={"RES IMG"}
           style={{
             width: "150px",
@@ -240,7 +210,7 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
             marginLeft: "115px",
             marginBottom: "10px",
           }}
-        /> </p>
+        />))} </p>
             
 
           
@@ -250,11 +220,11 @@ const UsersDataTable = ({ hotels, setUpdated ,updated }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowUpdateModal(false)}>
-            Cancel
+            close
           </Button>
-          <Button variant="primary" onClick={handleUpdate} disabled={isUpdating}>
-            {isUpdating ? "Updating..." : "Approve"}
-          </Button>
+          {approved==="false"?<Button variant="primary" onClick={handleUpdate} disabled={isUpdating||approved==="true"}>
+            {isUpdating ? "Updating..." : "Approve hotel"}
+          </Button>:<Button onClick={handleUnlistUpdate} disabled={Updating}>Unlist Hotel</Button>}
         </Modal.Footer>
       </Modal>
     </>

@@ -6,10 +6,11 @@ import { useGetHotelDataMutation } from "../../slices/adminApiSlice";
 
 import Loader from "../../components/UserComponents/Loader";
 import Pagination from "../../components/AdminComponents/Pagination";
-
+import handleGlobalError from "../GlobalErrorHandler";
+import { useNavigate } from "react-router-dom";
 
 const AdminHomeScreen = () => {
-
+  const navigate = useNavigate()
   const [hotelData, setHotelData] = useState([]);
   const [updated,setUpdated] = useState(false)
   const [reRender,setRerender] = useState(false)
@@ -31,8 +32,8 @@ if(updated===true){
 
       const fetchData = async () => {
 
-        const responseFromApiCall = await hotelDataFromAPI({pages: page});
-        console.log(responseFromApiCall,"res response");
+        const responseFromApiCall = await hotelDataFromAPI({pages: page})
+        .then((response)=>handleGlobalError(response,navigate))
 
         const usersArray = responseFromApiCall.data.hotelsData;
         

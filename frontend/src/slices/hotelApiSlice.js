@@ -99,6 +99,56 @@ export const hotelApiSlice = apiSlice.injectEndpoints({
                 body: {userId}
             })
         }),
+        fetchNotificationss: builder.mutation({
+            query: () => ({
+                url: `${HOTEL_URL}/allNotifications`,
+                method: 'GET'
+            })
+        }),
+        deleteNotifications: builder.mutation({
+            query: (notificationId) => ({
+                url: `${HOTEL_URL}/deleteNotification/${notificationId}`,
+                method: 'PUT'
+            })
+        }),
+        readMessagesUpdates: builder.mutation({
+            query: (data) => ({
+                url: `${HOTEL_URL}/readMessagesUpdate/${data}`,
+                method: 'PUT'
+            })
+        }),
+        markAsReadUpdates: builder.mutation({
+            query: (data) => ({
+                url: `${HOTEL_URL}/markAsReadUpdates`,
+                method: 'POST',
+                body: {data}
+            })
+        }),
+        fetchAllOrders: builder.mutation({
+            query: () => ({
+                url: `${HOTEL_URL}/fetchAllOrders`,
+                method: 'GET'
+            })
+        }),
+        getHotelDash: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getPostsCountByDate`,
+              method: 'GET',      
+            }),
+          }),
+          getDeptDashboardBoxs: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getDeptDashboardBoxs`,
+              method: 'GET',      
+            }),
+          }),
+          getRestaurantOrderCount: builder.query({
+            query: (data) => ({
+              url: `${HOTEL_URL}/getOrderCountByDate`,
+              method: 'GET',      
+            }),
+          }),
+    
     })
 })
 
@@ -118,6 +168,14 @@ export const {
     useSendMessagesMutation,
     useFetchMessagessMutation,
     useAccessChatsMutation,
+    useFetchNotificationssMutation,
+    useDeleteNotificationsMutation,
+    useReadMessagesUpdatesMutation,
+    useMarkAsReadUpdatesMutation,
+   useFetchAllOrdersMutation,
+   useGetHotelDashQuery,
+   useGetDeptDashboardBoxsQuery,
+   useGetRestaurantOrderCountQuery,
 
 
             } = hotelApiSlice;

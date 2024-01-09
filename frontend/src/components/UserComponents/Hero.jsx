@@ -15,7 +15,6 @@ const Hero = () => {
 
   useEffect(()=>{
     if(userInfo){
-      console.log("naav / react");
       navigate("/user/home")
     }
   },[])

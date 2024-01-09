@@ -36,11 +36,6 @@ const steps = [
 export default function Example() {
     const { handleNext, handleBack, handleReset, activeStep, setActiveStep } = useContext(ProgressBarContext);
 
-    // const { activeStep } = useSteps({
-    //   index: 1,
-    //   count: steps.length,
-    // })
-
     return (
         <div style={{marginLeft:"30px" , marginRight:"30px"}}>
             <Stepper index={activeStep} orientation='vertical' height='400px' gap='0' w={"300px"}>

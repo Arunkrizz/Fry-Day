@@ -22,10 +22,18 @@ import {
     getAllHotels,
     updateHotelStatus,
     block_UnblockUser,
-    
+    showReportedPosts,
+    removeReportedPost,
+    updateUnlistStatus,
 
 } from '../controllers/adminController.js';
 
+import {
+    adminGetHotelDashboard,
+    adminGetDeptDashboardBoxs,
+    adminGetRestaurantOrderCount
+    
+}from '../controllers/dashboardController.js'
 
 import {
     getAllCategories,
@@ -62,7 +70,7 @@ router.post('/add-user',authenticateAdmin,addUser)
 
 router.post('/get-hotels', authenticateAdmin, getAllHotels);
 
-router.put('/updateRegisterStatus', updateHotelStatus);
+router.put('/updateRegisterStatus',authenticateAdmin, updateHotelStatus);
 
 router.post('/getCategories', authenticateAdmin, getAllCategories);
 
@@ -76,8 +84,17 @@ router.put('/reListCategory', authenticateAdmin, reListCategoryData);
 
 router.put('/block_UnblockUser',authenticateAdmin,block_UnblockUser)
 
+router.get('/reportedPosts', authenticateAdmin, showReportedPosts);
 
+router.put('/removeReportedPost', authenticateAdmin, removeReportedPost);
 
+router.put('/updateUnlistStatus', authenticateAdmin,updateUnlistStatus);
+
+router.get('/adminGetHotelDashboard', authenticateAdmin, adminGetHotelDashboard);
+
+router.get('/adminGetDeptDashboardBoxs',authenticateAdmin, adminGetDeptDashboardBoxs);
+
+router.get('/adminGetRestaurantOrderCount',authenticateAdmin, adminGetRestaurantOrderCount);
 
 
 

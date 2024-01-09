@@ -26,7 +26,6 @@ function GoogleoAuthSignIn(props) {
 <GoogleLogin
 onSuccess={async (credentialResponse) => {
   try{
-    // console.log("gauth")
     navigate('/user/home');
     const decoded = jwtDecode(credentialResponse.credential);
    
@@ -34,7 +33,6 @@ onSuccess={async (credentialResponse) => {
       const responseFromApiCall = await googleSignIn( { userName:decoded.name, userPicture:decoded.picture, userEmail:decoded.email } ).unwrap();
       dispatch( setCredentials( { ...responseFromApiCall } ) );
       props.setShowLoginUserModal(false)
-      // navigate('/home');
 
   }catch(err){
     toast.error( err?.data?.message || err?.error );

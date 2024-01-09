@@ -16,7 +16,6 @@ function RegisterModal() {
     const handleShowRegisterUserModal = () => {
      
         setshowRegisterUserModal(true);
-        // console.log(showAddUserModal,"shown")
       };
 
 
@@ -55,12 +54,9 @@ function RegisterModal() {
                    <h6>or sign up with google</h6> <GoogleAuth/>
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
+                 
                     <Button variant="primary" onClick={''} disabled={''}>
                       sign Up
-                        {/* {isUpdating ? "Adding..." : "Add User"} */}
                     </Button>
                 </Modal.Footer>
             </Modal>

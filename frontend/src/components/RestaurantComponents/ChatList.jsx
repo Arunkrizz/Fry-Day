@@ -1,24 +1,28 @@
 import { Box, Stack, Text } from "@chakra-ui/layout"
+import { Menu, MenuButton, MenuItem, MenuList, useToast } from "@chakra-ui/react"
 import { ChatState } from "../context/chatProvider"
 import { useEffect } from "react"
 import { useSelector } from 'react-redux';
-import { useToast } from "@chakra-ui/react"
-import { useFetchChatsMutation } from '../../slices/hotelApiSlice'
+import { useFetchChatsMutation, useDeleteNotificationsMutation,useMarkAsReadUpdatesMutation } from '../../slices/hotelApiSlice'
 import { getSender } from "../config/chatLogics"
+import { BellIcon, Icon } from "@chakra-ui/icons";
+import NotificationBadge from 'react-notification-badge'
+import { Effect } from "react-notification-badge"
+import { format } from 'date-fns';
+
 
 const ChatList = () => {
-//   const { userInfo } = useSelector((state) => state.userAuth);
   const { hotelInfo } = useSelector((state) => state.hotelAuth);
-  const { selectedChat, setSelectedChat, chats, setChats } = ChatState()
+  const { selectedChat, setSelectedChat, chats, setChats, notification, setNotification } = ChatState()
   const [fetchChat] = useFetchChatsMutation()
-  // console.log(userInfo,"user chat info")
+  const [markAsRead] = useDeleteNotificationsMutation()
+  const [markMsgRead] =useMarkAsReadUpdatesMutation()
   const userId = hotelInfo.hotelInfo._id
   const toast = useToast()
 
   const fetchChats = async () => {
     try {
       const { data } = await fetchChat()
-      console.log("data", data);
       setChats(data)
     } catch (error) {
       console.log(error.message);
@@ -36,6 +40,27 @@ const ChatList = () => {
   useEffect(() => {
     fetchChats()
   }, [])
+
+  const handleNotificationClick = async (notification) => {
+    try {
+      console.log("notification: ", notification);
+      setSelectedChat(notification.chat);
+      setNotification((prevNotifications) => [
+        ...prevNotifications.filter((n) => n._id !== notification._id),
+      ]);
+
+     await markMsgRead(notification.chat._id).then(fetchChats())
+     
+
+      if (notification._id) {
+        // Execute only for notifications from the database
+        await markAsRead(notification._id);
+      }
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
 
   return (
     <Box
@@ -59,6 +84,32 @@ const ChatList = () => {
         alignItems="center"
       >
         My Chats
+        <Menu>
+
+          <MenuButton p={1}>
+            <NotificationBadge
+              count={notification?.length}
+              effect={Effect.SCALE}
+            />
+            <BellIcon fontSize="2xl" m={1} />
+          </MenuButton>
+          <MenuList pl={2}>
+            {!notification?.length && "No New Messages"}
+            {notification?.map((notif) => (
+              <MenuItem
+                key={notif._id}
+                onClick={() => {
+                  handleNotificationClick(notif)
+                  setSelectedChat(notif.chat);
+
+                }}
+              >
+                {`New Message from ${getSender(userId, notif?.chat?.users, notif?.chat?.restaurants)}`}
+
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
       </Box>
       <Box
         display="flex"
@@ -75,20 +126,34 @@ const ChatList = () => {
             {chats && chats.length > 0 ? (
               <Stack overflow="scroll">
                 {chats.map((chat) => (
+
                   <Box
-                    onClick={() => setSelectedChat(chat)}
+                    onClick={async () => {
+                      setSelectedChat(chat)
+                      await markMsgRead(chat._id).then(fetchChats())
+                    }}
                     cursor="pointer"
-                    bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                    color={selectedChat === chat ? "white" : "black"}
+                    bg={selectedChat?._id === chat?._id ? "#38B2AC" : "#E8E8E8"}
+                    color={selectedChat?._id === chat?._id ? "white" : "black"}
                     px={3}
                     py={2}
                     borderRadius="lg"
                     key={chat._id}
                   >
-                    <Text>
-                      {/* {getSender(userId, chat.users,chat.restaurants)} */}
-                      {getSender(userId, chats[0].users,chats[0].restaurants)}
+                    <Text style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      {getSender(userId, chat?.users, chat?.restaurants)}
+                      {chat.read.restaurants.read ? <Box display="inline-block" position="relative">
+                        <Icon boxSize={7} viewBox='0 0 200 200' color='green.500'>
+                          <path fill='currentColor' d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0' />
+                        </Icon>
+                        
+                      </Box> : ""}
                     </Text>
+                    <small style={{ color: "black", display:"flex" }}>
+              {!(selectedChat?._id === chat?._id)&&chat.latestMessage.content}
+              <p style={{marginLeft:"5px", color: "gray"}}>{format(new Date(chat.latestMessage.createdAt), "h:mm a")}</p>
+              </small>
+
                   </Box>
                 ))}
               </Stack>
@@ -99,13 +164,13 @@ const ChatList = () => {
             )}
 
           </Stack>
-        ): (
+        ) : (
           <Text>
             No Chats to Display
           </Text>
         )}
       </Box>
-    </Box>        
+    </Box>
   )
 }
 

@@ -2,21 +2,22 @@ import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { useSelector, useDispatch } from 'react-redux';
-
 import { useLoginMutation } from "../../slices/userApiSlice";
 import { useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../../slices/userApiSlice.js';
 import { logout } from '../../slices/authSlice.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Form as BootstrapForm } from "react-bootstrap";
 import { useState } from "react";
 import GoogleAuth from '../UserComponents/GoogleoAuth.jsx'
 import GoogleAuthSignIn from '../UserComponents/GoogleoAuthsignIn.jsx'
-
 import Image from 'react-bootstrap/Image';
 import { setCredentials } from "../../slices/authSlice";
 import { useRegisterMutation } from "../../slices/userApiSlice";
 import { toast } from "react-toastify";
+import React, { lazy, Suspense } from 'react';
+
+
+const LoginuserModal = lazy(() => import('./LoginuserModal'));
 
 
 
@@ -36,6 +37,7 @@ const Header = () => {
   const [userRegisterPassword, setUserRegisterPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState('')
   const [showRegisterUserModal, setshowRegisterUserModal] = useState(false);
+  const [imageState,setImageState] = useState(false)
 
   const [register, { isLoading }] = useRegisterMutation();
   const [login] = useLoginMutation();
@@ -96,7 +98,6 @@ const Header = () => {
 
 
   const registerSubmit = async (e) => {
-    console.log("api called")
     e.preventDefault();
     let passwordValidation
     let emailValidation
@@ -106,21 +107,21 @@ const Header = () => {
       toast.error('Passwords do not match.');
 
     }else{
+
       passwordValidation= validatePassword(userRegisterPassword) 
       emailValidation =validateEmail(userRegisterEmail)
 
-    }
+     }
    
     try{
 
       if (passwordValidation && emailValidation){
-      console.log("api called")
 
     const responseFromApiCall = await register( { userRegisterName, userRegisterEmail, userRegisterPassword, userRegisterMobile } ).unwrap();
 
-    dispatch( setCredentials( { ...responseFromApiCall } ) );
+    // dispatch( setCredentials( { ...responseFromApiCall } ) );
         
-    navigate('/user/home');
+    navigate('/login');
     setshowRegisterUserModal(false)
     }
   }
@@ -137,13 +138,17 @@ const submitHandler = async (e) => {
   e.preventDefault();
 
   try {
-    navigate('/user/home');
+    // navigate('/user/home');
     const responseFromApiCall = await login( { userEmail, userPassword } ).unwrap();
-
+if(responseFromApiCall?.verified){
     dispatch( setCredentials( { ...responseFromApiCall } ) );
     setShowLoginUserModal(false)
     
     navigate('/user/home');
+
+}else{
+  toast.error( "Account not Verified" );
+}
 
   }catch(err){
 
@@ -215,8 +220,11 @@ const submitHandler = async (e) => {
 
                     <NavDropdown title={userInfo.name} id="userName">
 
-                      <LinkContainer to='/profile'>
+                      <LinkContainer to='/user/profile'>
                         <NavDropdown.Item> Profile </NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to='/user/myOrders'>
+                        <NavDropdown.Item> My orders </NavDropdown.Item>
                       </LinkContainer>
 
                       <NavDropdown.Item onClick={logOutHandler} > Logout </NavDropdown.Item>
@@ -233,6 +241,7 @@ const submitHandler = async (e) => {
                         <h5>Add Restaurant</h5>
                       </Nav.Link>
                     </LinkContainer>
+
                     <LinkContainer to="/login">
                       <Nav.Link>
                         <h5 onClick={() => setShowLoginUserModal(true)} >Sign In</h5>
@@ -244,6 +253,7 @@ const submitHandler = async (e) => {
                         <h5 onClick={() => setshowRegisterUserModal(true)} > Sign Up</h5>
                       </Nav.Link>
                     </LinkContainer>
+                    
                   </>
                 )}
 
@@ -255,133 +265,38 @@ const submitHandler = async (e) => {
 
       </header>
       <div >
-        <Modal show={showLoginUserModal} onHide={() => setShowLoginUserModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Sign In</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <BootstrapForm >
-
-           
-
-              <BootstrapForm.Group controlId="email">
-                <BootstrapForm.Label>Email</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="email"
-                  value={userEmail}
-                  onChange={(e) =>
-                    setUserEmail(e.target.value)
-                  }
-                  isInvalid={!!emailError}
-                />
-                <BootstrapForm.Control.Feedback type="invalid">
-                  {emailError}
-                </BootstrapForm.Control.Feedback>
-              </BootstrapForm.Group>
-
-              <BootstrapForm.Group controlId="password">
-                <BootstrapForm.Label>Password</BootstrapForm.Label> 
-                <BootstrapForm.Control
-                  type="password"
-                  value={userPassword}
-                  onChange={(e) =>
-                    setUserPassword(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-              
-            </BootstrapForm>
-            <h6>or sign in with google</h6> <GoogleAuthSignIn setShowLoginUserModal={setShowLoginUserModal} />
-          </Modal.Body>
-          <Modal.Footer>
-            {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
-                    
-            <Button variant="primary" onClick={submitHandler} >
-              sign In
-              {/* {isUpdating ? "Adding..." : "Add User"} */}
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={showRegisterUserModal} onHide={() => setshowRegisterUserModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Sign Up</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <BootstrapForm>
-
-              <BootstrapForm.Group controlId="name">
-                <BootstrapForm.Label>Name</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="text"
-                  value={userRegisterName}
-                  onChange={(e) =>
-                    setUserRegisterName(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-
-              <BootstrapForm.Group controlId="mobile">
-                <BootstrapForm.Label>Mobile</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="tel"
-                  value={userRegisterMobile}
-                  onChange={(e) =>
-                    setUserRegisterMobile(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-
-              <BootstrapForm.Group controlId="email">
-                <BootstrapForm.Label>Email</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="email"
-                  value={userRegisterEmail}
-                  onChange={(e) =>
-                    setUserRegisterEmail(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-
-              <BootstrapForm.Group controlId="password">
-                <BootstrapForm.Label>Password</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="password"
-                  value={userRegisterPassword}
-                  onChange={(e) =>
-                    setUserRegisterPassword(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-              <BootstrapForm.Group controlId="confirmPassword">
-                <BootstrapForm.Label>Confirm password</BootstrapForm.Label>
-                <BootstrapForm.Control
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) =>
-                    setConfirmPassword(e.target.value)
-                  }
-                />
-              </BootstrapForm.Group>
-
-            </BootstrapForm>
-            <h6>or sign up with google</h6> <GoogleAuth setshowRegisterUserModal={setshowRegisterUserModal} />
-          </Modal.Body>
-          <Modal.Footer>
-            {/* <Button variant="secondary" onClick={() => setShowAddUserModal(false)}>
-                        Cancel
-                    </Button> */}
-            <Button variant="primary"  onClick={registerSubmit} disabled={''}>
-              sign Up
-              {/* {isUpdating ? "Adding..." : "Add User"} */}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginuserModal
+          showRegisterUserModal={showRegisterUserModal}
+          // onHide={() => setshowRegisterUserModal(false)}
+          setshowRegisterUserModal={setshowRegisterUserModal}
+          showLoginUserModal={showLoginUserModal}
+          setShowLoginUserModal={setShowLoginUserModal}
+          registerSubmit={registerSubmit}
+          userRegisterName={userRegisterName}
+          setUserRegisterName={setUserRegisterName}
+          userRegisterMobile={userRegisterMobile}
+          setUserRegisterMobile={setUserRegisterMobile}
+          userRegisterEmail={userRegisterEmail}
+          setUserRegisterEmail={setUserRegisterEmail}
+          userRegisterPassword={userRegisterPassword}
+          setUserRegisterPassword={setUserRegisterPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+          submitHandler={submitHandler}
+          userEmail={userEmail}
+           setUserEmail={setUserEmail}
+           userPassword={userPassword}
+            setUserPassword={setUserPassword}
+            imageState={imageState}
+            setImageState={setImageState}
+            
+          
+        />
+      </Suspense>
 
         <>
-         {userInfo ?null:<Image src={imageSrc} className="no-padding" style={{ width: '100%', height: '100%', objectFit: 'cover' }} fluid />} 
+         {(userInfo || imageState) ?null:<Image src={imageSrc} className="no-padding" style={{ width: '100%', height: '100%', objectFit: 'cover' }} fluid />} 
         </>
       </div>
     </>
