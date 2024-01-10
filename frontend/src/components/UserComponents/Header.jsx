@@ -140,6 +140,7 @@ const submitHandler = async (e) => {
   try {
     // navigate('/user/home');
     const responseFromApiCall = await login( { userEmail, userPassword } ).unwrap();
+    console.log(responseFromApiCall,"login api call")
 if(responseFromApiCall?.verified){
     dispatch( setCredentials( { ...responseFromApiCall } ) );
     setShowLoginUserModal(false)

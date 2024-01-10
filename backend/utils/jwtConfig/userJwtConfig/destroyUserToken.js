@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 const destroyUserToken = (res) => {
-// console.log("destroyUserToken");
+console.log("destroyUserToken log");
     // Empty string to place in cookie instead of token 
     const jwtToken = '';
 
