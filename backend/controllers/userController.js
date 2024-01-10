@@ -433,6 +433,8 @@ const updateUserProfile = asyncHandler ( async (req, res) => {
 
 const getHotelProducts = asyncHandler (async (req,res)=>{
 
+    console.log(req.body,"get hote lprod bck end ")
+
     const products = await Product.find({stores:req.body._id})
 if (products) {
     res.status(201).json(products);
