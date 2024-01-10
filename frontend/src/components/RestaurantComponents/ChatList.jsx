@@ -151,7 +151,7 @@ const ChatList = () => {
                     </Text>
                     <small style={{ color: "black", display:"flex" }}>
               {!(selectedChat?._id === chat?._id)&&chat.latestMessage.content}
-              <p style={{marginLeft:"5px", color: "gray"}}>{format(new Date(chat?.latestMessage?.createdAt), "h:mm a")}</p>
+              <p style={{marginLeft:"5px", color: "gray"}}>{chat?.latestMessage?.createdAt&&format(new Date(chat?.latestMessage?.createdAt), "h:mm a")}</p>
               </small>
 
                   </Box>
