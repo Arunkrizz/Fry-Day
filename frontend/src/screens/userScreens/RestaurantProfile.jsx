@@ -18,6 +18,7 @@ function RestaurantProfile({setLocation}) {
     const fetchProducts =async ()=>{
       try {
         const responseFromApiCall = await fetchHotelProducts({...viewHotel})
+        console.log(viewHotel,"view hottel ",responseFromApiCall,"hotel prdcts")
         setProducts (responseFromApiCall.data)
       } catch (error) {
         
@@ -30,7 +31,7 @@ function RestaurantProfile({setLocation}) {
     const fetchHotelDetail =async ()=>{
       try {
 
-        const responseFromApiCall = await fetchHotel({id:viewHotel._id})
+        const responseFromApiCall = await fetchHotel({id:viewHotel?._id})
         setHotel (responseFromApiCall.data)
       } catch (error) {
         console.log(error)
