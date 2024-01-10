@@ -23,7 +23,7 @@ const ScrollableChat = ({ messages }) => {
                             marginTop: isSameUser(messages, m, i) ? 3 : 10
                         }}
                     >
-                        {m.content}
+                        {m?.content}
                         <br />
               <small style={{ color: "gray" }}>
                 {format(new Date(m.createdAt), "h:mm a")}

@@ -44,14 +44,14 @@ const ChatList = ({fetchAgain}) => {
     try {
         setSelectedChat(notification.chat);
         setNotification((prevNotifications) => [
-          ...prevNotifications.filter((n) => n._id !== notification._id),
+          ...prevNotifications.filter((n) => n?._id !== notification?._id),
         ]);
 
-        await markMsgRead(notification.chat._id).then(fetchChats())
+        await markMsgRead(notification?.chat?._id).then(fetchChats())
 
         if (notification._id) {
             // Execute only for notifications from the database
-            await markAsRead(notification._id);
+            await markAsRead(notification?._id);
         }
     } catch (error) {
         console.error('Error marking notification as read:', error);
@@ -115,13 +115,13 @@ const ChatList = ({fetchAgain}) => {
       >
         {chats ? (
           <Stack overflow="scroll">
-            {chats && chats.length > 0 ? (
+            {chats && chats?.length > 0 ? (
               <Stack overflow="scroll">
                 {chats.map((chat) => (
                   <Box
                   onClick={async () => {
                     setSelectedChat(chat)
-                    await markMsgRead(chat._id).then(fetchChats())
+                    await markMsgRead(chat?._id).then(fetchChats())
                     
                   }}
                     cursor="pointer"
@@ -143,8 +143,8 @@ const ChatList = ({fetchAgain}) => {
                     </Text>
                 
                     <small style={{ color: "black", display:"flex" }}>
-              {!(selectedChat?._id === chat?._id)&&chat.latestMessage.content}
-              <p style={{marginLeft:"5px", color: "gray"}}>{format(new Date(chat.latestMessage.createdAt), "h:mm a")}</p>
+              {!(selectedChat?._id === chat?._id)&&chat?.latestMessage?.content}
+              <p style={{marginLeft:"5px", color: "gray"}}>{format(new Date(chat?.latestMessage?.createdAt), "h:mm a")}</p>
               </small>
                   </Box>
                 ))}
