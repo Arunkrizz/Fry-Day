@@ -33,7 +33,7 @@ export const ADMIN_BLOCK_UNBLOCK_USER = '/api/admin/block_UnblockUser'
 
 export const PROFILE_IMAGE_DIR_PATH = 'https://localhost:5000/UserProfileImages/'
 export const HOTEL_IMAGE_DIR_PATH = 'https://43.205.83.14:5000/restaurantImages/'
-export const POST_IMAGE_DIR_PATH = 'https://sevenlier.online:5000/PostImages/'
+export const POST_IMAGE_DIR_PATH = 'https://43.205.83.14:5000/PostImages/'
 export const PRODUCT_IMAGE_DIR_PATH = 'https://sevenlier.online/ProductImages/'
 
 
