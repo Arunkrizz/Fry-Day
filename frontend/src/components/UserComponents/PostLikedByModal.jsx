@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import {Image } from '@chakra-ui/react'
 
 const PostLikedByModal = ({ show, handleClose, users }) => {
-    const VITE_POST_IMAGE_DIR_PATH = import.meta.env.VITE_POST_IMAGE_DIR_PATH;
+    const VITE_PROFILE_IMAGE_DIR_PATH = import.meta.env.VITE_PROFILE_IMAGE_DIR_PATH;
     
   return (
     <Modal show={show} onHide={handleClose}>
@@ -18,7 +18,7 @@ const PostLikedByModal = ({ show, handleClose, users }) => {
          <Image
            boxSize="40px"
            borderRadius="full"
-           src={(!user?.profileImageName?.startsWith('https://')) ? (`${VITE_POST_IMAGE_DIR_PATH}${user?.profileImageName}`) : `${user?.profileImageName}`}
+           src={(!user?.profileImageName?.startsWith('https://')) ? (`${VITE_PROFILE_IMAGE_DIR_PATH}${user?.profileImageName}`) : `${user?.profileImageName}`}
            alt={user?.profileImageName}
          />
          <p style={{ marginLeft: '10px' }}>{user?.name}</p>
