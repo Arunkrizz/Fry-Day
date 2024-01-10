@@ -21,7 +21,7 @@ import { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 
 const AllOrderScreen = () => {
-    const ENDPOINT = "http://localhost:5000"
+    const ENDPOINT = "http://43.205.83.14:5000"
     let socket
     const [fetchOrders, { isLoading: isUpdating }] = useFetchAllOrdersMutation()
     const [orders, setOrders] = useState([])

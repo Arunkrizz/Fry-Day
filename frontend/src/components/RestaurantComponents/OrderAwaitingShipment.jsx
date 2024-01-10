@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import ShipOrderViewModal from './shipOrderViewModal';
 import { Button } from 'react-bootstrap';
 import { FaLastfmSquare } from 'react-icons/fa';
-const ENDPOINT = "http://localhost:5000"
+const ENDPOINT = "http://43.205.83.14:5000"
 let socket
 
 const AcceptedOrders = ({ refetchAcceptedOrders, setRefetchAcceptedOrders, refetchUpdateDelivery, setRefetchUpdateDelivery }) => {

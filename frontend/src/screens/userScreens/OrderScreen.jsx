@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux';
 
 const OrderScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
-    const ENDPOINT = "http://localhost:5000"
+    const ENDPOINT = "http://43.205.83.14:5000"
     let socket
     const [fetchOrders, { isLoading: isUpdating }] = useFetchAllOrdersMutation()
     const [cancelOrder] = useCancelOrderMutation()

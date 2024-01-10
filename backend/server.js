@@ -85,7 +85,7 @@ import ("socket.io").then((socketIO)=>{
     const io = new socketIO.Server(server,{
         pingTimeout:60000, // amount of time to wait b4 being inactive to save bandwidth
         cors:{
-            origin:"http://localhost:3000"
+            origin:"http://43.205.83.14:5000"
         }
     })
 
