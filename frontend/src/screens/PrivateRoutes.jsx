@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
             try {
                 // console.log(userInfo,"userInfos");
                 const response = await blockCheck({ id: userInfo?.id })
-                // console.log(response,"chk blk resp");
+                console.log(response,"chk blk resp pvt");
                 if(response.error?.status===401){
                     await logoutApiCall().unwrap();
                     dispatch(logout())
