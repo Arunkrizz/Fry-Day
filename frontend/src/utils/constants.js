@@ -31,10 +31,10 @@ export const ADMIN_UNLIST_CATEGORY_URL = '/api/admin/unListCategory'
 export const ADMIN_RELIST_CATEGORY_URL = '/api/admin/reListCategory'
 export const ADMIN_BLOCK_UNBLOCK_USER = '/api/admin/block_UnblockUser'
 
-export const PROFILE_IMAGE_DIR_PATH = 'https://sevenlier.online:5000/UserProfileImages/'
-export const HOTEL_IMAGE_DIR_PATH = 'https://sevenlier.online:5000/restaurantImages/'
-export const POST_IMAGE_DIR_PATH = 'https://sevenlier.online:5000/PostImages/'
-export const PRODUCT_IMAGE_DIR_PATH = 'https://sevenlier.online:5000/ProductImages/'
+export const PROFILE_IMAGE_DIR_PATH = 'http://localhost:5000/UserProfileImages/'
+export const HOTEL_IMAGE_DIR_PATH = 'http://localhost:5000/restaurantImages/'
+export const POST_IMAGE_DIR_PATH = 'http://localhost:5000/PostImages/'
+export const PRODUCT_IMAGE_DIR_PATH = 'http://localhost:5000/ProductImages/'
 
 
 export const USER_HOTEL_REGISTRATION_URL ='/api/hotel/register'
