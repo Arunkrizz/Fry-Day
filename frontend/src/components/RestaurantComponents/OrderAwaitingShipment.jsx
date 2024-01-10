@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import ShipOrderViewModal from './shipOrderViewModal';
 import { Button } from 'react-bootstrap';
 import { FaLastfmSquare } from 'react-icons/fa';
-const ENDPOINT = "http://43.205.83.14:5000"
+const ENDPOINT = "https://sevenlier.online"
 let socket
 
 const AcceptedOrders = ({ refetchAcceptedOrders, setRefetchAcceptedOrders, refetchUpdateDelivery, setRefetchUpdateDelivery }) => {

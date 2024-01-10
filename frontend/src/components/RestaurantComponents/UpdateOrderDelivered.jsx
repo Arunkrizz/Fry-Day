@@ -6,7 +6,7 @@ import io from 'socket.io-client'
 import { useSelector } from 'react-redux';
 import UpdateOrderViewModal from './updateOrderViewModal';
 import { Button } from 'react-bootstrap';
-const ENDPOINT = "http://43.205.83.14:5000"
+const ENDPOINT = "https://sevenlier.online"
 let socket
 
 const updateOrderDelivered = ({refetchUpdateDelivery,setRefetchUpdateDelivery}) => {

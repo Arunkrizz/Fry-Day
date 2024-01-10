@@ -16,7 +16,7 @@ const AddressModal = lazy(() => import('./DeliveryAddressModal'));
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client'
 
-const ENDPOINT = "http://43.205.83.14:5000"
+const ENDPOINT = "https://sevenlier.online"
 let socket,orderPlaced;
 
 import { useSelector } from 'react-redux';

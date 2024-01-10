@@ -222,9 +222,9 @@ const CategoriesDataTable = ({ categories }) => {
           {categoryIdToUnList ? (
             <>
               Are you sure you want to Un List this category?
-              <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+              {/* <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
                 Cancel
-              </Button>
+              </Button> */}
               <Button variant="danger" onClick={handleUnList} disabled={isUnListing}>
                 {isUnListing ? "UnListing..." : "UnList"}
               </Button>
