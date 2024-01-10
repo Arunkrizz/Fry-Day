@@ -134,7 +134,7 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
   // useEffect(()=>{
   const fetchHotel = async () => {
     try {
-      const responseFromApiCall = await fetchHotelData({ id: post.post.stores })
+      const responseFromApiCall = await fetchHotelData({ id: post.post.stores[0]._id })
       console.log(responseFromApiCall,"view hotel fetch",post,"post clicked")
       dispatch(setCredentials(responseFromApiCall.data));
     } catch (error) {
