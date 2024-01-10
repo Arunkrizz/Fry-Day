@@ -72,11 +72,11 @@ function HomePage() {
         console.log(userInfo,"userInfo in home check blok")
         const response = await blockCheck({ id: userInfo.id })
 console.log(response,'blockchk')
-        if (response.error?.status === 401) {
-          await logoutApiCall().unwrap();
-          dispatch(logout())
-          navigate('/login')
-        }
+        // if (response.error?.status === 401) {
+        //   await logoutApiCall().unwrap();
+        //   dispatch(logout())
+        //   navigate('/login')
+        // }
         if (response.data?.is_blocked) {
           setBlocked(true)
           // Show a toast notification when the user is blocked

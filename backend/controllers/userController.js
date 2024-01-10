@@ -468,6 +468,7 @@ const getHotelDetails = asyncHandler(async(req,res)=>{
 })
 
 const checkBlock = asyncHandler(async (req, res) => {
+    console.log(req.body,"chk block bckend")
     const users = await User.findById(req.body.id)
     if (users) {
     res.status(200).json(users)
