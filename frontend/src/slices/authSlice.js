@@ -15,7 +15,7 @@ const authSlice = createSlice({
     reducers: {
 
         setCredentials: (state, action) => {
-            console.log("setcred user redux");
+            console.log(action.payload,"setcred user redux");
             state.userInfo = action.payload;
             localStorage.setItem( 'userInfo', JSON.stringify(action.payload) );
         },
