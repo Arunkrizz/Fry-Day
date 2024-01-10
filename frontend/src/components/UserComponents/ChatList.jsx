@@ -116,7 +116,9 @@ const ChatList = ({fetchAgain}) => {
         {chats ? (
           <Stack overflow="scroll">
             {chats && chats?.length > 0 ? (
+              
               <Stack overflow="scroll">
+                {console.log(chats,"chats ")}
                 {chats.map((chat) => (
                   <Box
                   onClick={async () => {

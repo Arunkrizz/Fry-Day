@@ -26,7 +26,7 @@ const ScrollableChat = ({ messages }) => {
                         {m?.content}
                         <br />
               <small style={{ color: "gray" }}>
-                {format(new Date(m.createdAt), "h:mm a")}
+                {format(new Date(m?.createdAt), "h:mm a")}
               </small>
                     </span>
                    
