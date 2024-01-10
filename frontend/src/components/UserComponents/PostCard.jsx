@@ -135,8 +135,8 @@ const PostCard = ({ setPostRefresh, postRefresh, handleLikeClick, setPost, setLo
   const fetchHotel = async () => {
     try {
       const responseFromApiCall = await fetchHotelData({ id: post.post.stores })
-      console.log(responseFromApiCall,"view hotel fetch",post.post.stores,"post clicked")
-      dispatch(setCredentials(responseFromApiCall.data));
+      console.log(responseFromApiCall,"view hotel fetch",post.post.stores[0],"post clicked")
+      dispatch(setCredentials(post.post.stores[0]));
     } catch (error) {
 
     }
