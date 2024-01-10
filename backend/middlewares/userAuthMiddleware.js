@@ -31,6 +31,8 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
 
     const tokenFromRequest = req.cookies.userJwt;
 
+    console.log(tokenFromRequest,"auth user jwt")
+
     if (tokenFromRequest) {
         try {
 

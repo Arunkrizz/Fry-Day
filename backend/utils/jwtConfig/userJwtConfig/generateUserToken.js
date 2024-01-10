@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 const generateUserToken = (res, userId) => {
-console.log("generateUserToken log")
+// console.log("generateUserToken log")
     // Creating a new json webtoken with userId and secret key
     const jwtToken = jwt.sign({userId}, process.env.JWT_SECRET_KEY_USER, { expiresIn: process.env.JWT_TOKEN_DURATION } );
     const refreshToken = jwt.sign({ userId }, process.env.JWT_SECRET_REFRESH, { expiresIn: process.env.REFRESH_TOKEN_DURATION });
@@ -21,7 +21,7 @@ console.log("generateUserToken log")
 
     res.cookie('userJwt', jwtToken, cookieOptions);
     res.cookie('userRefreshToken', refreshToken, cookieOptions);
-    console.log("token gnrtn",res.cookie,"xxxxxx",res,"XXXXXXXX")
+    // console.log("token gnrtn",res.cookie,"xxxxxx",res,"XXXXXXXX")
 
 };
 
