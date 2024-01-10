@@ -72,7 +72,6 @@ const authUser = asyncHandler ( async (req, res) => {
      # Route: POST /api/users/auth
      # Access: PUBLIC
     */
-
     const { userEmail, userPassword } = req.body;
 
     if ( !userEmail || !userPassword ) {

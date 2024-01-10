@@ -31,7 +31,7 @@ const app = express();
 // ===================== Database Configuration =====================
 import connectDB from './config/db.js';
 
-connectDB();
+ connectDB();
 
 // ===================== Setting Static Folder =====================
 app.use(express.static('./Public'));
@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true })); // Form Data parser Middleware 
 //? ===================== Routes Configuration =====================
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes); 
-app.use('/api/hotel',hotelRoutes)
+app.use('/api/hotel',hotelRoutes) 
 
 if(process.env.NODE_ENV==='production'){
     const __dirname= path.resolve() 
@@ -66,7 +66,7 @@ app.get('/', (req, res)=> {
     res.status(200).json(`${process.env.APPLICATION_NAME} Server and Systems are Up & Running.`);
 
 }); 
-}
+} 
 
 //? ===================== Error handler middleware configuration =====================
 app.use(notFoundErrorHandler);
