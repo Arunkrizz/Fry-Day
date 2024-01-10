@@ -31,7 +31,7 @@ const SearchDrawer = ({setDrawerOpen}) => {
     const { hotelInfo } = useSelector((state) => state.hotelAuth);
 
     const navigate = useNavigate()
-    const HOTEL_IMAGE_DIR_PATH = 'http://localhost:5000/restaurantImages/'
+    const HOTEL_IMAGE_DIR_PATH = 'http://43.205.83.14:5000/restaurantImages/'
     const VITE_PROFILE_IMAGE_DIR_PATH = HOTEL_IMAGE_DIR_PATH
     const [fetchHotelData] = useGetHotelDetailsMutation()
     const  fetchHotel = async(id)=>{

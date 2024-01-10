@@ -21,7 +21,7 @@ const handleRemoveConfirmations=()=>{
        <h5>Reason:{post?.reportedReason}</h5> 
        <h5>Post title:{post?.title}</h5> 
        <img
-          src={'http://localhost:5000/PostImages/'+ post?.image}
+          src={'http://43.205.83.14:5000/PostImages/'+ post?.image}
           alt={"RES IMG"}
           style={{
             width: "150px",
