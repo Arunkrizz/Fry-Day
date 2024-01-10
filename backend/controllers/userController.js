@@ -146,6 +146,7 @@ const gAuthUser = asyncHandler ( async (req, res) => {
          # Access: PUBLIC
         */
     
+         console.log(req.body,"gauth login")
         const { userEmail } = req.body;
     
         if ( !userEmail  ) {

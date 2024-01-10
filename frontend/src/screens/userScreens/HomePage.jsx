@@ -69,7 +69,7 @@ function HomePage() {
   useEffect(() => {
     const checkBlocked = async () => {
       try {
-        // console.log(userInfo,"userInfo in home check blok")
+        console.log(userInfo,"userInfo in home check blok")
         const response = await blockCheck({ id: userInfo.id })
 console.log(response,'blockchk')
         if (response.error?.status === 401) {

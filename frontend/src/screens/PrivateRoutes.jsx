@@ -19,7 +19,7 @@ const PrivateRoutes = () => {
     useEffect(() => {
         const checkBlocked = async() => {
             try {
-                // console.log(userInfo,"userInfos");
+                console.log(userInfo,"userInfos pvt route ");
                 const response = await blockCheck({ id: userInfo?.id })
                 console.log(response,"chk blk resp pvt");
                 if(response.error?.status===401){
