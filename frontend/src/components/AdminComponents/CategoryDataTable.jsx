@@ -225,6 +225,7 @@ const CategoriesDataTable = ({ categories }) => {
               {/* <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
                 Cancel
               </Button> */}
+              <br />
               <Button variant="danger" onClick={handleUnList} disabled={isUnListing}>
                 {isUnListing ? "UnListing..." : "UnList"}
               </Button>
