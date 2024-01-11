@@ -188,7 +188,7 @@ const OrderScreen = () => {
                                     setRestaurantPosition({lat: order.store.latitude, lng:order.store.longitude})
                                     handleMapButtonClick(index)
 
-                                }}>{!openPanels[index]?"View your order location":"Hide your order location"} </Button></> : ""}
+                                }}>{console.log(order,'OrderInVIewmaploc')}{!openPanels[index]?"View your order location":"Hide your order location"} </Button></> : ""}
 
                                { (openPanels[index])?<Suspense fallback={<div>Loading Map...</div>}>
                                     <Map 

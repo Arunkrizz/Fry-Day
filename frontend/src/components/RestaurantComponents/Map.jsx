@@ -12,7 +12,7 @@ const Map = ( props ) => {
 
     console.log(apikey,userPosition, restaurantPosition ," map order api")
 
-     let router 
+     
    
     useEffect(
     () => {
@@ -56,7 +56,7 @@ const Map = ( props ) => {
         }
     
         // Get an instance of the H.service.RoutingService8 service
-         router = platform?.getRoutingService(null, 8);
+        const router = platform?.getRoutingService(null, 8);
     
         // Define the routing service parameters
         const routingParams = {
@@ -122,7 +122,7 @@ const Map = ( props ) => {
       }
     },
     // Dependencies array
-    [apikey, userPosition, restaurantPosition,showMap,router,platform]
+    [apikey, userPosition, restaurantPosition,showMap]
   );
   
   // Return a div element to hold the map
