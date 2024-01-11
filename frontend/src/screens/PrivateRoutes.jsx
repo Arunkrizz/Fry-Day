@@ -6,15 +6,30 @@ import {toast} from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import { logout } from '../slices/authSlice.js';
 import { useLogoutMutation } from '../slices/userApiSlice.js';
+ import { useLocation } from 'react-router-dom';
 
 const PrivateRoutes = () => {
 
     const [blocked, setBlocked] = useState(false)
     const [blockCheck] = useCheckBlockMutation()
+    const [location, setLocation] = useState(window.location.pathname)
+    const locations = useLocation()
     const { userInfo } = useSelector((state) => state.auth);
     const [logoutApiCall] = useLogoutMutation();
     const navigate = useNavigate()
     const dispatch =useDispatch()
+    
+useEffect(() => {
+    const handleBackButton = () => {
+      // Do something when the back button is pressed
+      setLocation(window.location.pathname)
+    };
+
+    handleBackButton();
+
+
+  }, [locations]);
+ 
 
     useEffect(() => {
         const checkBlocked = async() => {
@@ -37,7 +52,7 @@ const PrivateRoutes = () => {
             }
         } 
         checkBlocked()
-    }, [blockCheck, userInfo])
+    }, [blockCheck, userInfo,location])
 
     return !blocked && userInfo ? <Outlet/> : (
         !blocked ? <Navigate to='/login' replace /> : "User Blocked By Admin")
