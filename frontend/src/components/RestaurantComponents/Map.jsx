@@ -10,7 +10,7 @@ const Map = ( props ) => {
 
     const apikey =import.meta.env.VITE_HERE_MAP_API_KEY
 
-    console.log(apikey ,"api")
+    console.log(apikey,userPosition, restaurantPosition ," map order api")
 
      
    
