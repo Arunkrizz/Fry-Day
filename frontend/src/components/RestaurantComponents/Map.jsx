@@ -122,7 +122,7 @@ const Map = ( props ) => {
       }
     },
     // Dependencies array
-    [apikey, userPosition, restaurantPosition,showMap]
+    [apikey, userPosition, restaurantPosition,showMap,router,platform]
   );
   
   // Return a div element to hold the map
