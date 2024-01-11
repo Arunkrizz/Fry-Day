@@ -20,8 +20,8 @@ const handleRemoveConfirmations=()=>{
        <h5>Reportedby:{post?.reportedUserName}</h5> 
        <h5>Reason:{post?.reportedReason}</h5> 
        <h5>Post title:{post?.title}</h5> 
-       <img
-          src={'http://43.205.83.14:5000/PostImages/'+ post?.image}
+       <img  
+          src={'https://sevenlier.online/PostImages/'+ post?.image}
           alt={"RES IMG"}
           style={{
             width: "150px",
