@@ -151,7 +151,7 @@ router.get('/fetchAllOrders',authenticateUser,fetchAllOrders)
 
 router.put('/cancelOrder/:id',authenticateUser,cancelOrder)
 
-router.put('/checkBlock',authenticateUser, checkBlock)
+router.put('/checkBlock', checkBlock)
 
 
 export default router;
