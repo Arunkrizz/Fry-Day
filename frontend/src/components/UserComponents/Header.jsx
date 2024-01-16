@@ -109,13 +109,15 @@ const Header = () => {
     }else{
 
       passwordValidation= validatePassword(userRegisterPassword) 
-      emailValidation =validateEmail(userRegisterEmail)
+      // emailValidation =validateEmail(userRegisterEmail)
 
      }
    
     try{
 
       if (passwordValidation && emailValidation){
+
+        emailValidation =validateEmail(userRegisterEmail)
 
     const responseFromApiCall = await register( { userRegisterName, userRegisterEmail, userRegisterPassword, userRegisterMobile } ).unwrap();
 

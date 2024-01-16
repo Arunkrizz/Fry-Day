@@ -31,7 +31,7 @@ const AcceptedOrders = ({ refetchAcceptedOrders, setRefetchAcceptedOrders, refet
   const fetchAcceptedOrders = async () => {
     try {
       await axios.post('/api/hotel/fetchAcceptedOrders').then((response) => {
-        setOrdersToShip(response.data.acceptedOrders)
+        setOrdersToShip(response?.data?.acceptedOrders)
       })
     } catch (error) {
       console.log("error in live order fetch", error)
@@ -68,12 +68,12 @@ const AcceptedOrders = ({ refetchAcceptedOrders, setRefetchAcceptedOrders, refet
               boxShadow="md"
             >            {item.products.map((product, index) => (
               <Box key={index} display="flex" justifyContent="space-between">
-                <Text>{product.product.title}</Text>
+                <Text>{product?.product?.title}</Text>
                 <Text color="red">x{product.quantity}</Text>
               </Box>
             ))}
               <Text fontWeight="bold" mt="2">
-                Total: ₹{item.totalAmount}
+                Total: ₹{item?.totalAmount}
               </Text>
               <Button
                 onClick={() => {

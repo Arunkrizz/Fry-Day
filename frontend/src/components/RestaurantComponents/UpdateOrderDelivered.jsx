@@ -12,14 +12,14 @@ let socket
 const updateOrderDelivered = ({refetchUpdateDelivery,setRefetchUpdateDelivery}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const { hotelInfo } = useSelector((state) => state.hotelAuth);
+    const { hotelInfo } = useSelector((state) => state?.hotelAuth);
     const [ordersShipped,setOrdersShipped] =useState([])
     const [order,setOrder]=useState([])
 
     useEffect(() => {
         if (hotelInfo) {
           socket = io(ENDPOINT)
-          socket.emit("setupHotel", hotelInfo.hotelInfo._id)
+          socket.emit("setupHotel", hotelInfo?.hotelInfo?._id)
           socket.on('orderShipped',()=>{
             setRefetchUpdateDelivery(!refetchUpdateDelivery)
           })
@@ -30,7 +30,7 @@ const updateOrderDelivered = ({refetchUpdateDelivery,setRefetchUpdateDelivery}) 
     const fetchShippedOrders = async () => {
         try {
             await axios.post('/api/hotel/fetchShippedOrders').then((response) => {
-                setOrdersShipped(response.data.ordersShipped)
+                setOrdersShipped(response?.data?.ordersShipped)
             })
         } catch (error) {
             console.log("error in live order fetch", error)
@@ -67,12 +67,12 @@ const updateOrderDelivered = ({refetchUpdateDelivery,setRefetchUpdateDelivery}) 
          boxShadow="md"
         >            {item.products.map((product, index) => (
                       <Box key={index} display="flex" justifyContent="space-between">
-                        <Text>{product.product.title}</Text>
+                        <Text>{product?.product?.title}</Text>
                         <Text color="red">x{product.quantity}</Text>
                       </Box>
                     ))}
                     <Text fontWeight="bold" mt="2">
-                      Total: ₹{item.totalAmount}
+                      Total: ₹{item?.totalAmount}
                     </Text>
                     <Button
               onClick={() => {

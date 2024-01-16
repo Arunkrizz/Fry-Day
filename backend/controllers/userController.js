@@ -16,7 +16,7 @@ import Report from '../models/reportModel.js';
 import { log } from 'util';
 
 const getUserViewPosts = asyncHandler(async (req,res)=>{
-    const { offset = 2, limit = 2 } = req.body;
+    const { offset = 2, limit = 5 } = req.body;
     const Post = await Posts.aggregate([
         {
           $match: {

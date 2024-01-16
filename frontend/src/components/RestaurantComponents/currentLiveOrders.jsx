@@ -77,12 +77,12 @@ const currentLiveOrders = ({refetchAcceptedOrders,setRefetchAcceptedOrders}) => 
           >
             {item.products.map((product, index) => (
               <Box key={index} display="flex" justifyContent="space-between">
-                <Text>{product.product.title}</Text>
-                <Text color="red">x{product.quantity}</Text>
+                <Text>{product?.product?.title}</Text>
+                <Text color="red">x{product?.quantity}</Text>
               </Box>
             ))}
             <Text fontWeight="bold" mt="2">
-              Total: ₹{item.totalAmount}
+              Total: ₹{item?.totalAmount}
             </Text>
             <Button
               onClick={() => {
