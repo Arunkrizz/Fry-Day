@@ -201,7 +201,7 @@ const OrderScreen = () => {
                         </AccordionPanel>
                     </AccordionItem>
                 ))}
-                {orders.length!==0&&<h4>No Orders</h4>}
+              
 
             </Accordion>
         </div>
