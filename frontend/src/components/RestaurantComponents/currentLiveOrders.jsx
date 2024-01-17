@@ -38,7 +38,7 @@ const currentLiveOrders = ({refetchAcceptedOrders,setRefetchAcceptedOrders}) => 
     const fetchLiveOrders = async () => {
         try {
             await axios.post('/api/hotel/fetchLiveOrders').then((response) => {
-                // console.log(response, "res from fetch live orders")
+                console.log(response, "res from fetch live orders")
                 setLiveOrders(response.data.liveOrders)
             })
         } catch (error) {
