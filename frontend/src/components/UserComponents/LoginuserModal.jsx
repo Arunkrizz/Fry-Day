@@ -151,7 +151,7 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
           </Modal.Body>
           <Modal.Footer>
             <Button variant="primary"  onClick={async(e)=>{
-             await  handleSignUp()
+               handleSignUp()
               registerSubmit(e)
              
               }} disabled={''}>

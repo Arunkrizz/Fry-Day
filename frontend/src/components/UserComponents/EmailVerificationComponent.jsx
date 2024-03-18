@@ -45,7 +45,7 @@ const EmailVerificationComponent = () => {
       alert('Email verification successful! You can now sign in.');
 
       // Redirect to the sign-in page or any other desired route
-      // navigate('/login');
+      navigate('/login');
     } catch (error) {
       console.error('Error verifying email:', error.message);
       // Handle the error, e.g., display an error message to the user
