@@ -27,9 +27,9 @@ const EmailVerificationComponent = () => {
 
   const handleEmailVerification = async (oobCode,email) => {
     try {
-      
+      // patch only
       axios.post('/api/users/verifyMail',{
-        email:data.data.email
+        email:email
     })
 
     //debugg req
