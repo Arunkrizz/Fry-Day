@@ -28,12 +28,16 @@ const EmailVerificationComponent = () => {
   const handleEmailVerification = async (oobCode,email) => {
     try {
       
-
-     await checkActionCode(auth, oobCode).then((data)=>{
-    axios.post('/api/users/verifyMail',{
+      axios.post('/api/users/verifyMail',{
         email:data.data.email
     })
-   }).catch((err)=>{console.log(err,"error verifying")})
+
+    //debugg req
+  //    await checkActionCode(auth, oobCode).then((data)=>{
+  //   axios.post('/api/users/verifyMail',{
+  //       email:data.data.email
+  //   })
+  //  }).catch((err)=>{console.log(err,"error verifying")})
 
    
 
