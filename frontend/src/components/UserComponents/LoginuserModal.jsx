@@ -16,6 +16,7 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
 
     const handleSignUp = async () => {
       try {
+        console.log(" here hndle signup")
         // Create user
         const userCredential = await createUserWithEmailAndPassword(auth, userRegisterEmail, userRegisterPassword);
   
