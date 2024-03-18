@@ -60,6 +60,6 @@ const EmailVerificationComponent = () => {
       {/* You can add a loading spinner or other UI elements here */}
     </div>
   );
-};
+}; 
 
 export default EmailVerificationComponent;
