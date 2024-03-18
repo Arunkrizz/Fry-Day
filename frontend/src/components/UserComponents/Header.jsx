@@ -114,8 +114,10 @@ const Header = () => {
      }
    
     try{
-
+      console.log("before if registering:",userRegisterName)
       if (passwordValidation && emailValidation){
+
+        console.log("registering:",userRegisterName)
 
         // emailValidation =validateEmail(userRegisterEmail)
 
