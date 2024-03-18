@@ -20,7 +20,7 @@ const EmailVerificationComponent = () => {
       handleEmailVerification(oobCode,email);
     } else {
       // Invalid parameters, handle appropriately (e.g., redirect to an error page)
-    alert('Error verifying email.');
+    alert('Error verifying email.:',email);
 
     }
   }, [location.search, location]);
