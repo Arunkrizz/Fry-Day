@@ -124,6 +124,8 @@ const Header = () => {
     const responseFromApiCall = await register( { userRegisterName, userRegisterEmail, userRegisterPassword, userRegisterMobile } ).unwrap();
 
     // dispatch( setCredentials( { ...responseFromApiCall } ) );
+
+    alert('Verification email sent. Please check your email.');
         
     navigate('/login');
     setshowRegisterUserModal(false)

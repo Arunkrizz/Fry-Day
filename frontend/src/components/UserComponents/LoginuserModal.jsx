@@ -24,7 +24,7 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
         await sendEmailVerification(userCredential.user);
   
         // Inform user to check email for verification link
-        alert('Verification email sent. Please check your email.');
+        // alert('Verification email sent. Please check your email.');
   
       } catch (error) {
         console.error('Error signing up:', error.message);
