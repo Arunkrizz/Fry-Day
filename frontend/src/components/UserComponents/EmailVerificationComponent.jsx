@@ -33,7 +33,7 @@ const EmailVerificationComponent = () => {
     axios.post('/api/users/verifyMail',{
         email:data.data.email
     })
-   })
+   }).catch((err)=>{console.log(err,"error verifying")})
 
    
 
