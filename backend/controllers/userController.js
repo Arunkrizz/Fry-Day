@@ -483,7 +483,8 @@ const verifyMail = asyncHandler(async(req,res)=>{
     console.log("verify server mail:",req.body.email)
   
     const userExists = await User.findOneAndUpdate({email: req.body.email },{$set:{verified:true}}).then(
-        res.status(200)
+        res.status(200).json({message:"verified"})
+
     ).catch(
         res.status(400)
     )
