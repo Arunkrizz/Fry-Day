@@ -30,6 +30,12 @@ const EmailVerificationComponent = () => {
       // patch only
       axios.post('/api/users/verifyMail',{
         email:email
+    }).then(()=>{
+        // Email verification successful
+        alert('Email verification successful! You can now sign in.');
+
+        // Redirect to the sign-in page or any other desired route
+        navigate('/login');
     })
 
     //debugg req
@@ -41,11 +47,11 @@ const EmailVerificationComponent = () => {
 
    
 
-      // Email verification successful
-      alert('Email verification successful! You can now sign in.');
+      // // Email verification successful
+      // alert('Email verification successful! You can now sign in.');
 
-      // Redirect to the sign-in page or any other desired route
-      navigate('/login');
+      // // Redirect to the sign-in page or any other desired route
+      // navigate('/login');
     } catch (error) {
       console.error('Error verifying email:', error.message);
       // Handle the error, e.g., display an error message to the user
