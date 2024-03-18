@@ -14,21 +14,21 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
     const navigate =useNavigate()
 
 
-    const handleSignUp = async () => {
-      try {
-        // Create user
-        const userCredential = await createUserWithEmailAndPassword(auth, userRegisterEmail, userRegisterPassword);
+    // const handleSignUp = async () => {
+    //   try {
+    //     // Create user
+    //     const userCredential = await createUserWithEmailAndPassword(auth, userRegisterEmail, userRegisterPassword);
   
-        // Send email verification
-        await sendEmailVerification(userCredential.user);
+    //     // Send email verification
+    //     await sendEmailVerification(userCredential.user);
   
-        // Inform user to check email for verification link
-        alert('Verification email sent. Please check your email.');
+    //     // Inform user to check email for verification link
+    //     alert('Verification email sent. Please check your email.');
   
-      } catch (error) {
-        console.error('Error signing up:', error.message);
-      }
-    };
+    //   } catch (error) {
+    //     console.error('Error signing up:', error.message);
+    //   }
+    // };
 
     return (
     < >
@@ -152,7 +152,7 @@ const LoginuserModal = ({showLoginUserModal, setShowLoginUserModal,showRegisterU
           <Modal.Footer>
             <Button variant="primary"  onClick={async(e)=>{
               registerSubmit(e)
-               handleSignUp()
+              //  handleSignUp()
               
              
               }} disabled={''}>
