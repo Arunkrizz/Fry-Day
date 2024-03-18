@@ -275,6 +275,8 @@ const registerUser = asyncHandler ( async (req, res) => {
      # Access: PUBLIC
     */
     const { userRegisterName, userRegisterEmail, userRegisterPassword,userRegisterMobile} = req.body;
+
+    console.log(userRegisterName, userRegisterEmail, userRegisterPassword,userRegisterMobile,":sign up data")
     
     // Check if user already exist
     const userExists = await User.findOne({email: userRegisterEmail });
